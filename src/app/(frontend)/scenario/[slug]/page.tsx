@@ -48,6 +48,7 @@ const ScenarioPage = async ({ params }: PageProps) => {
   if (!scenario) notFound()
 
   const isVerified = isScenarioTrusted(scenario)
+  const costDate = scenario.costAsOf ?? scenario.factsCheckedAt
 
   const howToSchema = isVerified
     ? {
@@ -110,15 +111,16 @@ const ScenarioPage = async ({ params }: PageProps) => {
           <div>
             <span>Қанша тұрады?</span>
             <strong>{scenario.cost}</strong>
-            {scenario.costAsOf ? (
-              <small>{formatDate(scenario.costAsOf)} жағдай бойынша</small>
-            ) : null}
+            {costDate ? <small>{formatDate(costDate)} жағдай бойынша</small> : null}
           </div>
           <div>
             <span>Қанша уақыт?</span>
             <strong>{scenario.processingTime}</strong>
             {scenario.processingTimeExplanation ? (
               <small>{scenario.processingTimeExplanation}</small>
+            ) : null}
+            {scenario.factsCheckedAt ? (
+              <small>Дерек тексерілген: {formatDate(scenario.factsCheckedAt)}</small>
             ) : null}
           </div>
         </div>

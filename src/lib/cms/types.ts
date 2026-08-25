@@ -6,6 +6,7 @@ export type ScenarioViewModel = {
   documents: Array<{ name: string; note?: string; optional: boolean }>
   eligibility: Array<{ condition: string; explanation?: string }>
   faq: Array<{ answer: string; question: string }>
+  factsCheckedAt?: string
   officialLinks: Array<{ label: string; publisher: string; url: string }>
   processingTime: string
   processingTimeExplanation?: string

@@ -17,6 +17,26 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
     doc.calculatorRuleSet == null ||
     (typeof doc.calculatorRuleSet === 'object' &&
       isRuleSetTrusted(doc.calculatorRuleSet, now, doc.verification.reviewedAt))
+  const sources: ScenarioViewModel['sources'] = doc.sourceReferences.flatMap((reference) => {
+    if (!reference.source || typeof reference.source !== 'object') return []
+    return [
+      {
+        checkedAt: reference.checkedAt,
+        isPrimary: Boolean(reference.isPrimary),
+        publisher: reference.source.publisher,
+        registryID: reference.source.id,
+        registryUpdatedAt: reference.source.updatedAt,
+        title: reference.source.title,
+        trustTier: reference.source.trustTier,
+        url: reference.source.url,
+        validFrom: reference.validFrom ?? undefined,
+        validUntil: reference.validUntil ?? undefined,
+      },
+    ]
+  })
+  const factsCheckedAt = sources
+    .flatMap((source) => (source.checkedAt ? [source.checkedAt] : []))
+    .sort((left, right) => left.localeCompare(right))[0]
 
   return {
     calculatorRuleSetCurrent,
@@ -36,6 +56,7 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
       answer: item.answer,
       question: item.question,
     })),
+    factsCheckedAt,
     officialLinks: doc.officialLinks.map((item) => ({
       label: item.label,
       publisher: item.publisher,
@@ -51,23 +72,7 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
     },
     shortAnswer: doc.shortAnswer,
     slug: doc.slug,
-    sources: doc.sourceReferences.flatMap((reference) => {
-      if (!reference.source || typeof reference.source !== 'object') return []
-      return [
-        {
-          checkedAt: reference.checkedAt,
-          isPrimary: Boolean(reference.isPrimary),
-          publisher: reference.source.publisher,
-          registryID: reference.source.id,
-          registryUpdatedAt: reference.source.updatedAt,
-          title: reference.source.title,
-          trustTier: reference.source.trustTier,
-          url: reference.source.url,
-          validFrom: reference.validFrom ?? undefined,
-          validUntil: reference.validUntil ?? undefined,
-        },
-      ]
-    }),
+    sources,
     status: doc._status === 'published' ? 'published' : 'draft',
     steps: doc.steps.map((item) => ({
       actionLabel: item.actionLabel ?? undefined,

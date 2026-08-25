@@ -19,6 +19,7 @@ export const demoScenarios: ScenarioViewModel[] = [
         explanation: 'Нақты шарттар ресми дереккөздер тексерілгеннен кейін толтырылады.',
       },
     ],
+    factsCheckedAt: undefined,
     faq: [
       {
         answer: 'QALAI редакторы ресми дереккөздерді тексергеннен кейін нақты жауап жарияланады.',

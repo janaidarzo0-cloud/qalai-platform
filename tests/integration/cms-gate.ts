@@ -412,7 +412,14 @@ const run = async () => {
     assert.equal(authenticatedPublished.totalDocs, 1)
 
     const publicScenarios = await listPublishedScenarios()
-    assert.ok(publicScenarios.some((scenario) => scenario.slug === publishedScenario.slug))
+    const publicScenario = publicScenarios.find(
+      (scenario) => scenario.slug === publishedScenario.slug,
+    )
+    assert.ok(publicScenario)
+    assert.equal(
+      new Date(publicScenario.factsCheckedAt as string).toISOString(),
+      new Date(checkedAt).toISOString(),
+    )
     console.info('[cms-gate] Server-only public Scenario read verified.')
 
     const disposableDraft = await payload.create({
