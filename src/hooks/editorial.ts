@@ -52,8 +52,8 @@ export const isClosedAlphaDraftImport = ({
     typeof verification === 'object' &&
     (verification as Record<string, unknown>).status === 'unverified' &&
     (verification as Record<string, unknown>).riskLevel === 'high' &&
-    !Object.prototype.hasOwnProperty.call(verification, 'reviewedAt') &&
-    !Object.prototype.hasOwnProperty.call(verification, 'reviewedBy'),
+    (verification as Record<string, unknown>).reviewedAt == null &&
+    (verification as Record<string, unknown>).reviewedBy == null,
   )
 }
 

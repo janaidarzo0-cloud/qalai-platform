@@ -43,7 +43,13 @@ describe('closed-alpha import boundary', () => {
   it('requires the internal token and high-risk unverified draft state', () => {
     const data = {
       _status: 'draft',
-      verification: { notes: 'Internal evidence', riskLevel: 'high', status: 'unverified' },
+      verification: {
+        notes: 'Internal evidence',
+        reviewedAt: null,
+        reviewedBy: null,
+        riskLevel: 'high',
+        status: 'unverified',
+      },
     }
 
     expect(isClosedAlphaDraftImport({ context: draftContext(), data, operation: 'create' })).toBe(
@@ -53,6 +59,16 @@ describe('closed-alpha import boundary', () => {
       isClosedAlphaDraftImport({
         context: draftContext(),
         data: { ...data, verification: { ...data.verification, status: 'verified' } },
+        operation: 'create',
+      }),
+    ).toBe(false)
+    expect(
+      isClosedAlphaDraftImport({
+        context: draftContext(),
+        data: {
+          ...data,
+          verification: { ...data.verification, reviewedBy: 'forged-reviewer' },
+        },
         operation: 'create',
       }),
     ).toBe(false)
