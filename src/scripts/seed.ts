@@ -40,12 +40,13 @@ const seed = async () => {
     (await payload.create({
       collection: 'categories',
       data: {
-        _status: 'published',
+        _status: 'draft',
         description: 'Мемлекеттік қызметтерді түсіндіретін сценарийлер.',
         order: 10,
         slug: 'memleket',
         title: 'Мемлекет',
       },
+      draft: true,
       overrideAccess: true,
     }))
 

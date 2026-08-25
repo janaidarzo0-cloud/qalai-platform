@@ -268,6 +268,7 @@ export interface Scenario {
    * Тұрақты URL: латын әріптері, сандар және дефис. Жарияланғаннан кейін өзгертпеңіз.
    */
   slug: string;
+  publishedSlug?: string | null;
   category: number | Category;
   /**
    * Пайдаланушы бірінші экранда көретін қысқа жауап.
@@ -559,6 +560,7 @@ export interface CalculatorRuleSetsSelect<T extends boolean = true> {
 export interface ScenariosSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  publishedSlug?: T;
   category?: T;
   shortAnswer?: T;
   whoIsItFor?: T;

@@ -1,5 +1,9 @@
 import type { Field } from 'payload'
 
+import { authenticatedField, reviewerOrAdminField } from '@/access/roles'
+
+const serverManagedField = () => false
+
 export const sourceReferencesField = (required = false): Field => ({
   name: 'sourceReferences',
   type: 'array',
@@ -31,13 +35,18 @@ export const sourceReferencesField = (required = false): Field => ({
     {
       name: 'evidenceSummary',
       type: 'textarea',
+      access: {
+        create: authenticatedField,
+        read: authenticatedField,
+        update: authenticatedField,
+      },
       label: 'Редакциялық дәлелдеме',
     },
     {
       name: 'checkedAt',
       type: 'date',
       admin: {
-        date: { pickerAppearance: 'dayOnly' },
+        date: { pickerAppearance: 'dayAndTime' },
       },
       label: 'Тексерілген күні',
       required: true,
@@ -69,6 +78,10 @@ export const verificationField: Field = {
     {
       name: 'status',
       type: 'select',
+      access: {
+        create: reviewerOrAdminField,
+        update: reviewerOrAdminField,
+      },
       defaultValue: 'unverified',
       options: [
         { label: 'Тексерілмеген', value: 'unverified' },
@@ -81,6 +94,10 @@ export const verificationField: Field = {
     {
       name: 'riskLevel',
       type: 'select',
+      access: {
+        create: reviewerOrAdminField,
+        update: reviewerOrAdminField,
+      },
       defaultValue: 'high',
       options: [
         { label: 'Жоғары: мемлекеттік/қаржылық ереже', value: 'high' },
@@ -92,24 +109,42 @@ export const verificationField: Field = {
     {
       name: 'reviewedAt',
       type: 'date',
+      access: {
+        create: serverManagedField,
+        update: serverManagedField,
+      },
       admin: { date: { pickerAppearance: 'dayAndTime' } },
       label: 'Соңғы тексеру',
     },
     {
       name: 'reviewedBy',
       type: 'relationship',
+      access: {
+        create: serverManagedField,
+        read: reviewerOrAdminField,
+        update: serverManagedField,
+      },
       relationTo: 'users',
       label: 'Тексерген редактор',
     },
     {
       name: 'nextReviewAt',
       type: 'date',
+      access: {
+        create: reviewerOrAdminField,
+        update: reviewerOrAdminField,
+      },
       admin: { date: { pickerAppearance: 'dayOnly' } },
       label: 'Келесі тексеру',
     },
     {
       name: 'notes',
       type: 'textarea',
+      access: {
+        create: reviewerOrAdminField,
+        read: reviewerOrAdminField,
+        update: reviewerOrAdminField,
+      },
       label: 'Ішкі ескертпе',
     },
   ],

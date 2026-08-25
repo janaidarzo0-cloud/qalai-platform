@@ -4,6 +4,8 @@ import { TaskSearch } from '@/components/TaskSearch'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { calculatorDefinitions } from '@/modules/calculators/registry'
 
+export const dynamic = 'force-dynamic'
+
 const quickActions = [
   { href: '/scenario/zheke-kasipkerlik-ashu-demo', label: 'ЖК ашу', mark: '01' },
   { href: '/calculator/dekrettik-tolem-kalkulyatory', label: 'Декреттік төлем', mark: '02' },

@@ -7,6 +7,7 @@ import { Feedback } from '@/components/Feedback'
 import { JsonLd } from '@/components/JsonLd'
 import { ViewTracker } from '@/components/ViewTracker'
 import { getScenarioBySlug } from '@/lib/cms/scenarios'
+import { isScenarioTrusted } from '@/lib/cms/trust'
 import { absoluteURL } from '@/lib/site'
 
 type PageProps = { params: Promise<{ slug: string }> }
@@ -39,11 +40,7 @@ const ScenarioPage = async ({ params }: PageProps) => {
   const scenario = await getScenarioBySlug(slug)
   if (!scenario) notFound()
 
-  const isVerified =
-    scenario.status === 'published' &&
-    scenario.verification.status === 'verified' &&
-    Boolean(scenario.verification.reviewedAt) &&
-    scenario.sources.length > 0
+  const isVerified = isScenarioTrusted(scenario)
 
   const howToSchema = isVerified
     ? {

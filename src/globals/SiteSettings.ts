@@ -1,12 +1,12 @@
 import type { GlobalConfig } from 'payload'
 
-import { authenticated } from '@/access/authenticated'
+import { adminOnly, authenticatedField } from '@/access/roles'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   access: {
     read: () => true,
-    update: authenticated,
+    update: adminOnly,
   },
   label: 'Сайт баптаулары',
   fields: [
@@ -22,6 +22,9 @@ export const SiteSettings: GlobalConfig = {
     {
       name: 'editorialContact',
       type: 'text',
+      access: {
+        read: authenticatedField,
+      },
       admin: { description: 'Ішкі байланыс. Ашық бетте автоматты түрде көрсетілмейді.' },
     },
   ],

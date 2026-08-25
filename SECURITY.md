@@ -8,6 +8,9 @@ On 25 August 2026:
 
 - Next.js announced a critical security patch scheduled for 26 August 2026.
 - Payload issue [#17545](https://github.com/payloadcms/payload/issues/17545) remained open and described blank unauthenticated Admin routes on tested Next 16 versions.
+- The related Payload fix PR [#17638](https://github.com/payloadcms/payload/pull/17638) was still open, so no production-safe Next/Payload version intersection had been confirmed.
+
+The repository therefore remains pinned to its tested development versions. Do not treat a newer npm `latest` tag by itself as proof that the scheduled security fix and the Payload Admin compatibility fix are both present.
 
 Before any public deployment, upgrade to the patched Next.js version supported by the installed Payload release and explicitly verify:
 
@@ -16,6 +19,8 @@ Before any public deployment, upgrade to the patched Next.js version supported b
 - Payload REST create/read/update/delete;
 - draft isolation for anonymous users;
 - database migrations and the production build.
+
+The CMS also treats the editorial dependency graph as a security boundary: anonymous Scenario and RuleSet reads are closed; drafts, expired reviews, draft Categories and stale Source/RuleSet evidence fail closed; trust-graph writes are serialized in PostgreSQL transactions. User bulk edit/delete is disabled to preserve the last-admin invariant.
 
 Do not work around an Admin authentication rendering failure by setting cookies manually in production.
 

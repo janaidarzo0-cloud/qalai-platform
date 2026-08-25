@@ -4,6 +4,8 @@ import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { getSiteURL } from '@/lib/site'
 import { calculatorDefinitions } from '@/modules/calculators/registry'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseURL = getSiteURL()
   const scenarios = await listPublishedScenarios()

@@ -32,7 +32,9 @@ tests                       formula and architecture invariants
 
 ## Content read path
 
-`QALAI_CONTENT_MODE=demo` returns explicit unverified fixtures so that UI work and CI do not require a database. `cms` mode uses Payload Local API and enforces both `overrideAccess: false` and `_status = published`.
+`QALAI_CONTENT_MODE=demo` returns explicit unverified fixtures so that UI work and CI do not require a database. `cms` mode uses a server-only Payload Local API query with `overrideAccess: true`, an explicit `_status = published` filter and a fail-closed trust mapper that rechecks review, dependency publication and evidence causality at read time. Public homepage and sitemap rendering are dynamic so an expired review cannot remain trusted in a static build artifact.
+
+The override is confined to the server read module. Generic REST/GraphQL reads for regulated Scenarios and calculator rule sets require an authenticated CMS user, preventing a second anonymous surface from bypassing source-expiry checks.
 
 Draft preview is intentionally not implemented yet. When added, it must use a separate authenticated route and `noindex` response.
 
@@ -43,6 +45,7 @@ Draft preview is intentionally not implemented yet. When added, it must use a se
 - Calculator code owns algorithms and input schemas.
 - `CalculatorRuleSets` owns time-bound official coefficients and source evidence.
 - Frontend analytics owns event names, never user-entered values.
+- PostgreSQL transaction advisory locks serialize mutations of the publication dependency graph; operations fail closed when no transaction session exists.
 
 ## Deferred decisions
 

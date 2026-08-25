@@ -1,4 +1,5 @@
 export type ScenarioViewModel = {
+  calculatorRuleSetCurrent: boolean
   category: string
   cost: string
   documents: Array<{ name: string; note?: string }>
@@ -15,9 +16,15 @@ export type ScenarioViewModel = {
   slug: string
   sources: Array<{
     checkedAt?: string
+    isPrimary: boolean
     publisher: string
+    registryID?: number | string
+    registryUpdatedAt?: string
     title: string
+    trustTier: 'official-provider' | 'primary-official' | 'secondary'
     url: string
+    validFrom?: string
+    validUntil?: string
   }>
   status: 'draft' | 'published'
   steps: Array<{ actionLabel?: string; actionUrl?: string; description: string; title: string }>
@@ -25,6 +32,7 @@ export type ScenarioViewModel = {
   verification: {
     nextReviewAt?: string
     reviewedAt?: string
+    reviewerConfirmed: boolean
     status: 'unverified' | 'in-review' | 'verified' | 'stale'
   }
   whoIsItFor: string

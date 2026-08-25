@@ -1,19 +1,25 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '@/access/authenticated'
+import { canEditContent, canUpdateSource } from '@/access/content'
+import { adminOnly, reviewerOrAdminField } from '@/access/roles'
 import { validateHTTPSURL } from '@/fields/url'
+import { protectReferencedSource, protectReferencedSourceDelete } from '@/hooks/sources'
 
 export const Sources: CollectionConfig = {
   slug: 'sources',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: canEditContent,
+    delete: adminOnly,
     read: () => true,
-    update: authenticated,
+    update: canUpdateSource,
   },
   admin: {
     defaultColumns: ['title', 'publisher', 'sourceType', 'trustTier'],
     useAsTitle: 'title',
+  },
+  hooks: {
+    beforeChange: [protectReferencedSource],
+    beforeDelete: [protectReferencedSourceDelete],
   },
   labels: {
     plural: 'Дереккөздер',
@@ -44,7 +50,11 @@ export const Sources: CollectionConfig = {
     {
       name: 'trustTier',
       type: 'select',
-      defaultValue: 'primary-official',
+      access: {
+        create: reviewerOrAdminField,
+        update: reviewerOrAdminField,
+      },
+      defaultValue: 'secondary',
       options: [
         { label: 'Бастапқы ресми', value: 'primary-official' },
         { label: 'Ресми қызмет көрсетуші', value: 'official-provider' },

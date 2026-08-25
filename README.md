@@ -14,7 +14,7 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - Payload CMS embedded in the same Next.js application.
 - PostgreSQL adapter that accepts a standard Supabase connection string.
 - Structured `Scenario`, `Source`, `Category` and versioned calculator rule-set models.
-- Publish guard: a Scenario cannot be published without steps, an official action link, sources and `verified` review status.
+- Role-based editorial workflow and fail-closed publish guard: material changes invalidate review; only reviewer/admin roles can publish; dependency state, evidence causality and review expiry are enforced on publication and public reads.
 - Five-calculator registry; the non-regulated auto-loan annuity module is implemented and tested. Government-dependent formulas remain locked behind source review.
 - Mobile-first home, Scenario and Calculator page prototypes in Kazakh.
 - Metadata, canonical URLs, `robots.txt`, sitemap and conditional HowTo JSON-LD.
@@ -65,7 +65,7 @@ Generated Payload types and import maps must be committed. CI fails when regener
 ## Content modes
 
 - `QALAI_CONTENT_MODE=demo`: database-independent UX fixture; never treated as verified or indexed.
-- `QALAI_CONTENT_MODE=cms`: public pages use Payload Local API with `overrideAccess: false` and an explicit published-only filter.
+- `QALAI_CONTENT_MODE=cms`: public pages use a server-only Payload Local API read, an explicit published-only filter and a current-trust predicate. Generic Scenario/rule-set REST and GraphQL reads remain authenticated.
 
 ## Supabase
 

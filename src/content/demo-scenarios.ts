@@ -5,6 +5,7 @@ import type { ScenarioViewModel } from '@/lib/cms/types'
  */
 export const demoScenarios: ScenarioViewModel[] = [
   {
+    calculatorRuleSetCurrent: true,
     category: 'Мемлекет',
     cost: 'Ресми дереккөз тексерілгеннен кейін көрсетіледі.',
     documents: [
@@ -46,6 +47,7 @@ export const demoScenarios: ScenarioViewModel[] = [
     ],
     title: 'ЖК қалай ашуға болады?',
     verification: {
+      reviewerConfirmed: false,
       status: 'unverified',
     },
     whoIsItFor: 'Қазақстанда жеке кәсіпкерлік ашуды жоспарлап жүрген адамға арналған бет үлгісі.',
