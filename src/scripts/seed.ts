@@ -117,19 +117,18 @@ const seed = async () => {
   }, 60_000)
 
   const payload = await getPayload({ config })
-  const pool = payload.db.pool
   console.info('[seed] Payload connected.')
 
   try {
     await seedContent(payload)
   } finally {
-    try {
-      await payload.destroy()
-    } finally {
-      await pool.end()
-      clearTimeout(watchdog)
-    }
+    clearTimeout(watchdog)
   }
 }
 
-await seed()
+seed()
+  .then(() => process.exit(0))
+  .catch((error: unknown) => {
+    console.error(error)
+    process.exit(1)
+  })
