@@ -34,6 +34,25 @@ request-time guard prevents a prebuilt artifact from becoming indexable after an
 `/admin`, `/api` and `/preview` keep the response header even after public indexing is enabled. Set
 the variable to `true` only after public-launch approval and verify the actual hostname again.
 
+## Browser acceptance
+
+Install the pinned Chromium build once with `npx playwright install chromium`. `npm run test:e2e`
+starts a local demo server and checks the closed-indexing policy, canonical URL, auto-loan outcome,
+Scenario action state and 390 x 844 mobile overflow. For the real closed-alpha host, run:
+
+```powershell
+$env:QALAI_E2E_BASE_URL='https://staging.example.kz'
+$env:QALAI_E2E_SCENARIO_SLUG='reviewed-published-scenario-slug'
+$env:QALAI_E2E_ALLOWED_OFFICIAL_HOSTS='egov.kz,gov.kz,adilet.zan.kz'
+npm run test:e2e:hosted
+```
+
+The hosted command fails before opening a browser if any value is missing. It requires a reviewed,
+published Scenario and verifies readiness, Kazakh HTML, the trusted Scenario shell and that its
+official CTA is HTTPS, allowlisted, opens separately and leaves the QALAI origin. The outbound page is
+intercepted locally, so official services do not make acceptance flaky. Store credentials for Admin
+smoke separately; do not put them in public or client-prefixed variables.
+
 ## Supabase connection modes
 
 - Direct `:5432`: migrations, backup/restore and persistent IPv6-capable servers.
