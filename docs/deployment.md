@@ -21,6 +21,13 @@ ANALYTICS_PROVIDER=none
 ANALYTICS_HASH_SECRET=
 GA4_MEASUREMENT_ID=
 GA4_API_SECRET=
+QALAI_MEDIA_STORAGE=s3
+QALAI_MEDIA_S3_BUCKET=
+QALAI_MEDIA_S3_ENDPOINT=
+QALAI_MEDIA_S3_REGION=
+QALAI_MEDIA_S3_ACCESS_KEY_ID=
+QALAI_MEDIA_S3_SECRET_ACCESS_KEY=
+QALAI_MEDIA_PUBLIC_BASE_URL=
 ```
 
 Analytics is optional and fail-closed. Generate `ANALYTICS_HASH_SECRET` separately from
@@ -33,6 +40,11 @@ noindex and adds `X-Robots-Tag: noindex, nofollow, noarchive` at both build and 
 request-time guard prevents a prebuilt artifact from becoming indexable after an environment change.
 `/admin`, `/api` and `/preview` keep the response header even after public indexing is enabled. Set
 the variable to `true` only after public-launch approval and verify the actual hostname again.
+
+Media storage also fails closed for every production build and deployment. Use a dedicated public
+S3-compatible bucket that contains only public editorial raster images; local disk is allowed only
+for development and tests. All access keys are server-only. Provisioning and the hosted persistence
+smoke are documented in [media.md](media.md).
 
 ## Browser acceptance
 
@@ -88,7 +100,8 @@ must use committed migrations:
 - require `/api/health` to return 200 only after its PostgreSQL probe succeeds; database failures
   return 503 without diagnostic details;
 - test migration rollback/recovery on a copy of the database;
-- configure durable object storage before enabling Media uploads;
+- configure the dedicated public object bucket, run the Media upload/redeploy/delete smoke and
+  verify that no storage secret appears in a client bundle or trace;
 - apply the `resolved-tasks` migration before enabling analytics;
 - verify consent accept/decline/revoke and the `?qalai_qa=1` internal-traffic exclusion;
 - configure a dedicated staging GA4 Measurement Protocol stream and inspect its allowlisted payload;

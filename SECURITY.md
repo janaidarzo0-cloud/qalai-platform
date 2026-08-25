@@ -33,6 +33,9 @@ The initial lockfile has no known high or critical npm advisories. Five moderate
 - Never commit `.env` or database credentials.
 - `PAYLOAD_SECRET` must be at least 32 random characters.
 - `DATABASE_URL` and `DATABASE_DIRECT_URL` must never use the `NEXT_PUBLIC_` prefix.
+- S3 access keys are server-only, bypass Supabase Storage RLS across all project buckets and must be
+  treated as project-wide privileged credentials.
+- The public Media bucket must never contain identity documents, personal data or internal files.
 - Calculator analytics must not contain input values, results or free-form search text.
 
 ## Reporting

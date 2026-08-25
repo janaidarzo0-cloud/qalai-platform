@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import { access, rm } from 'node:fs/promises'
+import path from 'node:path'
 
 import config from '@payload-config'
 import { getPayload } from 'payload'
@@ -6,6 +8,7 @@ import { getPayload } from 'payload'
 import { GET as readiness } from '@/app/api/health/route'
 import { alphaScenarioDrafts, alphaSources } from '@/content/alpha-scenarios'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
+import { getMediaStorageConfig } from '@/lib/env/media'
 import { migrations } from '@/migrations'
 
 if (process.env.QALAI_RUN_CMS_INTEGRATION !== 'true') {
@@ -218,6 +221,106 @@ const run = async () => {
       user: admin,
     })
     console.info('[cms-gate] Source CRUD verified.')
+
+    const mediaStorage = getMediaStorageConfig(process.env, process.cwd())
+    assert.equal(mediaStorage.mode, 'local')
+    const mediaFilename = `cms-gate-${runID}.png`
+    const mediaBuffer = Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+      'base64',
+    )
+    let mediaID: null | number | string = null
+    let storedMediaPath: null | string = null
+    const rejectedMediaFilename = `cms-gate-${runID}.svg`
+    const rejectedMediaPath = path.resolve(mediaStorage.staticDir, rejectedMediaFilename)
+
+    try {
+      const media = await payload.create({
+        collection: 'media',
+        data: { alt: 'QALAI CMS тексеруіне арналған бір пиксельдік сурет.' },
+        file: {
+          data: mediaBuffer,
+          mimetype: 'image/png',
+          name: mediaFilename,
+          size: mediaBuffer.byteLength,
+        },
+        locale: 'kk',
+        overrideAccess: false,
+        user: admin,
+      })
+      mediaID = media.id
+      assert.equal(media.alt, 'QALAI CMS тексеруіне арналған бір пиксельдік сурет.')
+      assert.equal(media.mimeType, 'image/png')
+      assert.equal(media.filesize, mediaBuffer.byteLength)
+      assert.ok(media.filename)
+      storedMediaPath = path.resolve(mediaStorage.staticDir, media.filename)
+      await access(storedMediaPath)
+
+      const anonymousMedia = await payload.find({
+        collection: 'media',
+        limit: 2,
+        locale: 'kk',
+        overrideAccess: false,
+        where: { id: { equals: media.id } },
+      })
+      assert.equal(anonymousMedia.totalDocs, 1)
+
+      const svgBuffer = Buffer.from(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>',
+      )
+      await assert.rejects(
+        payload.create({
+          collection: 'media',
+          data: { alt: 'Жүктелмеуі тиіс SVG тексеру файлы.' },
+          file: {
+            data: svgBuffer,
+            mimetype: 'image/svg+xml',
+            name: rejectedMediaFilename,
+            size: svgBuffer.byteLength,
+          },
+          locale: 'kk',
+          overrideAccess: false,
+          user: admin,
+        }),
+      )
+      const rejectedMedia = await payload.find({
+        collection: 'media',
+        limit: 2,
+        overrideAccess: true,
+        where: { filename: { equals: rejectedMediaFilename } },
+      })
+      assert.equal(rejectedMedia.totalDocs, 0)
+      await assert.rejects(access(rejectedMediaPath))
+
+      await payload.delete({
+        collection: 'media',
+        id: mediaID,
+        overrideAccess: false,
+        user: admin,
+      })
+      mediaID = null
+      if (storedMediaPath) {
+        await assert.rejects(access(storedMediaPath))
+      }
+    } finally {
+      try {
+        if (mediaID != null) {
+          try {
+            await payload.delete({
+              collection: 'media',
+              id: mediaID,
+              overrideAccess: false,
+              user: admin,
+            })
+          } finally {
+            if (storedMediaPath) await rm(storedMediaPath, { force: true })
+          }
+        }
+      } finally {
+        await rm(rejectedMediaPath, { force: true })
+      }
+    }
+    console.info('[cms-gate] Local Media upload, public read, MIME guard and cleanup verified.')
 
     const scratchCategory = await payload.create({
       collection: 'categories',

@@ -19,6 +19,8 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - Mobile-first home, Scenario and Calculator page prototypes in Kazakh.
 - Metadata, canonical URLs, `robots.txt`, sitemap and conditional HowTo JSON-LD.
 - Consent-gated first-party analytics, atomic PostgreSQL Resolved Tasks deduplication and an optional server-side GA4 staging adapter.
+- Payload Media with required Kazakh alt text, a 3 MB raster-only guard, local development storage
+  and an S3/Supabase Storage-ready hosted adapter.
 - Local PostgreSQL Compose file, CI checks and project documentation.
 
 The repository starts in `demo` content mode. Its public fixture is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts. A separate, opt-in source pack contains the five closed-alpha drafts and cannot publish them.
@@ -60,6 +62,7 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 | `npm run typecheck`          | Run strict TypeScript checks             |
 | `npm test`                   | Run calculator and registry tests        |
 | `npm run build`              | Create a production build                |
+| `npm run build:check`        | Build with non-networked S3 test values  |
 | `npm run check`              | Run the full local quality gate          |
 | `npm run generate:types`     | Regenerate Payload TypeScript types      |
 | `npm run generate:importmap` | Regenerate the Payload Admin import map  |
@@ -70,6 +73,9 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 | `npm run db:seed:alpha`      | Opt-in import of five alpha drafts only  |
 
 Generated Payload types and import maps must be committed. CI fails when regeneration changes the worktree.
+`npm run build:check` injects unreachable `.example.test` S3 values only to exercise the production
+code path locally; never deploy that artifact. A deployable `npm run build` requires the real hosted
+Media variables from [docs/media.md](docs/media.md).
 
 ## Content modes
 
@@ -109,6 +115,7 @@ Details are tracked in [SECURITY.md](SECURITY.md).
 - [Trust and verification](docs/trust-and-verification.md)
 - [Calculators](docs/calculators.md)
 - [Analytics](docs/analytics.md)
+- [Editorial media](docs/media.md)
 - [Deployment](docs/deployment.md)
 
 ## Explicitly out of scope for this phase

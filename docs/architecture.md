@@ -12,8 +12,9 @@ browser
   │    └─ consent-gated first-party analytics transport
   └─ Payload Admin
        └─ Payload access control + publish guards
-             └─ PostgreSQL (content + canonical Resolved Tasks)
-                  └─ optional server-side GA4 staging sink
+             ├─ PostgreSQL (content + canonical Resolved Tasks)
+             ├─ public editorial Media → S3/Supabase Storage
+             └─ optional server-side GA4 staging sink
 ```
 
 ## Repository boundaries
@@ -44,6 +45,7 @@ Draft preview is intentionally not implemented yet. When added, it must use a se
 
 - Payload owns schema, migrations and application access control.
 - Supabase is managed PostgreSQL in this phase; no parallel Supabase ORM/Auth/Data API layer.
+- Payload owns Media metadata; a dedicated public S3-compatible bucket owns public image bytes.
 - Calculator code owns algorithms and input schemas.
 - `CalculatorRuleSets` owns time-bound official coefficients and source evidence.
 - The browser owns factual interaction signals but cannot declare a resolved task.
@@ -53,7 +55,8 @@ Draft preview is intentionally not implemented yet. When added, it must use a se
 
 ## Deferred decisions
 
-- Media storage: local uploads are unsuitable for Vercel; choose S3/Supabase Storage before adding Media.
+- Image transformation: keep original raster uploads in alpha; add reviewed responsive derivatives
+  only after real page-weight measurements justify the processing and cache surface.
 - Revalidation: add collection hooks and tagged cache invalidation once CMS content replaces demo mode.
 - Search ranking: keep the current local index through alpha; evaluate PostgreSQL full-text search only
   after content volume or measured misses justify it.

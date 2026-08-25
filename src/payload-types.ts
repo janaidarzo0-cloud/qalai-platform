@@ -72,6 +72,7 @@ export interface Config {
     sources: Source;
     'calculator-rule-sets': CalculatorRuleSet;
     scenarios: Scenario;
+    media: Media;
     'resolved-tasks': ResolvedTask;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -85,6 +86,7 @@ export interface Config {
     sources: SourcesSelect<false> | SourcesSelect<true>;
     'calculator-rule-sets': CalculatorRuleSetsSelect<false> | CalculatorRuleSetsSelect<true>;
     scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'resolved-tasks': ResolvedTasksSelect<false> | ResolvedTasksSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -373,6 +375,24 @@ export interface Scenario {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resolved-tasks".
  */
 export interface ResolvedTask {
@@ -430,6 +450,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'scenarios';
         value: number | Scenario;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -677,6 +701,23 @@ export interface ScenariosSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

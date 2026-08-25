@@ -1,4 +1,3 @@
-import config from '@payload-config'
 import { getPayload } from 'payload'
 
 import { demoScenarios } from '@/content/demo-scenarios'
@@ -8,6 +7,11 @@ import { isScenarioTrusted } from './trust'
 import type { ScenarioViewModel } from './types'
 
 const isDemoContentMode = () => process.env.QALAI_CONTENT_MODE !== 'cms'
+
+const getCMSPayload = async () => {
+  const { default: config } = await import('@payload-config')
+  return getPayload({ config })
+}
 
 const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
   if (typeof doc.category !== 'object' || doc.category._status !== 'published') return null
@@ -94,7 +98,7 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
 export const listPublishedScenarios = async (): Promise<ScenarioViewModel[]> => {
   if (isDemoContentMode()) return demoScenarios
 
-  const payload = await getPayload({ config })
+  const payload = await getCMSPayload()
   const result = await payload.find({
     collection: 'scenarios',
     depth: 2,
@@ -117,7 +121,7 @@ export const listPublishedScenarios = async (): Promise<ScenarioViewModel[]> => 
 export const getScenarioBySlug = async (slug: string): Promise<ScenarioViewModel | null> => {
   if (isDemoContentMode()) return demoScenarios.find((scenario) => scenario.slug === slug) ?? null
 
-  const payload = await getPayload({ config })
+  const payload = await getCMSPayload()
   const result = await payload.find({
     collection: 'scenarios',
     depth: 2,

@@ -31,6 +31,13 @@ jobs:
       PAYLOAD_DB_PUSH: 'false'
       QALAI_CONTENT_MODE: demo
       QALAI_ALLOW_INDEXING: 'false'
+      QALAI_MEDIA_STORAGE: s3
+      QALAI_MEDIA_S3_BUCKET: qalai-ci-media
+      QALAI_MEDIA_S3_ENDPOINT: https://storage.example.test/storage/v1/s3
+      QALAI_MEDIA_S3_REGION: us-east-1
+      QALAI_MEDIA_S3_ACCESS_KEY_ID: ci-build-check
+      QALAI_MEDIA_S3_SECRET_ACCESS_KEY: ci-build-check
+      QALAI_MEDIA_PUBLIC_BASE_URL: https://cdn.example.test/qalai-ci-media
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -69,6 +76,7 @@ jobs:
         timeout-minutes: 2
         env:
           QALAI_CONTENT_MODE: cms
+          QALAI_MEDIA_STORAGE: local
           QALAI_RUN_CMS_INTEGRATION: 'true'
       - name: Runtime checks do not modify generated files
         run: |

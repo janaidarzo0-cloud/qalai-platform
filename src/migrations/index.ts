@@ -1,5 +1,6 @@
 import * as migration_20260825_100844_initial_schema from './20260825_100844_initial_schema'
 import * as migration_20260825_111514_resolved_tasks from './20260825_111514_resolved_tasks'
+import * as migration_20260825_150533_media_storage from './20260825_150533_media_storage'
 
 export const migrations = [
   {
@@ -11,5 +12,10 @@ export const migrations = [
     up: migration_20260825_111514_resolved_tasks.up,
     down: migration_20260825_111514_resolved_tasks.down,
     name: '20260825_111514_resolved_tasks',
+  },
+  {
+    up: migration_20260825_150533_media_storage.up,
+    down: migration_20260825_150533_media_storage.down,
+    name: '20260825_150533_media_storage',
   },
 ]

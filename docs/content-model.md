@@ -53,6 +53,13 @@ Only one applicable verified rule set should be selected for a calculation date.
 
 Anonymous generic CMS reads for Scenarios and rule sets are disabled. Public pages query them server-side and expose only the mapped, current trust state.
 
+## Media
+
+`Media` stores public editorial raster images and their required localized Kazakh alternative text.
+The database owns metadata while local development disk or the hosted S3-compatible bucket owns the
+bytes. The collection is deliberately not suitable for private documents. Formats, size, roles,
+storage variables and hosted acceptance are defined in [media.md](media.md).
+
 ## Localization
 
 The initial public language is Kazakh (`kk`). Translatable fields are marked `localized`, while slugs and machine keys are stable and unlocalized. Russian content is intentionally not part of this MVP.
