@@ -93,6 +93,7 @@ Details are tracked in [SECURITY.md](SECURITY.md).
 ## Documentation
 
 - [Product definition](docs/product-definition.md)
+- [Product roadmap](docs/roadmap.md)
 - [Architecture](docs/architecture.md)
 - [Content model](docs/content-model.md)
 - [Trust and verification](docs/trust-and-verification.md)
