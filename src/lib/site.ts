@@ -10,5 +10,7 @@ export const getSiteURL = () => {
   return configuredURL.endsWith('/') ? configuredURL.slice(0, -1) : configuredURL
 }
 
+export const isIndexingAllowed = () => process.env.QALAI_ALLOW_INDEXING === 'true'
+
 export const absoluteURL = (path: string) =>
   `${getSiteURL()}${path.startsWith('/') ? path : `/${path}`}`

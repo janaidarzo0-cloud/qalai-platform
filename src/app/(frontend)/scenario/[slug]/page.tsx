@@ -8,7 +8,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { getScenarioBySlug } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
-import { absoluteURL } from '@/lib/site'
+import { absoluteURL, isIndexingAllowed } from '@/lib/site'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -23,6 +23,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const scenario = await getScenarioBySlug(slug)
   if (!scenario) return {}
+  const mayIndex = isIndexingAllowed() && scenario.status === 'published' && !scenario.seo.noIndex
 
   return {
     alternates: { canonical: `/scenario/${scenario.slug}` },
@@ -35,8 +36,8 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
       url: absoluteURL(`/scenario/${scenario.slug}`),
     },
     robots: {
-      follow: scenario.status === 'published' && !scenario.seo.noIndex,
-      index: scenario.status === 'published' && !scenario.seo.noIndex,
+      follow: mayIndex,
+      index: mayIndex,
     },
     title: scenario.seo.title ?? scenario.title,
   }

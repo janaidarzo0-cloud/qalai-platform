@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { AutoLoanCalculator } from '@/components/AutoLoanCalculator'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
-import { absoluteURL } from '@/lib/site'
+import { absoluteURL, isIndexingAllowed } from '@/lib/site'
 import { calculatorDefinitions, getCalculatorBySlug } from '@/modules/calculators/registry'
 
 type PageProps = { params: Promise<{ slug: string }> }
@@ -28,7 +28,10 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
       type: 'website',
       url: absoluteURL(`/calculator/${calculator.slug}`),
     },
-    robots: { follow: isAvailable, index: isAvailable },
+    robots: {
+      follow: isIndexingAllowed() && isAvailable,
+      index: isIndexingAllowed() && isAvailable,
+    },
     title: calculator.title,
   }
 }

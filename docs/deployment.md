@@ -13,6 +13,7 @@ DATABASE_DIRECT_URL=
 PAYLOAD_SECRET=
 NEXT_PUBLIC_SITE_URL=
 QALAI_CONTENT_MODE=cms
+QALAI_ALLOW_INDEXING=false
 PAYLOAD_DB_PUSH=false
 ANALYTICS_ENABLED=false
 ANALYTICS_ENVIRONMENT=staging
@@ -25,6 +26,13 @@ GA4_API_SECRET=
 Analytics is optional and fail-closed. Generate `ANALYTICS_HASH_SECRET` separately from
 `PAYLOAD_SECRET`. To enable the staging funnel, set `ANALYTICS_ENABLED=true`, use a dedicated staging
 GA4 stream/API secret and change `ANALYTICS_PROVIDER=ga4`. Provider credentials are server-only.
+
+Indexing is also fail-closed. Keep `QALAI_ALLOW_INDEXING=false` for local, preview and closed-alpha
+staging. This makes `robots.txt` disallow the whole site, empties the sitemap, sets page metadata to
+noindex and adds `X-Robots-Tag: noindex, nofollow, noarchive` at both build and request time. The
+request-time guard prevents a prebuilt artifact from becoming indexable after an environment change.
+`/admin`, `/api` and `/preview` keep the response header even after public indexing is enabled. Set
+the variable to `true` only after public-launch approval and verify the actual hostname again.
 
 ## Supabase connection modes
 

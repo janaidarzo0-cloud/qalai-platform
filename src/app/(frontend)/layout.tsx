@@ -4,11 +4,11 @@ import type { ReactNode } from 'react'
 
 import { AnalyticsRuntime } from '@/components/AnalyticsRuntime'
 import { isAnalyticsRuntimeEnabled } from '@/lib/analytics/config'
-import { getSiteURL, siteConfig } from '@/lib/site'
+import { getSiteURL, isIndexingAllowed, siteConfig } from '@/lib/site'
 
 import './styles.css'
 
-export const metadata: Metadata = {
+export const generateMetadata = (): Metadata => ({
   alternates: { canonical: '/' },
   description: siteConfig.description,
   metadataBase: new URL(getSiteURL()),
@@ -19,11 +19,12 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     type: 'website',
   },
+  robots: { follow: isIndexingAllowed(), index: isIndexingAllowed() },
   title: {
     default: 'QALAI — Не істеу керек екенін түсініңіз',
     template: '%s — QALAI',
   },
-}
+})
 
 export const viewport: Viewport = {
   colorScheme: 'light',

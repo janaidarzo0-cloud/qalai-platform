@@ -30,6 +30,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://qalai.example.test
       PAYLOAD_DB_PUSH: 'false'
       QALAI_CONTENT_MODE: demo
+      QALAI_ALLOW_INDEXING: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
