@@ -29,8 +29,15 @@ Requirements: Node.js `20.9+` (CI uses `24.15`) and Docker for the local Postgre
 
 ```bash
 cp .env.example .env
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+Paste the generated random value into `PAYLOAD_SECRET` in `.env`. Never reuse that value across environments. Then continue:
+
+```bash
 docker compose up -d postgres
 npm install
+npm run db:migrate
 npm run generate:types
 npm run generate:importmap
 npm run dev
@@ -46,19 +53,20 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 
 ## Commands
 
-| Command                      | Purpose                                 |
-| ---------------------------- | --------------------------------------- |
-| `npm run dev`                | Start Next.js and Payload locally       |
-| `npm run lint`               | Run ESLint                              |
-| `npm run typecheck`          | Run strict TypeScript checks            |
-| `npm test`                   | Run calculator and registry tests       |
-| `npm run build`              | Create a production build               |
-| `npm run check`              | Run the full local quality gate         |
-| `npm run generate:types`     | Regenerate Payload TypeScript types     |
-| `npm run generate:importmap` | Regenerate the Payload Admin import map |
-| `npm run db:migrate:create`  | Create a schema migration               |
-| `npm run db:migrate`         | Apply committed migrations              |
-| `npm run db:seed`            | Seed non-production demo records        |
+| Command                      | Purpose                                  |
+| ---------------------------- | ---------------------------------------- |
+| `npm run dev`                | Start Next.js and Payload locally        |
+| `npm run lint`               | Run ESLint                               |
+| `npm run typecheck`          | Run strict TypeScript checks             |
+| `npm test`                   | Run calculator and registry tests        |
+| `npm run build`              | Create a production build                |
+| `npm run check`              | Run the full local quality gate          |
+| `npm run generate:types`     | Regenerate Payload TypeScript types      |
+| `npm run generate:importmap` | Regenerate the Payload Admin import map  |
+| `npm run db:migrate:create`  | Create a schema migration                |
+| `npm run db:migrate`         | Safely apply using `DATABASE_DIRECT_URL` |
+| `npm run db:migrate:direct`  | Alias for the safe migration command     |
+| `npm run db:seed`            | Seed non-production demo records         |
 
 Generated Payload types and import maps must be committed. CI fails when regeneration changes the worktree.
 
@@ -72,7 +80,7 @@ Generated Payload types and import maps must be committed. CI fails when regener
 Payload uses Supabase as managed PostgreSQL; `@supabase/supabase-js` is intentionally not part of the data path.
 
 - Runtime/serverless traffic can use a Supavisor pooled URL in `DATABASE_URL`.
-- Before running migrations, the deployment job must set `DATABASE_URL` to the direct connection stored in `DATABASE_DIRECT_URL`; the npm script does not switch URLs implicitly.
+- `npm run db:migrate` requires `DATABASE_DIRECT_URL`, passes it only to the migration child process and forces schema push off. `db:migrate:direct` is an equivalent compatibility alias.
 - Payload access control remains the application security boundary; Supabase RLS does not automatically protect privileged direct database connections.
 
 See [deployment.md](docs/deployment.md) before configuring a hosted environment.

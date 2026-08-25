@@ -27,7 +27,8 @@ jobs:
       DATABASE_URL: postgresql://qalai:qalai_ci_only@localhost:5432/qalai
       DATABASE_DIRECT_URL: postgresql://qalai:qalai_ci_only@localhost:5432/qalai
       PAYLOAD_SECRET: ci-only-payload-secret-that-is-not-used-anywhere-else
-      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_SITE_URL: https://qalai.example.test
+      PAYLOAD_DB_PUSH: 'false'
       QALAI_CONTENT_MODE: demo
     steps:
       - uses: actions/checkout@v4
@@ -38,8 +39,33 @@ jobs:
       - run: npm ci
       - run: npm run generate:types
       - run: npm run generate:importmap
+      - name: Detect schema changes without a migration
+        run: npm run db:migrate:create -- ci_schema_drift --skip-empty
       - name: Generated files are committed
-        run: git diff --exit-code
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            exit 1
+          fi
+      - name: Apply baseline migrations twice
+        run: |
+          npm run db:migrate
+          npm run db:migrate
+      - name: Seed twice to prove idempotency
+        run: |
+          npm run db:seed
+          npm run db:seed
+      - name: CMS and draft-isolation integration gate
+        run: npm run test:integration:cms
+        env:
+          QALAI_CONTENT_MODE: cms
+          QALAI_RUN_CMS_INTEGRATION: 'true'
+      - name: Runtime checks do not modify generated files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            exit 1
+          fi
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck

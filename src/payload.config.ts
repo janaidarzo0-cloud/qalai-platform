@@ -9,11 +9,13 @@ import { Scenarios } from '@/collections/Scenarios'
 import { Sources } from '@/collections/Sources'
 import { Users } from '@/collections/Users'
 import { SiteSettings } from '@/globals/SiteSettings'
+import { isPayloadDBPushEnabled } from '@/lib/env/database'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const databaseURL = process.env.DATABASE_URL
 const payloadSecret = process.env.PAYLOAD_SECRET
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+const databasePushEnabled = isPayloadDBPushEnabled()
 
 if (!databaseURL) {
   throw new Error('DATABASE_URL is required. Copy .env.example to .env before starting QALAI.')
@@ -21,6 +23,10 @@ if (!databaseURL) {
 
 if (!payloadSecret || payloadSecret.length < 32) {
   throw new Error('PAYLOAD_SECRET must contain at least 32 characters.')
+}
+
+if (databasePushEnabled && process.env.NODE_ENV === 'production') {
+  throw new Error('PAYLOAD_DB_PUSH must remain false in production. Apply committed migrations.')
 }
 
 export default buildConfig({
@@ -37,10 +43,11 @@ export default buildConfig({
     disableCreateDatabase: true,
     migrationDir: path.resolve(dirname, 'migrations'),
     pool: {
+      connectionTimeoutMillis: 3_000,
       connectionString: databaseURL,
       max: Number(process.env.DATABASE_POOL_MAX ?? 10),
     },
-    push: process.env.NODE_ENV !== 'production',
+    push: databasePushEnabled,
   }),
   globals: [SiteSettings],
   localization: {
