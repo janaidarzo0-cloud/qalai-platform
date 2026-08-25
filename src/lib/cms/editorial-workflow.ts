@@ -57,7 +57,9 @@ export const prepareEditorialVerification = ({
     originalDoc != null &&
     Object.keys(originalDoc).length > 0
   const materialChanged =
-    operation === 'update' && hasMaterialChange(data, originalDoc, materialFields)
+    !trustedUnverifiedImport &&
+    operation === 'update' &&
+    hasMaterialChange(data, originalDoc, materialFields)
 
   let verification: VerificationData
 

@@ -6,7 +6,7 @@ import {
   alphaSources,
   type AlphaEvidenceClaim,
 } from '@/content/alpha-scenarios'
-import { CLOSED_ALPHA_IMPORT_CONTEXT_KEY } from '@/hooks/editorial'
+import { createClosedAlphaImportContext } from '@/hooks/editorial'
 
 const ALPHA_SEED_OPT_IN = 'true'
 
@@ -136,7 +136,7 @@ const seedAlpha = async (payload: Payload) => {
 
     await payload.create({
       collection: 'scenarios',
-      context: { [CLOSED_ALPHA_IMPORT_CONTEXT_KEY]: true },
+      context: createClosedAlphaImportContext(),
       data: {
         _status: 'draft',
         category: categoryID,

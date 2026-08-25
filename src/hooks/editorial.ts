@@ -1,7 +1,12 @@
 import { APIError, type CollectionBeforeOperationHook, type RequestContext } from 'payload'
 
 const DRAFT_SAVE_CONTEXT_KEY = 'qalaiDraftSave'
-export const CLOSED_ALPHA_IMPORT_CONTEXT_KEY = 'qalaiClosedAlphaImport'
+const CLOSED_ALPHA_IMPORT_CONTEXT_KEY = 'qalaiClosedAlphaImport'
+const CLOSED_ALPHA_IMPORT_TOKEN = Symbol('qalaiClosedAlphaImport')
+
+export const createClosedAlphaImportContext = (): RequestContext => ({
+  [CLOSED_ALPHA_IMPORT_CONTEXT_KEY]: CLOSED_ALPHA_IMPORT_TOKEN,
+})
 
 export const captureEditorialOperation: CollectionBeforeOperationHook = ({
   args,
@@ -39,9 +44,9 @@ export const isClosedAlphaDraftImport = ({
   const verification = data.verification
 
   return Boolean(
-    operation === 'create' &&
+    (operation === 'create' || operation === 'update') &&
     isEditorialDraftSave(context) &&
-    context?.[CLOSED_ALPHA_IMPORT_CONTEXT_KEY] === true &&
+    context?.[CLOSED_ALPHA_IMPORT_CONTEXT_KEY] === CLOSED_ALPHA_IMPORT_TOKEN &&
     data._status === 'draft' &&
     verification &&
     typeof verification === 'object' &&

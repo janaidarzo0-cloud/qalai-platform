@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
 import {
-  CLOSED_ALPHA_IMPORT_CONTEXT_KEY,
   captureEditorialOperation,
+  createClosedAlphaImportContext,
   isClosedAlphaDraftImport,
 } from '@/hooks/editorial'
 import { prepareEditorialVerification } from '@/lib/cms/editorial-workflow'
@@ -25,7 +25,7 @@ const verifiedDocument = {
 
 describe('closed-alpha import boundary', () => {
   const draftContext = () => {
-    const context = { [CLOSED_ALPHA_IMPORT_CONTEXT_KEY]: true }
+    const context = createClosedAlphaImportContext()
     captureEditorialOperation({
       args: { data: { _status: 'draft' }, draft: true },
       context,
@@ -34,7 +34,7 @@ describe('closed-alpha import boundary', () => {
     return context
   }
 
-  it('allows only an explicit high-risk unverified create to preserve internal metadata', () => {
+  it('requires the internal token and high-risk unverified draft state', () => {
     const data = {
       _status: 'draft',
       verification: { notes: 'Internal evidence', riskLevel: 'high', status: 'unverified' },
@@ -51,11 +51,18 @@ describe('closed-alpha import boundary', () => {
       }),
     ).toBe(false)
     expect(isClosedAlphaDraftImport({ context: draftContext(), data, operation: 'update' })).toBe(
-      false,
+      true,
     )
+    expect(
+      isClosedAlphaDraftImport({
+        context: { qalaiClosedAlphaImport: true, qalaiDraftSave: true },
+        data,
+        operation: 'create',
+      }),
+    ).toBe(false)
   })
 
-  it('preserves alpha notes and review date when Payload supplies an original draft on create', () => {
+  it('preserves alpha notes through Payload draft versioning update', () => {
     const result = prepareEditorialVerification({
       canReview: true,
       data: {
@@ -69,7 +76,7 @@ describe('closed-alpha import boundary', () => {
       },
       materialFields: MATERIAL_FIELDS,
       now: NOW,
-      operation: 'create',
+      operation: 'update',
       originalDoc: { _status: 'draft', id: 123 },
       reviewerID: null,
       trustedUnverifiedImport: true,
