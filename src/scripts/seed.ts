@@ -22,6 +22,7 @@ const seedContent = async (payload: Payload) => {
       },
       overrideAccess: true,
     }))
+  console.info('[seed] Source ready.')
 
   const existingCategory = await payload.find({
     collection: 'categories',
@@ -43,6 +44,7 @@ const seedContent = async (payload: Payload) => {
       draft: true,
       overrideAccess: true,
     }))
+  console.info('[seed] Category ready.')
 
   const existingScenario = await payload.find({
     collection: 'scenarios',
@@ -99,6 +101,7 @@ const seedContent = async (payload: Payload) => {
       overrideAccess: true,
     })
   }
+  console.info('[seed] Scenario draft ready.')
 
   payload.logger.info('QALAI demo seed completed. No Scenario was published.')
 }
@@ -108,8 +111,14 @@ const seed = async () => {
     throw new Error('The demo seed is disabled in production.')
   }
 
+  const watchdog = setTimeout(() => {
+    console.error('[seed] Timed out after 60 seconds.')
+    process.exit(1)
+  }, 60_000)
+
   const payload = await getPayload({ config })
   const pool = payload.db.pool
+  console.info('[seed] Payload connected.')
 
   try {
     await seedContent(payload)
@@ -118,6 +127,7 @@ const seed = async () => {
       await payload.destroy()
     } finally {
       await pool.end()
+      clearTimeout(watchdog)
     }
   }
 }

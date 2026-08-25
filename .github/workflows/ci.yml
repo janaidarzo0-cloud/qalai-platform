@@ -55,6 +55,7 @@ jobs:
         run: |
           npm run db:seed
           npm run db:seed
+        timeout-minutes: 2
       - name: CMS and draft-isolation integration gate
         run: npm run test:integration:cms
         timeout-minutes: 2
