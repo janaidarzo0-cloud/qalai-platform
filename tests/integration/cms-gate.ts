@@ -22,6 +22,10 @@ if (process.env.QALAI_CONTENT_MODE !== 'cms') {
 const run = async () => {
   const payload = await getPayload({ config })
   const runID = `${process.env.GITHUB_RUN_ID ?? 'local'}-${Date.now()}`
+  const watchdog = setTimeout(() => {
+    console.error('[cms-gate] Timed out after 60 seconds.')
+    process.exit(1)
+  }, 60_000)
 
   try {
     const migrationRecords = await payload.find({
@@ -81,6 +85,7 @@ const run = async () => {
     assert.equal(demoScenarios.totalDocs, 1)
     assert.equal(demoScenarios.docs[0]?._status, 'draft')
     assert.equal(publishedDemoScenarios.totalDocs, 0)
+    console.info('[cms-gate] Migrations and idempotent seed verified.')
 
     const existingAdmins = await payload.find({
       collection: 'users',
@@ -101,6 +106,7 @@ const run = async () => {
         overrideAccess: true,
       }))
     assert.deepEqual(admin.roles, ['admin'])
+    console.info('[cms-gate] First administrator verified.')
 
     const scratchSource = await payload.create({
       collection: 'sources',
@@ -129,6 +135,7 @@ const run = async () => {
       overrideAccess: false,
       user: admin,
     })
+    console.info('[cms-gate] Source CRUD verified.')
 
     const scratchCategory = await payload.create({
       collection: 'categories',
@@ -158,6 +165,7 @@ const run = async () => {
       overrideAccess: false,
       user: admin,
     })
+    console.info('[cms-gate] Category CRUD verified.')
 
     const categoryDraft = await payload.create({
       collection: 'categories',
@@ -198,6 +206,7 @@ const run = async () => {
       where: { id: { equals: category.id } },
     })
     assert.equal(anonymousPublishedCategories.totalDocs, 1)
+    console.info('[cms-gate] Category draft isolation and publication verified.')
 
     const officialSource = await payload.create({
       collection: 'sources',
@@ -214,6 +223,7 @@ const run = async () => {
     })
     const checkedAt = new Date().toISOString()
     assert.ok(new Date(officialSource.updatedAt).getTime() <= new Date(checkedAt).getTime())
+    console.info('[cms-gate] Official source fixture created.')
 
     const scenarioData = {
       category: category.id,
@@ -258,6 +268,7 @@ const run = async () => {
       overrideAccess: false,
       user: admin,
     })
+    console.info('[cms-gate] Scenario draft created.')
 
     let anonymousScenarioCount = 0
     try {
@@ -273,6 +284,7 @@ const run = async () => {
       assert.equal((error as { status?: number }).status, 403)
     }
     assert.equal(anonymousScenarioCount, 0)
+    console.info('[cms-gate] Scenario draft isolation verified.')
 
     const verifiedDraft = await payload.update({
       collection: 'scenarios',
@@ -293,6 +305,7 @@ const run = async () => {
     const reviewedBy = verifiedDraft.verification.reviewedBy
     assert.ok(reviewedBy)
     assert.equal(typeof reviewedBy === 'object' ? reviewedBy.id : reviewedBy, admin.id)
+    console.info('[cms-gate] Scenario verification transition verified.')
 
     const publishedScenario = await payload.update({
       collection: 'scenarios',
@@ -305,6 +318,7 @@ const run = async () => {
     })
     assert.equal(publishedScenario._status, 'published')
     assert.equal(publishedScenario.publishedSlug, publishedScenario.slug)
+    console.info('[cms-gate] Scenario publication verified.')
 
     const authenticatedPublished = await payload.find({
       collection: 'scenarios',
@@ -317,6 +331,7 @@ const run = async () => {
 
     const publicScenarios = await listPublishedScenarios()
     assert.ok(publicScenarios.some((scenario) => scenario.slug === publishedScenario.slug))
+    console.info('[cms-gate] Server-only public Scenario read verified.')
 
     const disposableDraft = await payload.create({
       collection: 'scenarios',
@@ -337,6 +352,7 @@ const run = async () => {
       overrideAccess: false,
       user: admin,
     })
+    console.info('[cms-gate] Scenario delete verified.')
 
     const readinessResponse = await readiness()
     assert.equal(readinessResponse.status, 200)
@@ -344,10 +360,13 @@ const run = async () => {
       service: 'qalai-platform',
       status: 'ok',
     })
+    console.info('[cms-gate] Database readiness verified.')
 
     payload.logger.info('QALAI CMS integration gate passed.')
   } finally {
+    console.info('[cms-gate] Closing Payload.')
     await payload.destroy()
+    clearTimeout(watchdog)
   }
 }
 

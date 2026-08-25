@@ -57,6 +57,7 @@ jobs:
           npm run db:seed
       - name: CMS and draft-isolation integration gate
         run: npm run test:integration:cms
+        timeout-minutes: 2
         env:
           QALAI_CONTENT_MODE: cms
           QALAI_RUN_CMS_INTEGRATION: 'true'
