@@ -211,6 +211,49 @@ a {
   margin: 12px 4px 0;
 }
 
+.task-search__results {
+  background: color-mix(in srgb, var(--white) 86%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 16px 42px rgba(21, 31, 25, 0.08);
+  display: grid;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.task-search__results a {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 16px 18px;
+  transition: background 160ms ease;
+}
+
+.task-search__results a:last-child {
+  border-bottom: 0;
+}
+
+.task-search__results a:hover {
+  background: var(--paper-strong);
+}
+
+.task-search__results a > span:last-child {
+  color: var(--green);
+  font-size: 1.1rem;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.task-search__result-meta {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .button {
   align-items: center;
   background: var(--ink);
@@ -529,6 +572,57 @@ a {
   line-height: 1.55;
   margin: 8px 0 0;
   max-width: 560px;
+}
+
+.analytics-consent {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  bottom: 14px;
+  box-shadow: 0 24px 80px rgba(16, 23, 18, 0.24);
+  display: grid;
+  gap: 20px;
+  left: 14px;
+  margin: 0 auto;
+  max-width: 920px;
+  padding: 20px;
+  position: fixed;
+  right: 14px;
+  z-index: 60;
+}
+
+.analytics-consent h2 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+.analytics-consent p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 8px 0 0;
+  max-width: 640px;
+}
+
+.analytics-consent__actions {
+  display: grid;
+  gap: 8px;
+}
+
+.analytics-settings {
+  background: var(--paper-strong);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  bottom: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 750;
+  padding: 9px 13px;
+  position: fixed;
+  right: 14px;
+  z-index: 40;
 }
 
 .breadcrumbs {
@@ -1063,6 +1157,15 @@ a {
 
   .field-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analytics-consent {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 22px 24px;
+  }
+
+  .analytics-consent__actions {
+    grid-template-columns: auto auto;
   }
 }
 

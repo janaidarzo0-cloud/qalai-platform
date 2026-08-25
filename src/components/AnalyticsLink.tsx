@@ -6,23 +6,20 @@ import { trackEvent } from '@/lib/analytics/client'
 
 type AnalyticsLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode
-  publisher: string
-  scenarioSlug: string
+  taskKey: string
 }
 
-export const AnalyticsLink = ({
-  children,
-  onClick,
-  publisher,
-  scenarioSlug,
-  ...props
-}: AnalyticsLinkProps) => (
+export const AnalyticsLink = ({ children, onClick, taskKey, ...props }: AnalyticsLinkProps) => (
   <a
     {...props}
     onClick={(event) => {
-      trackEvent({ name: 'official_link_click', publisher, scenarioSlug })
-      trackEvent({ name: 'task_resolved', method: 'official-link', scenarioSlug })
       onClick?.(event)
+      if (!event.defaultPrevented) {
+        trackEvent({
+          name: 'official_link_click',
+          task: { key: taskKey, type: 'scenario' },
+        })
+      }
     }}
   >
     {children}

@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { AnalyticsLink } from '@/components/AnalyticsLink'
 import { Feedback } from '@/components/Feedback'
 import { JsonLd } from '@/components/JsonLd'
-import { ViewTracker } from '@/components/ViewTracker'
+import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { getScenarioBySlug } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
 import { absoluteURL } from '@/lib/site'
@@ -58,7 +58,10 @@ const ScenarioPage = async ({ params }: PageProps) => {
 
   return (
     <article className="scenario-page">
-      <ViewTracker scenarioSlug={scenario.slug} />
+      <TaskOpenedTracker
+        eligible={isVerified && scenario.status === 'published'}
+        task={{ key: scenario.slug, type: 'scenario' }}
+      />
       {howToSchema ? <JsonLd data={howToSchema} /> : null}
       <div className="container">
         <nav className="breadcrumbs" aria-label="Навигация тізбегі">
@@ -163,16 +166,15 @@ const ScenarioPage = async ({ params }: PageProps) => {
           <aside className="scenario-aside">
             <div className="aside-card">
               <p className="eyebrow">Келесі қадам</p>
-              <h2>Ресми қызметке өтіңіз</h2>
+              <h2>Ресми қызметте жалғастыру</h2>
               {scenario.officialLinks.length > 0 ? (
                 scenario.officialLinks.map((link) => (
                   <AnalyticsLink
                     className="button button--wide"
                     href={link.url}
                     key={link.url}
-                    publisher={link.publisher}
                     rel="noreferrer"
-                    scenarioSlug={scenario.slug}
+                    taskKey={scenario.slug}
                     target="_blank"
                   >
                     {link.label} ↗
@@ -202,7 +204,10 @@ const ScenarioPage = async ({ params }: PageProps) => {
           </aside>
         </div>
 
-        <Feedback scenarioSlug={scenario.slug} />
+        <Feedback
+          eligible={isVerified && scenario.status === 'published'}
+          taskKey={scenario.slug}
+        />
       </div>
     </article>
   )

@@ -9,10 +9,11 @@ browser
   ├─ public Next.js pages
   │    ├─ Scenario renderer
   │    ├─ calculator UI
-  │    └─ privacy-safe analytics adapter
+  │    └─ consent-gated first-party analytics transport
   └─ Payload Admin
        └─ Payload access control + publish guards
-             └─ PostgreSQL (local or Supabase)
+             └─ PostgreSQL (content + canonical Resolved Tasks)
+                  └─ optional server-side GA4 staging sink
 ```
 
 ## Repository boundaries
@@ -23,7 +24,8 @@ src/app/(payload)           generated-compatible Payload Admin/API routes
 src/collections             persistent content schemas
 src/fields                  reusable structured fields
 src/lib/cms                 public read model and Payload mapping
-src/lib/analytics           stable event contract and provider adapter
+src/lib/analytics           strict event contract, server ingest and provider adapter
+src/lib/search              local published-task search
 src/modules/calculators     executable, deterministic calculator code
 src/content                 demo-only, noindex UX fixtures
 docs                        product and operating decisions
@@ -44,12 +46,15 @@ Draft preview is intentionally not implemented yet. When added, it must use a se
 - Supabase is managed PostgreSQL in this phase; no parallel Supabase ORM/Auth/Data API layer.
 - Calculator code owns algorithms and input schemas.
 - `CalculatorRuleSets` owns time-bound official coefficients and source evidence.
-- Frontend analytics owns event names, never user-entered values.
+- The browser owns factual interaction signals but cannot declare a resolved task.
+- PostgreSQL owns deduplicated Resolved Tasks; the GA4 sink is best-effort reporting only.
+- Search runs locally over a server-built index of trusted public tasks.
 - PostgreSQL transaction advisory locks serialize mutations of the publication dependency graph; operations fail closed when no transaction session exists.
 
 ## Deferred decisions
 
 - Media storage: local uploads are unsuitable for Vercel; choose S3/Supabase Storage before adding Media.
 - Revalidation: add collection hooks and tagged cache invalidation once CMS content replaces demo mode.
-- Search: start with Payload/Postgres search only after content exists; do not add a search vendor yet.
+- Search ranking: keep the current local index through alpha; evaluate PostgreSQL full-text search only
+  after content volume or measured misses justify it.
 - User-facing auth, AI chat, Russian content and mobile apps are out of scope.

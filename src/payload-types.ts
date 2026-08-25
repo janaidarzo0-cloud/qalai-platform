@@ -72,6 +72,7 @@ export interface Config {
     sources: Source;
     'calculator-rule-sets': CalculatorRuleSet;
     scenarios: Scenario;
+    'resolved-tasks': ResolvedTask;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     sources: SourcesSelect<false> | SourcesSelect<true>;
     'calculator-rule-sets': CalculatorRuleSetsSelect<false> | CalculatorRuleSetsSelect<true>;
     scenarios: ScenariosSelect<false> | ScenariosSelect<true>;
+    'resolved-tasks': ResolvedTasksSelect<false> | ResolvedTasksSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -368,6 +370,22 @@ export interface Scenario {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resolved-tasks".
+ */
+export interface ResolvedTask {
+  id: number;
+  dedupeKey: string;
+  sessionHash: string;
+  taskType: 'scenario' | 'calculator';
+  taskKey: string;
+  resolutionMethod: 'calculation' | 'official-transition' | 'helpful-feedback';
+  resolvedAt: string;
+  schemaVersion: number;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -659,6 +677,21 @@ export interface ScenariosSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resolved-tasks_select".
+ */
+export interface ResolvedTasksSelect<T extends boolean = true> {
+  dedupeKey?: T;
+  sessionHash?: T;
+  taskType?: T;
+  taskKey?: T;
+  resolutionMethod?: T;
+  resolvedAt?: T;
+  schemaVersion?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

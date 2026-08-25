@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import { TaskSearch } from '@/components/TaskSearch'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
+import { isScenarioTrusted } from '@/lib/cms/trust'
+import { buildTaskSearchIndex } from '@/lib/search/tasks'
 import { calculatorDefinitions } from '@/modules/calculators/registry'
 
 export const dynamic = 'force-dynamic'
@@ -15,6 +17,17 @@ const quickActions = [
 
 const HomePage = async () => {
   const scenarios = await listPublishedScenarios()
+  const taskSearchIndex = buildTaskSearchIndex(
+    scenarios.map((scenario) => ({
+      category: scenario.category,
+      shortAnswer: scenario.shortAnswer,
+      slug: scenario.slug,
+      status: scenario.status,
+      title: scenario.title,
+      trusted: isScenarioTrusted(scenario),
+    })),
+    calculatorDefinitions,
+  )
 
   return (
     <>
@@ -26,7 +39,7 @@ const HomePage = async () => {
             <p className="hero__lead">
               Мемлекеттік, қаржылық және күнделікті істі түсінікті қадамдарға айналдырамыз.
             </p>
-            <TaskSearch />
+            <TaskSearch tasks={taskSearchIndex} />
           </div>
           <aside className="hero__proof" aria-label="QALAI қағидалары">
             <span>Qalai тексерді</span>

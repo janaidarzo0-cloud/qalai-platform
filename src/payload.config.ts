@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 
 import { CalculatorRuleSets } from '@/collections/CalculatorRuleSets'
 import { Categories } from '@/collections/Categories'
+import { ResolvedTasks } from '@/collections/ResolvedTasks'
 import { Scenarios } from '@/collections/Scenarios'
 import { Sources } from '@/collections/Sources'
 import { Users } from '@/collections/Users'
@@ -36,7 +37,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [Users, Categories, Sources, CalculatorRuleSets, Scenarios],
+  collections: [Users, Categories, Sources, CalculatorRuleSets, Scenarios, ResolvedTasks],
   cors: [siteURL],
   csrf: [siteURL],
   db: postgresAdapter({

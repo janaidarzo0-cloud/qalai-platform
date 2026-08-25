@@ -87,6 +87,42 @@ const run = async () => {
     assert.equal(publishedDemoScenarios.totalDocs, 0)
     console.info('[cms-gate] Migrations and idempotent seed verified.')
 
+    const resolutionData = {
+      dedupeKey: `cms-gate-dedupe-${runID}`,
+      resolutionMethod: 'calculation' as const,
+      resolvedAt: new Date().toISOString(),
+      schemaVersion: 1,
+      sessionHash: `cms-gate-session-${runID}`,
+      taskKey: 'auto-loan',
+      taskType: 'calculator' as const,
+    }
+    const resolution = await payload.create({
+      collection: 'resolved-tasks',
+      data: resolutionData,
+      overrideAccess: true,
+    })
+    await assert.rejects(
+      payload.create({
+        collection: 'resolved-tasks',
+        data: { ...resolutionData, resolutionMethod: 'helpful-feedback' },
+        overrideAccess: true,
+      }),
+    )
+    const uniqueResolutions = await payload.find({
+      collection: 'resolved-tasks',
+      limit: 2,
+      overrideAccess: true,
+      where: { dedupeKey: { equals: resolutionData.dedupeKey } },
+    })
+    assert.equal(uniqueResolutions.totalDocs, 1)
+    assert.equal(uniqueResolutions.docs[0]?.resolutionMethod, 'calculation')
+    await payload.delete({
+      collection: 'resolved-tasks',
+      id: resolution.id,
+      overrideAccess: true,
+    })
+    console.info('[cms-gate] Resolved Task atomic first-touch deduplication verified.')
+
     const existingAdmins = await payload.find({
       collection: 'users',
       limit: 1,

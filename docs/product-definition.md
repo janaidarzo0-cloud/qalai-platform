@@ -20,7 +20,9 @@ The five questions the interface must answer are:
 
 ## North Star
 
-**Resolved Tasks**: sessions in which the user obtains a usable outcome — a calculation, an action plan, a document list, an official-service transition or a clear choice.
+**Resolved Tasks**: unique session-task pairs with an explicit usable outcome — a valid calculation,
+an official-service transition or the user's direct confirmation that the needed answer was found.
+Page views, scrolling and negative feedback do not count.
 
 Supporting events are defined in [analytics.md](analytics.md).
 

@@ -18,7 +18,7 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - Five-calculator registry; the non-regulated auto-loan annuity module is implemented and tested. Government-dependent formulas remain locked behind source review.
 - Mobile-first home, Scenario and Calculator page prototypes in Kazakh.
 - Metadata, canonical URLs, `robots.txt`, sitemap and conditional HowTo JSON-LD.
-- Typed privacy-safe analytics events with no-op GA4/Metрика adapters.
+- Consent-gated first-party analytics, atomic PostgreSQL Resolved Tasks deduplication and an optional server-side GA4 staging adapter.
 - Local PostgreSQL Compose file, CI checks and project documentation.
 
 The repository starts in `demo` content mode. Its only Scenario is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts.

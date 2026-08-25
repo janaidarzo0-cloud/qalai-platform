@@ -1,11 +1,22 @@
 'use client'
 
+import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 
 import { trackEvent } from '@/lib/analytics/client'
+import {
+  getQueryLengthBucket,
+  getResultCountBucket,
+  searchTasks,
+  type SearchTask,
+} from '@/lib/search/tasks'
 
-export const TaskSearch = () => {
-  const [message, setMessage] = useState('')
+type Props = {
+  tasks: readonly SearchTask[]
+}
+
+export const TaskSearch = ({ tasks }: Props) => {
+  const [results, setResults] = useState<SearchTask[] | null>(null)
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -13,9 +24,13 @@ export const TaskSearch = () => {
     const query = String(data.get('query') ?? '').trim()
     if (!query) return
 
-    const queryLengthBucket = query.length <= 20 ? '1-20' : query.length <= 50 ? '21-50' : '51+'
-    trackEvent({ name: 'search_submitted', queryLengthBucket })
-    setMessage('Іздеу модулі келесі кезеңде CMS-тегі тексерілген сценарийлерге қосылады.')
+    const nextResults = searchTasks(tasks, query)
+    trackEvent({
+      name: 'search_submitted',
+      queryLengthBucket: getQueryLengthBucket(query),
+      resultCountBucket: getResultCountBucket(nextResults.length),
+    })
+    setResults(nextResults)
   }
 
   return (
@@ -26,16 +41,35 @@ export const TaskSearch = () => {
       <div className="task-search__row">
         <input
           autoComplete="off"
+          aria-describedby="task-search-status"
           id="task-query"
+          maxLength={120}
           name="query"
-          placeholder="Мысалы: декреттік төлемді қалай есептеймін?"
+          placeholder="Мысалы: автонесие ай сайынғы төлем"
           type="search"
         />
         <button className="button" type="submit">
-          Табу
+          Нұсқаулықты табу
         </button>
       </div>
-      {message ? <p className="task-search__message">{message}</p> : null}
+      <p className="task-search__message" id="task-search-status" role="status">
+        {results === null
+          ? 'Сұрау мәтіні құрылғыңызда ғана өңделеді.'
+          : results.length > 0
+            ? `${results.length} тексерілген материал табылды.`
+            : 'Сәйкес жарияланған әрі тексерілген материал табылмады. Сұрауды қысқартып көріңіз.'}
+      </p>
+      {results && results.length > 0 ? (
+        <nav aria-label="Іздеу нәтижелері" className="task-search__results">
+          {results.map((task) => (
+            <Link href={task.href} key={task.href}>
+              <span className="task-search__result-meta">{task.meta}</span>
+              <strong>{task.title}</strong>
+              <span aria-hidden="true">↗</span>
+            </Link>
+          ))}
+        </nav>
+      ) : null}
     </form>
   )
 }

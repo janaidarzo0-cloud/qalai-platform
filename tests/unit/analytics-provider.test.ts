@@ -1,0 +1,52 @@
+import { describe, expect, it } from 'vitest'
+
+import { toGA4Event } from '@/lib/analytics/providers/ga4'
+
+const eventID = 'f10bfe30-2f82-4eb2-b697-1f9764617c45'
+
+describe('GA4 provider allowlist', () => {
+  it('builds page views from a canonical server URL without query or referrer', () => {
+    const result = toGA4Event(
+      { name: 'page_view', path: '/scenario/zhk-ashu' },
+      eventID,
+      'staging',
+      'https://staging.qalai.kz/base?secret=ignored',
+    )
+
+    expect(result).toEqual({
+      name: 'page_view',
+      params: {
+        app_environment: 'staging',
+        event_id: eventID,
+        page_location: 'https://staging.qalai.kz/scenario/zhk-ashu',
+        page_path: '/scenario/zhk-ashu',
+        page_referrer: '',
+        schema_version: 1,
+      },
+    })
+  })
+
+  it('maps only fixed task fields and never calculator values or content', () => {
+    const result = toGA4Event(
+      {
+        name: 'task_resolved',
+        resolutionMethod: 'calculation',
+        task: { key: 'auto-loan', type: 'calculator' },
+      },
+      eventID,
+      'staging',
+      'https://staging.qalai.kz',
+    )
+    const serialized = JSON.stringify(result)
+
+    expect(result?.params).toEqual({
+      app_environment: 'staging',
+      event_id: eventID,
+      resolution_method: 'calculation',
+      schema_version: 1,
+      task_key: 'auto-loan',
+      task_type: 'calculator',
+    })
+    expect(serialized).not.toMatch(/amount|email|iin|query|result|salary|telephone|phone/i)
+  })
+})

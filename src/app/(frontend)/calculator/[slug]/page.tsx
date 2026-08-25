@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { AutoLoanCalculator } from '@/components/AutoLoanCalculator'
+import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { absoluteURL } from '@/lib/site'
 import { calculatorDefinitions, getCalculatorBySlug } from '@/modules/calculators/registry'
 
@@ -39,6 +40,10 @@ const CalculatorPage = async ({ params }: PageProps) => {
 
   return (
     <div className="calculator-page">
+      <TaskOpenedTracker
+        eligible={calculator.status === 'available'}
+        task={{ key: calculator.key, type: 'calculator' }}
+      />
       <div className="container">
         <nav className="breadcrumbs" aria-label="Навигация тізбегі">
           <Link href="/">Басты бет</Link>

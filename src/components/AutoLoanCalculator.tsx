@@ -16,7 +16,8 @@ export const AutoLoanCalculator = () => {
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
-    trackEvent({ calculatorKey: 'auto-loan', name: 'calculator_start' })
+    const task = { key: 'auto-loan', type: 'calculator' } as const
+    trackEvent({ name: 'calculator_start', task })
 
     const formData = new FormData(event.currentTarget)
 
@@ -28,11 +29,11 @@ export const AutoLoanCalculator = () => {
         termMonths: toNumber(formData.get('termYears')) * 12,
       })
       setResult(calculation)
-      trackEvent({ calculatorKey: 'auto-loan', name: 'calculator_complete', outcome: 'success' })
+      trackEvent({ name: 'calculator_complete', outcome: 'success', task })
     } catch {
       setResult(null)
       setError('Мәндерді тексеріңіз: алғашқы жарна бағадан аспауы, ал мерзім 1–10 жыл болуы керек.')
-      trackEvent({ calculatorKey: 'auto-loan', name: 'calculator_complete', outcome: 'error' })
+      trackEvent({ name: 'calculator_complete', outcome: 'error', task })
     }
   }
 
@@ -105,7 +106,7 @@ export const AutoLoanCalculator = () => {
           </label>
         </div>
         <button className="button button--wide" type="submit">
-          Есептеу
+          Ай сайынғы төлемді есептеу
         </button>
         {error ? (
           <p className="form-error" role="alert">
