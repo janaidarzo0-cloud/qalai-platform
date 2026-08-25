@@ -1,0 +1,214 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+import { AnalyticsLink } from '@/components/AnalyticsLink'
+import { Feedback } from '@/components/Feedback'
+import { JsonLd } from '@/components/JsonLd'
+import { ViewTracker } from '@/components/ViewTracker'
+import { getScenarioBySlug } from '@/lib/cms/scenarios'
+import { absoluteURL } from '@/lib/site'
+
+type PageProps = { params: Promise<{ slug: string }> }
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
+  const { slug } = await params
+  const scenario = await getScenarioBySlug(slug)
+  if (!scenario) return {}
+
+  return {
+    alternates: { canonical: `/scenario/${scenario.slug}` },
+    description: scenario.seo.description ?? scenario.shortAnswer,
+    openGraph: {
+      description: scenario.seo.description ?? scenario.shortAnswer,
+      locale: 'kk_KZ',
+      title: scenario.seo.title ?? scenario.title,
+      type: 'article',
+      url: absoluteURL(`/scenario/${scenario.slug}`),
+    },
+    robots: {
+      follow: scenario.status === 'published' && !scenario.seo.noIndex,
+      index: scenario.status === 'published' && !scenario.seo.noIndex,
+    },
+    title: scenario.seo.title ?? scenario.title,
+  }
+}
+
+const ScenarioPage = async ({ params }: PageProps) => {
+  const { slug } = await params
+  const scenario = await getScenarioBySlug(slug)
+  if (!scenario) notFound()
+
+  const isVerified =
+    scenario.status === 'published' &&
+    scenario.verification.status === 'verified' &&
+    Boolean(scenario.verification.reviewedAt) &&
+    scenario.sources.length > 0
+
+  const howToSchema = isVerified
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: scenario.title,
+        step: scenario.steps.map((step, index) => ({
+          '@type': 'HowToStep',
+          name: step.title,
+          position: index + 1,
+          text: step.description,
+        })),
+      }
+    : null
+
+  return (
+    <article className="scenario-page">
+      <ViewTracker scenarioSlug={scenario.slug} />
+      {howToSchema ? <JsonLd data={howToSchema} /> : null}
+      <div className="container">
+        <nav className="breadcrumbs" aria-label="Навигация тізбегі">
+          <Link href="/">Басты бет</Link>
+          <span>/</span>
+          <span>{scenario.category}</span>
+        </nav>
+
+        {!isVerified ? (
+          <div className="draft-banner" role="status">
+            ДЕМО · Бұл мазмұн тек UX құрылымын көрсетеді және нақты нұсқаулық ретінде қолданылмайды.
+          </div>
+        ) : null}
+
+        <header className="scenario-hero">
+          <div>
+            <p className="eyebrow">{scenario.category}</p>
+            <h1>{scenario.title}</h1>
+            <p className="scenario-hero__answer">{scenario.shortAnswer}</p>
+          </div>
+          <div className={`verification-card ${isVerified ? 'verification-card--verified' : ''}`}>
+            <span>{isVerified ? '✓' : '!'}</span>
+            <div>
+              <strong>{isVerified ? 'Qalai тексерді' : 'Тексерілмеген демо'}</strong>
+              <p>
+                {isVerified && scenario.verification.reviewedAt
+                  ? `Соңғы тексеру: ${new Intl.DateTimeFormat('kk-KZ').format(new Date(scenario.verification.reviewedAt))}`
+                  : 'Ресми дереккөз расталмайынша жарияланбайды.'}
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div className="facts-grid">
+          <div>
+            <span>Кімге арналған?</span>
+            <strong>{scenario.whoIsItFor}</strong>
+          </div>
+          <div>
+            <span>Қанша тұрады?</span>
+            <strong>{scenario.cost}</strong>
+          </div>
+          <div>
+            <span>Қанша уақыт?</span>
+            <strong>{scenario.processingTime}</strong>
+          </div>
+        </div>
+
+        <div className="scenario-layout">
+          <div className="scenario-main">
+            <section className="content-section">
+              <p className="eyebrow">Әрекет жоспары</p>
+              <h2>Не істеу керек?</h2>
+              <ol className="steps-list">
+                {scenario.steps.map((step, index) => (
+                  <li key={`${step.title}-${index}`}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.description}</p>
+                      {step.actionUrl && step.actionLabel ? (
+                        <a href={step.actionUrl}>{step.actionLabel} →</a>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section className="content-section">
+              <p className="eyebrow">Дайындаңыз</p>
+              <h2>Қандай құжат керек?</h2>
+              <ul className="check-list">
+                {scenario.documents.map((document, index) => (
+                  <li key={`${document.name}-${index}`}>
+                    <span aria-hidden="true">✓</span>
+                    <div>
+                      <strong>{document.name}</strong>
+                      {document.note ? <p>{document.note}</p> : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            {scenario.faq.length > 0 ? (
+              <section className="content-section">
+                <p className="eyebrow">Жиі қойылатын сұрақтар</p>
+                <h2>Тағы не білу керек?</h2>
+                <div className="faq-list">
+                  {scenario.faq.map((item) => (
+                    <details key={item.question}>
+                      <summary>{item.question}</summary>
+                      <p>{item.answer}</p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+
+          <aside className="scenario-aside">
+            <div className="aside-card">
+              <p className="eyebrow">Келесі қадам</p>
+              <h2>Ресми қызметке өтіңіз</h2>
+              {scenario.officialLinks.length > 0 ? (
+                scenario.officialLinks.map((link) => (
+                  <AnalyticsLink
+                    className="button button--wide"
+                    href={link.url}
+                    key={link.url}
+                    publisher={link.publisher}
+                    rel="noreferrer"
+                    scenarioSlug={scenario.slug}
+                    target="_blank"
+                  >
+                    {link.label} ↗
+                  </AnalyticsLink>
+                ))
+              ) : (
+                <p>Демо-нұсқада әрекет сілтемесі әдейі өшірілген.</p>
+              )}
+            </div>
+            <div className="aside-card aside-card--sources">
+              <p className="eyebrow">Ресми дереккөздер</p>
+              {scenario.sources.length > 0 ? (
+                <ul>
+                  {scenario.sources.map((source) => (
+                    <li key={source.url}>
+                      <a href={source.url} rel="noreferrer" target="_blank">
+                        {source.title}
+                      </a>
+                      <span>{source.publisher}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>Жариялау алдында бұл жерде кемінде бір бастапқы ресми дереккөз болуы керек.</p>
+              )}
+            </div>
+          </aside>
+        </div>
+
+        <Feedback scenarioSlug={scenario.slug} />
+      </div>
+    </article>
+  )
+}
+
+export default ScenarioPage

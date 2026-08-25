@@ -1,0 +1,99 @@
+import config from '@payload-config'
+import { getPayload } from 'payload'
+
+import { demoScenarios } from '@/content/demo-scenarios'
+import type { Scenario } from '@/payload-types'
+import type { ScenarioViewModel } from './types'
+
+const isDemoContentMode = () => process.env.QALAI_CONTENT_MODE !== 'cms'
+
+const mapScenario = (doc: Scenario): ScenarioViewModel => {
+  const category = typeof doc.category === 'object' ? doc.category.title : 'QALAI'
+
+  return {
+    category,
+    cost: doc.cost.explanation ?? (doc.cost.kind === 'free' ? 'Тегін' : 'Нақтылаңыз'),
+    documents: (doc.documents ?? []).map((item) => ({
+      name: item.name,
+      note: item.note ?? undefined,
+    })),
+    faq: (doc.faq ?? []).map((item) => ({
+      answer: item.answer,
+      question: item.question,
+    })),
+    officialLinks: doc.officialLinks.map((item) => ({
+      label: item.label,
+      publisher: item.publisher,
+      url: item.url,
+    })),
+    processingTime: doc.processingTime?.value ?? 'Нақтылаңыз',
+    requirements: (doc.requirements ?? []).map((item) => item.item),
+    seo: {
+      description: doc.seo?.description ?? undefined,
+      noIndex: Boolean(doc.seo?.noIndex),
+      title: doc.seo?.title ?? undefined,
+    },
+    shortAnswer: doc.shortAnswer,
+    slug: doc.slug,
+    sources: doc.sourceReferences.flatMap((reference) => {
+      if (!reference.source || typeof reference.source !== 'object') return []
+      return [
+        {
+          checkedAt: reference.checkedAt,
+          publisher: reference.source.publisher,
+          title: reference.source.title,
+          url: reference.source.url,
+        },
+      ]
+    }),
+    status: doc._status === 'published' ? 'published' : 'draft',
+    steps: doc.steps.map((item) => ({
+      actionLabel: item.actionLabel ?? undefined,
+      actionUrl: item.actionUrl ?? undefined,
+      description: item.description,
+      title: item.title,
+    })),
+    title: doc.title,
+    verification: {
+      nextReviewAt: doc.verification.nextReviewAt ?? undefined,
+      reviewedAt: doc.verification.reviewedAt ?? undefined,
+      status: doc.verification.status,
+    },
+    whoIsItFor: doc.whoIsItFor,
+  }
+}
+
+export const listPublishedScenarios = async (): Promise<ScenarioViewModel[]> => {
+  if (isDemoContentMode()) return demoScenarios
+
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'scenarios',
+    depth: 2,
+    limit: 100,
+    locale: 'kk',
+    overrideAccess: false,
+    sort: 'title',
+    where: { _status: { equals: 'published' } },
+  })
+
+  return result.docs.map(mapScenario)
+}
+
+export const getScenarioBySlug = async (slug: string): Promise<ScenarioViewModel | null> => {
+  if (isDemoContentMode()) return demoScenarios.find((scenario) => scenario.slug === slug) ?? null
+
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'scenarios',
+    depth: 2,
+    limit: 1,
+    locale: 'kk',
+    overrideAccess: false,
+    where: {
+      and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }],
+    },
+  })
+
+  return result.docs[0] ? mapScenario(result.docs[0]) : null
+}

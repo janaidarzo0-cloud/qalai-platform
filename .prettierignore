@@ -1,0 +1,8 @@
+.next
+coverage
+node_modules
+
+# Framework/CMS generated files; verify them by regeneration in CI.
+next-env.d.ts
+src/payload-types.ts
+src/app/(payload)/admin/importMap.js

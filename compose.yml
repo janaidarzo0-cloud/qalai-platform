@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: qalai
+      POSTGRES_USER: qalai
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-qalai_local_only}
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U qalai -d qalai']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - qalai_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  qalai_postgres_data:
