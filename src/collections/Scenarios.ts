@@ -56,7 +56,7 @@ export const protectPublishedScenario: CollectionBeforeChangeHook = async ({
       ? originalDoc.publishedSlug
       : null
 
-  if (process.env.QALAI_RUN_CMS_INTEGRATION === 'true') {
+  if (process.env.QALAI_ALLOW_ALPHA_SEED === 'true') {
     const incomingVerification =
       data.verification && typeof data.verification === 'object'
         ? (data.verification as Record<string, unknown>)
