@@ -1,13 +1,7 @@
 import config from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, type Payload } from 'payload'
 
-const seed = async () => {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('The demo seed is disabled in production.')
-  }
-
-  const payload = await getPayload({ config })
-
+const seedContent = async (payload: Payload) => {
   const existingSource = await payload.find({
     collection: 'sources',
     limit: 1,
@@ -109,9 +103,23 @@ const seed = async () => {
   payload.logger.info('QALAI demo seed completed. No Scenario was published.')
 }
 
-seed()
-  .then(() => process.exit(0))
-  .catch((error: unknown) => {
-    console.error(error)
-    process.exit(1)
-  })
+const seed = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('The demo seed is disabled in production.')
+  }
+
+  const payload = await getPayload({ config })
+  const pool = payload.db.pool
+
+  try {
+    await seedContent(payload)
+  } finally {
+    try {
+      await payload.destroy()
+    } finally {
+      await pool.end()
+    }
+  }
+}
+
+await seed()

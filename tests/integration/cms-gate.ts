@@ -21,6 +21,7 @@ if (process.env.QALAI_CONTENT_MODE !== 'cms') {
 
 const run = async () => {
   const payload = await getPayload({ config })
+  const pool = payload.db.pool
   const runID = `${process.env.GITHUB_RUN_ID ?? 'local'}-${Date.now()}`
   const watchdog = setTimeout(() => {
     console.error('[cms-gate] Timed out after 60 seconds.')
@@ -365,8 +366,12 @@ const run = async () => {
     payload.logger.info('QALAI CMS integration gate passed.')
   } finally {
     console.info('[cms-gate] Closing Payload.')
-    await payload.destroy()
-    clearTimeout(watchdog)
+    try {
+      await payload.destroy()
+    } finally {
+      await pool.end()
+      clearTimeout(watchdog)
+    }
   }
 }
 
