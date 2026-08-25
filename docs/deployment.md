@@ -22,7 +22,7 @@ Analytics IDs are optional. The app remains functional when they are empty.
 - Supavisor session `:5432`: persistent clients on IPv4-only networks.
 - Supavisor transaction `:6543`: transient/serverless application traffic; prepared statements are not supported.
 
-Use the direct URL for `npm run db:migrate`. Use SSL and percent-encode reserved characters in database passwords.
+Before `npm run db:migrate`, set `DATABASE_URL` to the direct connection stored in `DATABASE_DIRECT_URL`. The npm script deliberately uses `DATABASE_URL` and does not switch URLs implicitly. Use SSL and percent-encode reserved characters in database passwords.
 
 ## Migration flow
 

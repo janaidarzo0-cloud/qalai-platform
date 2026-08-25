@@ -37,6 +37,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run generate:types
+      - run: npm run generate:importmap
       - name: Generated files are committed
         run: git diff --exit-code
       - run: npm run format:check

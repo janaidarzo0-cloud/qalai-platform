@@ -72,7 +72,7 @@ Generated Payload types and import maps must be committed. CI fails when regener
 Payload uses Supabase as managed PostgreSQL; `@supabase/supabase-js` is intentionally not part of the data path.
 
 - Runtime/serverless traffic can use a Supavisor pooled URL in `DATABASE_URL`.
-- Migrations should use the direct URL in `DATABASE_DIRECT_URL`.
+- Before running migrations, the deployment job must set `DATABASE_URL` to the direct connection stored in `DATABASE_DIRECT_URL`; the npm script does not switch URLs implicitly.
 - Payload access control remains the application security boundary; Supabase RLS does not automatically protect privileged direct database connections.
 
 See [deployment.md](docs/deployment.md) before configuring a hosted environment.
