@@ -41,9 +41,9 @@ The frontend may display this mark only when all conditions are true:
 - verification status is `verified`;
 - a real reviewer and review timestamp exist;
 - `nextReviewAt` is in the future;
-- at least one primary Source is both current and classified as `primary-official` or `official-provider`;
-- that reference has a non-future `checkedAt`, an active `validFrom` and an unexpired `validUntil` when those dates exist.
-- the same qualifying Source was last changed no later than `checkedAt`, and the factual review happened no earlier than `checkedAt`;
+- every reference marked primary is current and classified as `primary-official` or `official-provider`, and at least one primary reference exists;
+- every primary reference has a non-future `checkedAt`, an active `validFrom` and an unexpired `validUntil` when those dates exist;
+- every primary Source was last changed no later than its `checkedAt`, and the factual review happened no earlier than every primary reference's `checkedAt`;
 - any linked calculator rule set was last changed no later than the Scenario review;
 - the linked Category is published.
 
@@ -58,7 +58,7 @@ A Scenario can reference a calculator rule set only when that rule set is publis
 ## Research packs are not reviews
 
 An evidence-backed draft may record a fresh source check without being verified. Automated or
-agent-assisted research must not stamp `reviewedAt`, select `reviewedBy`, or publish. The five alpha
-drafts therefore remain unverified and noindex until a separate factual reviewer checks the rendered
-content and a native Kazakh-language editor approves the copy. See
+agent-assisted research must not stamp `reviewedAt`, select `reviewedBy`, or publish. The six alpha
+drafts covering five user tasks therefore remain unverified and noindex until a separate factual
+reviewer checks the rendered content and a native Kazakh-language editor approves the copy. See
 [alpha-scenarios.md](alpha-scenarios.md).

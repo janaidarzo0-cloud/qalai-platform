@@ -101,9 +101,14 @@ const assertEvidenceCanPublish = (
     throw new APIError('Жариялау үшін кемінде бір ресми дереккөз керек.', 400)
   }
 
-  if (!sourceReferences.some((reference) => isPrimaryReferenceCurrent(reference, now))) {
+  const primaryReferences = sourceReferences.filter((reference) => reference.isPrimary === true)
+
+  if (
+    primaryReferences.length === 0 ||
+    !primaryReferences.every((reference) => isPrimaryReferenceCurrent(reference, now))
+  ) {
     throw new APIError(
-      'Жариялау үшін тексерілген күні бар және мерзімі өтпеген негізгі ресми дереккөз керек.',
+      'Жариялау үшін барлық негізгі ресми дереккөздің тексерілген күні болып, мерзімі өтпеуі керек.',
       400,
     )
   }
@@ -124,14 +129,12 @@ const assertEvidenceCanPublish = (
   }
 
   if (
-    !sourceReferences.some(
-      (reference) =>
-        isPrimaryReferenceCurrent(reference, now) &&
-        isReferenceCoveredByReview(reference, verification?.reviewedAt),
+    !primaryReferences.every((reference) =>
+      isReferenceCoveredByReview(reference, verification?.reviewedAt),
     )
   ) {
     throw new APIError(
-      'Негізгі дереккөз фактологиялық тексеруден бұрын тексерілген болуы керек.',
+      'Барлық негізгі дереккөз фактологиялық тексеруден бұрын тексерілген болуы керек.',
       400,
     )
   }

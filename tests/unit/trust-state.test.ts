@@ -64,6 +64,22 @@ describe('public trust state', () => {
         NOW,
       ),
     ).toBe(false)
+    expect(
+      isScenarioTrusted(
+        {
+          ...trustedScenario,
+          sources: [
+            trustedScenario.sources[0],
+            {
+              ...trustedScenario.sources[0],
+              registryID: 'expired-source',
+              validUntil: NOW.toISOString(),
+            },
+          ],
+        },
+        NOW,
+      ),
+    ).toBe(false)
   })
 
   it('expires exactly at nextReviewAt without a database write', () => {

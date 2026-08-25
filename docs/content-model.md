@@ -66,9 +66,10 @@ The initial public language is Kazakh (`kk`). Translatable fields are marked `lo
 
 ## Closed-alpha draft import
 
-The five research-backed alpha drafts live in a code-reviewed source pack rather than the public
-demo fixture. `npm run db:seed:alpha` requires `QALAI_ALLOW_ALPHA_SEED=true`, imports only missing
-records, and always uses draft, unverified and noindex state. Claim ledgers and conflict decisions
-remain in the pack; the CMS receives their official Source references and internal evidence notes.
+Six research-backed alpha drafts covering five user tasks live in a code-reviewed source pack rather
+than the public demo fixture. `npm run db:seed:alpha` requires `QALAI_ALLOW_ALPHA_SEED=true`, imports
+only missing records, and always uses draft, unverified and noindex state. Claim ledgers and conflict
+decisions remain in the pack; the CMS receives their official Source references and internal evidence
+notes.
 
 See [alpha-scenarios.md](alpha-scenarios.md) for the review and publication procedure.

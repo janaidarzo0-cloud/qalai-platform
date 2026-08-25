@@ -2,11 +2,17 @@ import config from '@payload-config'
 import { getPayload, type Payload } from 'payload'
 
 import {
+  ALPHA_SOURCE_PACK_VERSION,
   alphaScenarioDrafts,
   alphaSources,
   type AlphaEvidenceClaim,
 } from '@/content/alpha-scenarios'
 import { createClosedAlphaImportContext } from '@/hooks/editorial'
+import {
+  alphaSourcePackMarker,
+  assertAlphaSourcePackIsCompatible,
+} from '@/lib/cms/alpha-seed-preflight'
+import { assertRetiredAlphaScenariosAreSafe } from '@/lib/cms/retired-alpha'
 
 const ALPHA_SEED_OPT_IN = 'true'
 
@@ -29,6 +35,9 @@ const formatClaims = (
     .join('\n')
 
 const seedAlpha = async (payload: Payload) => {
+  await assertRetiredAlphaScenariosAreSafe(payload)
+  await assertAlphaSourcePackIsCompatible(payload)
+
   const sourceIDs = new Map<string, number>()
 
   for (const source of alphaSources) {
@@ -108,7 +117,8 @@ const seedAlpha = async (payload: Payload) => {
     )
     const sourceReferences = referencedSourceKeys.map((sourceKey) => {
       const sourceID = sourceIDs.get(sourceKey)
-      if (sourceID == null) throw new Error(`Unknown Source key ${sourceKey}.`)
+      const sourceDefinition = alphaSources.find((source) => source.key === sourceKey)
+      if (sourceID == null || !sourceDefinition) throw new Error(`Unknown Source key ${sourceKey}.`)
 
       const claims = scenario.evidence.claims.filter((claim) =>
         claim.sourceKeys.includes(sourceKey),
@@ -128,6 +138,8 @@ const seedAlpha = async (payload: Payload) => {
         evidenceSummary: claims.map((claim) => `${claim.id}: ${claim.evidence}`).join('\n'),
         isPrimary: scenario.evidence.primarySourceKeys.includes(sourceKey),
         source: sourceID,
+        validFrom: sourceDefinition.validFrom,
+        validUntil: sourceDefinition.validUntil,
       }
     })
 
@@ -157,6 +169,8 @@ const seedAlpha = async (payload: Payload) => {
           nextReviewAt: scenario.editorial.nextReviewAt,
           notes: [
             'ЖАРИЯЛАУҒА БОЛМАЙДЫ. Альфа зерттеу пакеті.',
+            alphaSourcePackMarker,
+            `Дереккөз пакеті: ${ALPHA_SOURCE_PACK_VERSION}.`,
             ...scenario.editorial.publicationBlockers.map((item) => `Блокер: ${item}`),
             ...scenario.editorial.conflicts.map(
               (conflict) => `Қайшылық: ${conflict.issue}\nШешім: ${conflict.resolution}`,

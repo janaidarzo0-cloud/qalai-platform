@@ -78,6 +78,29 @@ describe('primary Source trust', () => {
     expect(req.payload.findByID).not.toHaveBeenCalled()
   })
 
+  it('rejects when any marked-primary Source is expired', async () => {
+    const officialSource = {
+      id: 'source-id',
+      trustTier: 'primary-official',
+      updatedAt: '2026-08-23T00:00:00.000Z',
+    }
+
+    await expect(
+      assertPrimarySourceIsOfficial(
+        [
+          currentReference(officialSource),
+          {
+            ...currentReference({ ...officialSource, id: 'expired' }),
+            validUntil: NOW.toISOString(),
+          },
+        ],
+        requestWithTier('primary-official'),
+        REVIEWED_AT,
+        NOW,
+      ),
+    ).rejects.toThrow('Барлық негізгі дереккөздің мерзімі')
+  })
+
   it('rejects a current secondary reference paired with an expired official one', async () => {
     await expect(
       assertPrimarySourceIsOfficial(

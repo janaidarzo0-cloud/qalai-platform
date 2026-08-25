@@ -6,7 +6,13 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 
 import { GET as readiness } from '@/app/api/health/route'
-import { alphaScenarioDrafts, alphaSources } from '@/content/alpha-scenarios'
+import {
+  alphaScenarioDrafts,
+  alphaSources,
+  retiredAlphaScenarioSlugs,
+} from '@/content/alpha-scenarios'
+import { alphaSourcePackMarker } from '@/lib/cms/alpha-seed-preflight'
+import { assertRetiredAlphaScenariosAreSafe } from '@/lib/cms/retired-alpha'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { getMediaStorageConfig } from '@/lib/env/media'
 import { migrations } from '@/migrations'
@@ -131,10 +137,11 @@ const run = async () => {
         new Date(definition.editorial.nextReviewAt).toISOString(),
       )
       assert.match(draft.verification.notes ?? '', /ЖАРИЯЛАУҒА БОЛМАЙДЫ/)
+      assert.ok(draft.verification.notes?.includes(alphaSourcePackMarker))
       assert.equal(draft.seo?.noIndex, true)
       assert.ok(draft.sourceReferences.length > 0)
     }
-    console.info('[cms-gate] Five idempotent, unverified and noindex alpha drafts verified.')
+    console.info('[cms-gate] Six idempotent, unverified and noindex alpha drafts verified.')
 
     const resolutionData = {
       dedupeKey: `cms-gate-dedupe-${runID}`,
@@ -504,6 +511,66 @@ const run = async () => {
     assert.equal(publishedScenario._status, 'published')
     assert.equal(publishedScenario.publishedSlug, publishedScenario.slug)
     console.info('[cms-gate] Scenario publication verified.')
+
+    const retiredScenarioDraft = await payload.create({
+      collection: 'scenarios',
+      data: {
+        ...scenarioData,
+        _status: 'draft',
+        slug: retiredAlphaScenarioSlugs[0],
+        title: `Retired alpha Scenario ${runID}`,
+      },
+      draft: true,
+      locale: 'kk',
+      overrideAccess: false,
+      user: admin,
+    })
+    await payload.update({
+      collection: 'scenarios',
+      data: {
+        verification: {
+          nextReviewAt: new Date(Date.now() + 86_400_000).toISOString(),
+          riskLevel: 'high',
+          status: 'verified',
+        },
+      },
+      draft: true,
+      id: retiredScenarioDraft.id,
+      locale: 'kk',
+      overrideAccess: false,
+      user: admin,
+    })
+    await payload.update({
+      collection: 'scenarios',
+      data: { _status: 'published' },
+      draft: false,
+      id: retiredScenarioDraft.id,
+      locale: 'kk',
+      overrideAccess: false,
+      user: admin,
+    })
+    await assert.rejects(
+      assertRetiredAlphaScenariosAreSafe(payload),
+      /retired Scenario zheke-kualikti-auystyru is published/,
+    )
+    await payload.update({
+      collection: 'scenarios',
+      data: { _status: 'draft' },
+      draft: false,
+      id: retiredScenarioDraft.id,
+      locale: 'kk',
+      overrideAccess: false,
+      user: admin,
+    })
+    await assertRetiredAlphaScenariosAreSafe(payload)
+    await payload.delete({
+      collection: 'scenarios',
+      id: retiredScenarioDraft.id,
+      overrideAccess: false,
+      user: admin,
+    })
+    await assertRetiredAlphaScenariosAreSafe(payload)
+    console.info('[cms-gate] Published retired-alpha upgrade guard verified.')
 
     const authenticatedPublished = await payload.find({
       collection: 'scenarios',

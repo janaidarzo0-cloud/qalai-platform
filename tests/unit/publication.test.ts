@@ -36,6 +36,31 @@ describe('Scenario publication guard', () => {
     expect(() => assertScenarioCanPublish(completeCandidate, NOW)).not.toThrow()
   })
 
+  it('expires at the annual boundary even when another primary Source has no end date', () => {
+    const candidate = {
+      ...completeCandidate,
+      sourceReferences: [
+        { ...completeReference, source: 'timeless-source', validUntil: undefined },
+        {
+          ...completeReference,
+          source: 'annual-source',
+          validUntil: '2026-12-31T19:00:00.000Z',
+        },
+      ],
+      verification: {
+        ...completeVerification,
+        nextReviewAt: '2027-02-01T00:00:00.000Z',
+      },
+    }
+
+    expect(() =>
+      assertScenarioCanPublish(candidate, new Date('2026-12-31T18:59:59.999Z')),
+    ).not.toThrow()
+    expect(() => assertScenarioCanPublish(candidate, new Date('2026-12-31T19:00:00.000Z'))).toThrow(
+      'барлық негізгі ресми дереккөздің',
+    )
+  })
+
   it.each([
     ['sources', { ...completeCandidate, sourceReferences: [] }],
     [

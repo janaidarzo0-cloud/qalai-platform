@@ -23,7 +23,7 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
   and an S3/Supabase Storage-ready hosted adapter.
 - Local PostgreSQL Compose file, CI checks and project documentation.
 
-The repository starts in `demo` content mode. Its public fixture is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts. A separate, opt-in source pack contains the five closed-alpha drafts and cannot publish them.
+The repository starts in `demo` content mode. Its public fixture is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts. A separate, opt-in source pack contains six closed-alpha drafts covering five user tasks and cannot publish them.
 
 ## Quick start
 
@@ -70,12 +70,13 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 | `npm run db:migrate`         | Safely apply using `DATABASE_DIRECT_URL` |
 | `npm run db:migrate:direct`  | Alias for the safe migration command     |
 | `npm run db:seed`            | Seed non-production demo records         |
-| `npm run db:seed:alpha`      | Opt-in import of five alpha drafts only  |
+| `npm run db:seed:alpha`      | Opt-in import of six alpha drafts only   |
 
 Generated Payload types and import maps must be committed. CI fails when regeneration changes the worktree.
-`npm run build:check` injects unreachable `.example.test` S3 values only to exercise the production
-code path locally; never deploy that artifact. A deployable `npm run build` requires the real hosted
-Media variables from [docs/media.md](docs/media.md).
+`npm run build:check` pins a fail-closed demo/indexing/database configuration and injects unreachable
+`.example.test` database and S3 values only to exercise the production code path locally; never
+deploy that artifact. A deployable `npm run build` requires the real hosted Media variables from
+[docs/media.md](docs/media.md).
 
 ## Content modes
 

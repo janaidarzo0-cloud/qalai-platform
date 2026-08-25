@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
-    "build:check": "cross-env QALAI_MEDIA_STORAGE=s3 QALAI_MEDIA_S3_BUCKET=qalai-build-check QALAI_MEDIA_S3_ENDPOINT=https://storage.example.test/storage/v1/s3 QALAI_MEDIA_S3_REGION=us-east-1 QALAI_MEDIA_S3_ACCESS_KEY_ID=build-check QALAI_MEDIA_S3_SECRET_ACCESS_KEY=build-check QALAI_MEDIA_PUBLIC_BASE_URL=https://cdn.example.test/qalai-build-check npm run build",
+    "build:check": "cross-env DATABASE_URL=postgresql://qalai:qalai-build-check@db.example.test:5432/qalai DATABASE_DIRECT_URL=postgresql://qalai:qalai-build-check@db.example.test:5432/qalai PAYLOAD_SECRET=qalai-build-check-secret-0000000000000000 PAYLOAD_DB_PUSH=false NEXT_PUBLIC_SITE_URL=https://qalai.example.test QALAI_CONTENT_MODE=demo QALAI_ALLOW_INDEXING=false QALAI_ALLOW_ALPHA_SEED=false QALAI_MEDIA_STORAGE=s3 QALAI_MEDIA_S3_BUCKET=qalai-build-check QALAI_MEDIA_S3_ENDPOINT=https://storage.example.test/storage/v1/s3 QALAI_MEDIA_S3_REGION=us-east-1 QALAI_MEDIA_S3_ACCESS_KEY_ID=build-check QALAI_MEDIA_S3_SECRET_ACCESS_KEY=build-check QALAI_MEDIA_PUBLIC_BASE_URL=https://cdn.example.test/qalai-build-check npm run build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

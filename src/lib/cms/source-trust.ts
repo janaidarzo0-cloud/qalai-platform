@@ -62,10 +62,18 @@ export const hasCurrentOfficialPrimarySource = (
   sourceReferences: SourceReferenceCandidate[] | null | undefined,
   reviewedAt: unknown,
   now = new Date(),
-) =>
-  (sourceReferences ?? []).some((reference) =>
-    sourceSnapshotIsCovered(reference, reference.source, reviewedAt, now),
+) => {
+  const primaryReferences = (sourceReferences ?? []).filter(
+    (reference) => reference.isPrimary === true,
   )
+
+  return (
+    primaryReferences.length > 0 &&
+    primaryReferences.every((reference) =>
+      sourceSnapshotIsCovered(reference, reference.source, reviewedAt, now),
+    )
+  )
+}
 
 export const assertPrimarySourceIsOfficial = async (
   sourceReferences: SourceReferenceCandidate[] | null | undefined,
@@ -73,15 +81,34 @@ export const assertPrimarySourceIsOfficial = async (
   reviewedAt: unknown,
   now = new Date(),
 ) => {
-  const primaryReferences = (sourceReferences ?? []).filter((reference) =>
-    isPrimaryReferenceCurrent(reference, now),
+  const primaryReferences = (sourceReferences ?? []).filter(
+    (reference) => reference.isPrimary === true,
   )
 
+  if (primaryReferences.length === 0) {
+    throw new APIError(
+      'Негізгі дереккөздің сенім деңгейі ресми болуы және ол соңғы өзгерісінен кейін, фактологиялық тексеруге дейін қайта тексерілуі керек.',
+      400,
+    )
+  }
+
   for (const reference of primaryReferences) {
-    if (sourceSnapshotIsCovered(reference, reference.source, reviewedAt, now)) return
+    if (!isPrimaryReferenceCurrent(reference, now)) {
+      throw new APIError(
+        'Барлық негізгі дереккөздің мерзімі өтпеген және тексерілген күні болуы керек.',
+        400,
+      )
+    }
+
+    if (sourceSnapshotIsCovered(reference, reference.source, reviewedAt, now)) continue
 
     const sourceID = relationshipID(reference.source)
-    if (sourceID == null) continue
+    if (sourceID == null) {
+      throw new APIError(
+        'Негізгі дереккөздің сенім деңгейі ресми болуы және ол соңғы өзгерісінен кейін, фактологиялық тексеруге дейін қайта тексерілуі керек.',
+        400,
+      )
+    }
 
     const source = await req.payload.findByID({
       collection: 'sources',
@@ -91,11 +118,11 @@ export const assertPrimarySourceIsOfficial = async (
       req,
     })
 
-    if (sourceSnapshotIsCovered(reference, source, reviewedAt, now)) return
+    if (!sourceSnapshotIsCovered(reference, source, reviewedAt, now)) {
+      throw new APIError(
+        'Негізгі дереккөздің сенім деңгейі ресми болуы және ол соңғы өзгерісінен кейін, фактологиялық тексеруге дейін қайта тексерілуі керек.',
+        400,
+      )
+    }
   }
-
-  throw new APIError(
-    'Негізгі дереккөздің сенім деңгейі ресми болуы және ол соңғы өзгерісінен кейін, фактологиялық тексеруге дейін қайта тексерілуі керек.',
-    400,
-  )
 }
