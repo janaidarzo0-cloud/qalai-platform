@@ -12,6 +12,13 @@ import { absoluteURL } from '@/lib/site'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat('kk-KZ', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(value))
+
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   const { slug } = await params
   const scenario = await getScenarioBySlug(slug)
@@ -103,15 +110,51 @@ const ScenarioPage = async ({ params }: PageProps) => {
           <div>
             <span>Қанша тұрады?</span>
             <strong>{scenario.cost}</strong>
+            {scenario.costAsOf ? (
+              <small>{formatDate(scenario.costAsOf)} жағдай бойынша</small>
+            ) : null}
           </div>
           <div>
             <span>Қанша уақыт?</span>
             <strong>{scenario.processingTime}</strong>
+            {scenario.processingTimeExplanation ? (
+              <small>{scenario.processingTimeExplanation}</small>
+            ) : null}
           </div>
         </div>
 
         <div className="scenario-layout">
           <div className="scenario-main">
+            {scenario.eligibility.length > 0 ? (
+              <section className="content-section">
+                <p className="eyebrow">Шарттарды тексеріңіз</p>
+                <h2>Маған тиесілі ме?</h2>
+                <ul className="eligibility-list">
+                  {scenario.eligibility.map((item, index) => (
+                    <li key={`${item.condition}-${index}`}>
+                      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                      <div>
+                        <strong>{item.condition}</strong>
+                        {item.explanation ? <p>{item.explanation}</p> : null}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
+            {scenario.requirements.length > 0 ? (
+              <section className="content-section">
+                <p className="eyebrow">Алдын ала тексеріңіз</p>
+                <h2>Не қажет?</h2>
+                <ul className="requirements-list">
+                  {scenario.requirements.map((requirement, index) => (
+                    <li key={`${requirement}-${index}`}>{requirement}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
             <section className="content-section">
               <p className="eyebrow">Әрекет жоспары</p>
               <h2>Не істеу керек?</h2>
@@ -140,6 +183,7 @@ const ScenarioPage = async ({ params }: PageProps) => {
                     <span aria-hidden="true">✓</span>
                     <div>
                       <strong>{document.name}</strong>
+                      {document.optional ? <small>Жағдайға байланысты</small> : null}
                       {document.note ? <p>{document.note}</p> : null}
                     </div>
                   </li>
@@ -194,6 +238,9 @@ const ScenarioPage = async ({ params }: PageProps) => {
                         {source.title}
                       </a>
                       <span>{source.publisher}</span>
+                      {source.checkedAt ? (
+                        <small>Тексерілген күні: {formatDate(source.checkedAt)}</small>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

@@ -1,6 +1,7 @@
 import { APIError, type CollectionBeforeOperationHook, type RequestContext } from 'payload'
 
 const DRAFT_SAVE_CONTEXT_KEY = 'qalaiDraftSave'
+export const CLOSED_ALPHA_IMPORT_CONTEXT_KEY = 'qalaiClosedAlphaImport'
 
 export const captureEditorialOperation: CollectionBeforeOperationHook = ({
   args,
@@ -25,6 +26,31 @@ export const captureEditorialOperation: CollectionBeforeOperationHook = ({
 
 export const isEditorialDraftSave = (context: RequestContext) =>
   context?.[DRAFT_SAVE_CONTEXT_KEY] === true
+
+export const isClosedAlphaDraftImport = ({
+  context,
+  data,
+  operation,
+}: {
+  context: RequestContext
+  data: Record<string, unknown>
+  operation: 'create' | 'update'
+}) => {
+  const verification = data.verification
+
+  return Boolean(
+    operation === 'create' &&
+    isEditorialDraftSave(context) &&
+    context?.[CLOSED_ALPHA_IMPORT_CONTEXT_KEY] === true &&
+    data._status === 'draft' &&
+    verification &&
+    typeof verification === 'object' &&
+    (verification as Record<string, unknown>).status === 'unverified' &&
+    (verification as Record<string, unknown>).riskLevel === 'high' &&
+    !Object.prototype.hasOwnProperty.call(verification, 'reviewedAt') &&
+    !Object.prototype.hasOwnProperty.call(verification, 'reviewedBy'),
+  )
+}
 
 export const assertEditorialStatusTransition = ({
   canReview,

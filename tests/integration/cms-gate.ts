@@ -4,6 +4,7 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 
 import { GET as readiness } from '@/app/api/health/route'
+import { alphaScenarioDrafts, alphaSources } from '@/content/alpha-scenarios'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { migrations } from '@/migrations'
 
@@ -86,6 +87,51 @@ const run = async () => {
     assert.equal(demoScenarios.docs[0]?._status, 'draft')
     assert.equal(publishedDemoScenarios.totalDocs, 0)
     console.info('[cms-gate] Migrations and idempotent seed verified.')
+
+    const alphaSlugs = alphaScenarioDrafts.map((scenario) => scenario.slug)
+    const alphaURLs = alphaSources.map((source) => source.url)
+    const [alphaDrafts, publishedAlphaScenarios, registeredAlphaSources] = await Promise.all([
+      payload.find({
+        collection: 'scenarios',
+        draft: true,
+        limit: alphaSlugs.length,
+        overrideAccess: true,
+        where: { slug: { in: alphaSlugs } },
+      }),
+      payload.find({
+        collection: 'scenarios',
+        draft: false,
+        limit: alphaSlugs.length,
+        overrideAccess: true,
+        where: {
+          and: [{ slug: { in: alphaSlugs } }, { _status: { equals: 'published' } }],
+        },
+      }),
+      payload.find({
+        collection: 'sources',
+        limit: alphaURLs.length,
+        overrideAccess: true,
+        where: { url: { in: alphaURLs } },
+      }),
+    ])
+    assert.equal(alphaDrafts.totalDocs, alphaScenarioDrafts.length)
+    assert.equal(registeredAlphaSources.totalDocs, alphaSources.length)
+    assert.equal(publishedAlphaScenarios.totalDocs, 0)
+    for (const draft of alphaDrafts.docs) {
+      const definition = alphaScenarioDrafts.find((scenario) => scenario.slug === draft.slug)
+      assert.ok(definition)
+      assert.equal(draft._status, 'draft')
+      assert.equal(draft.verification.status, 'unverified')
+      assert.equal(draft.verification.riskLevel, 'high')
+      assert.equal(
+        new Date(draft.verification.nextReviewAt as string).toISOString(),
+        new Date(definition.editorial.nextReviewAt).toISOString(),
+      )
+      assert.match(draft.verification.notes ?? '', /ЖАРИЯЛАУҒА БОЛМАЙДЫ/)
+      assert.equal(draft.seo?.noIndex, true)
+      assert.ok(draft.sourceReferences.length > 0)
+    }
+    console.info('[cms-gate] Five idempotent, unverified and noindex alpha drafts verified.')
 
     const resolutionData = {
       dedupeKey: `cms-gate-dedupe-${runID}`,

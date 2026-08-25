@@ -2,10 +2,13 @@ export type ScenarioViewModel = {
   calculatorRuleSetCurrent: boolean
   category: string
   cost: string
-  documents: Array<{ name: string; note?: string }>
+  costAsOf?: string
+  documents: Array<{ name: string; note?: string; optional: boolean }>
+  eligibility: Array<{ condition: string; explanation?: string }>
   faq: Array<{ answer: string; question: string }>
   officialLinks: Array<{ label: string; publisher: string; url: string }>
   processingTime: string
+  processingTimeExplanation?: string
   requirements: string[]
   seo: {
     description?: string

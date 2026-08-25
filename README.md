@@ -21,7 +21,7 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - Consent-gated first-party analytics, atomic PostgreSQL Resolved Tasks deduplication and an optional server-side GA4 staging adapter.
 - Local PostgreSQL Compose file, CI checks and project documentation.
 
-The repository starts in `demo` content mode. Its only Scenario is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts.
+The repository starts in `demo` content mode. Its public fixture is clearly marked unverified and `noindex`; it exists to demonstrate the UX without inventing official facts. A separate, opt-in source pack contains the five closed-alpha drafts and cannot publish them.
 
 ## Quick start
 
@@ -67,6 +67,7 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 | `npm run db:migrate`         | Safely apply using `DATABASE_DIRECT_URL` |
 | `npm run db:migrate:direct`  | Alias for the safe migration command     |
 | `npm run db:seed`            | Seed non-production demo records         |
+| `npm run db:seed:alpha`      | Opt-in import of five alpha drafts only  |
 
 Generated Payload types and import maps must be committed. CI fails when regeneration changes the worktree.
 
@@ -104,6 +105,7 @@ Details are tracked in [SECURITY.md](SECURITY.md).
 - [Product roadmap](docs/roadmap.md)
 - [Architecture](docs/architecture.md)
 - [Content model](docs/content-model.md)
+- [Closed-alpha Scenario pack](docs/alpha-scenarios.md)
 - [Trust and verification](docs/trust-and-verification.md)
 - [Calculators](docs/calculators.md)
 - [Analytics](docs/analytics.md)

@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
+import {
+  CLOSED_ALPHA_IMPORT_CONTEXT_KEY,
+  captureEditorialOperation,
+  isClosedAlphaDraftImport,
+} from '@/hooks/editorial'
 import { prepareEditorialVerification } from '@/lib/cms/editorial-workflow'
 
 const NOW = new Date('2026-08-25T08:00:00.000Z')
@@ -17,6 +22,39 @@ const verifiedDocument = {
     status: 'verified',
   },
 }
+
+describe('closed-alpha import boundary', () => {
+  const draftContext = () => {
+    const context = { [CLOSED_ALPHA_IMPORT_CONTEXT_KEY]: true }
+    captureEditorialOperation({
+      args: { data: { _status: 'draft' }, draft: true },
+      context,
+      operation: 'create',
+    } as unknown as Parameters<typeof captureEditorialOperation>[0])
+    return context
+  }
+
+  it('allows only an explicit high-risk unverified create to preserve internal metadata', () => {
+    const data = {
+      _status: 'draft',
+      verification: { notes: 'Internal evidence', riskLevel: 'high', status: 'unverified' },
+    }
+
+    expect(isClosedAlphaDraftImport({ context: draftContext(), data, operation: 'create' })).toBe(
+      true,
+    )
+    expect(
+      isClosedAlphaDraftImport({
+        context: draftContext(),
+        data: { ...data, verification: { ...data.verification, status: 'verified' } },
+        operation: 'create',
+      }),
+    ).toBe(false)
+    expect(isClosedAlphaDraftImport({ context: draftContext(), data, operation: 'update' })).toBe(
+      false,
+    )
+  })
+})
 
 describe('editorial verification transitions', () => {
   it('forces editor-created content to an unverified high-risk state', () => {

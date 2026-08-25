@@ -18,15 +18,15 @@ verified source
 
 ## Status overview
 
-| Area               | Status          | Current position                                                                  |
-| ------------------ | --------------- | --------------------------------------------------------------------------------- |
-| Technical scaffold | **Done**        | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place        |
-| Trusted content    | **At risk**     | No verified public Scenario exists yet                                            |
-| CMS integration    | **At risk**     | No committed baseline migration or database CRUD test                             |
-| Calculators        | **On track**    | Auto-loan works; four regulated modules remain correctly locked                   |
-| Measurement        | **At risk**     | Event types exist, but no provider, session-task deduplication or complete funnel |
-| Staging            | **Blocked**     | Requires hosted PostgreSQL/storage and deployment credentials                     |
-| Public launch      | **Not started** | Deliberately follows closed-alpha evidence                                        |
+| Area               | Status           | Current position                                                               |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------ |
+| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place     |
+| Trusted content    | **In progress**  | Five sourced drafts exist; native Kazakh, reviewer and hosted mobile QA remain |
+| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass  |
+| Calculators        | **On track**     | Auto-loan works; four regulated modules remain correctly locked                |
+| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI |
+| Staging            | **Blocked**      | Requires hosted PostgreSQL/storage and deployment credentials                  |
+| Public launch      | **Not started**  | Deliberately follows closed-alpha evidence                                     |
 
 ## Now: closed alpha
 

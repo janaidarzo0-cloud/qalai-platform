@@ -737,7 +737,16 @@ a {
 }
 
 .facts-grid strong {
+  display: block;
   line-height: 1.45;
+}
+
+.facts-grid small {
+  color: var(--muted);
+  display: block;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  margin-top: 7px;
 }
 
 .scenario-layout {
@@ -765,10 +774,59 @@ a {
 
 .steps-list,
 .check-list,
+.eligibility-list,
+.requirements-list,
 .aside-card ul {
   list-style: none;
   margin: 32px 0 0;
   padding: 0;
+}
+
+.eligibility-list {
+  display: grid;
+  gap: 12px;
+}
+
+.eligibility-list li {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 32px 1fr;
+  padding: 18px;
+}
+
+.eligibility-list li > span {
+  color: var(--green);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+}
+
+.eligibility-list p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 7px 0 0;
+}
+
+.requirements-list {
+  display: grid;
+  gap: 0;
+}
+
+.requirements-list li {
+  border-top: 1px solid var(--line);
+  line-height: 1.55;
+  padding: 17px 0 17px 34px;
+  position: relative;
+}
+
+.requirements-list li::before {
+  color: var(--green);
+  content: '\2192';
+  font-weight: 900;
+  left: 0;
+  position: absolute;
 }
 
 .steps-list li {
@@ -845,6 +903,15 @@ a {
   margin: 5px 0 0;
 }
 
+.check-list small {
+  color: var(--green);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
 .faq-list {
   margin-top: 30px;
 }
@@ -906,6 +973,13 @@ a {
   display: block;
   font-size: 0.78rem;
   margin-top: 5px;
+}
+
+.aside-card li small {
+  color: var(--muted);
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 4px;
 }
 
 .feedback {

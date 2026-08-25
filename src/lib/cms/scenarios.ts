@@ -22,9 +22,15 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
     calculatorRuleSetCurrent,
     category,
     cost: doc.cost.explanation ?? (doc.cost.kind === 'free' ? 'Тегін' : 'Нақтылаңыз'),
+    costAsOf: doc.cost.asOf ?? undefined,
     documents: (doc.documents ?? []).map((item) => ({
       name: item.name,
       note: item.note ?? undefined,
+      optional: Boolean(item.optional),
+    })),
+    eligibility: (doc.eligibility ?? []).map((item) => ({
+      condition: item.condition,
+      explanation: item.explanation ?? undefined,
     })),
     faq: (doc.faq ?? []).map((item) => ({
       answer: item.answer,
@@ -36,6 +42,7 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
       url: item.url,
     })),
     processingTime: doc.processingTime?.value ?? 'Нақтылаңыз',
+    processingTimeExplanation: doc.processingTime?.explanation ?? undefined,
     requirements: (doc.requirements ?? []).map((item) => item.item),
     seo: {
       description: doc.seo?.description ?? undefined,

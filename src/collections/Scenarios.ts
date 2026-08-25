@@ -7,7 +7,11 @@ import { seoFields } from '@/fields/seo'
 import { slugField } from '@/fields/slug'
 import { sourceReferencesField, verificationField } from '@/fields/sourceReferences'
 import { validateHTTPSURL } from '@/fields/url'
-import { assertEditorialStatusTransition, captureEditorialOperation } from '@/hooks/editorial'
+import {
+  assertEditorialStatusTransition,
+  captureEditorialOperation,
+  isClosedAlphaDraftImport,
+} from '@/hooks/editorial'
 import { acquireTransactionLock, TRUST_GRAPH_LOCK_KEY } from '@/lib/cms/advisory-lock'
 import { assertLinkedCategoryIsPublished } from '@/lib/cms/category-trust'
 import { hasMaterialChange, prepareEditorialVerification } from '@/lib/cms/editorial-workflow'
@@ -44,6 +48,7 @@ export const protectPublishedScenario: CollectionBeforeChangeHook = async ({
 }) => {
   const nextStatus = data._status ?? originalDoc?._status
   const canReview = hasAnyRole(req.user, ['admin', 'reviewer'])
+  const canImportClosedAlphaMetadata = isClosedAlphaDraftImport({ context, data, operation })
   const now = new Date()
   const nextSlug = data.slug ?? originalDoc?.slug
   let publishedSlug =
@@ -93,7 +98,7 @@ export const protectPublishedScenario: CollectionBeforeChangeHook = async ({
   }
 
   const nextData = prepareEditorialVerification({
-    canReview,
+    canReview: canReview || canImportClosedAlphaMetadata,
     data,
     materialFields: MATERIAL_FIELDS,
     now,

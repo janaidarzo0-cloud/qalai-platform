@@ -21,6 +21,7 @@
     "db:migrate": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/migrate-direct.ts",
     "db:migrate:direct": "npm run db:migrate",
     "db:seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/seed.ts",
+    "db:seed:alpha": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/seed-alpha.ts",
     "test:integration:cms": "cross-env NODE_OPTIONS=--no-deprecation tsx tests/integration/cms-gate.ts",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
   },

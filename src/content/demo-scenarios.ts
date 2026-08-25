@@ -8,9 +8,16 @@ export const demoScenarios: ScenarioViewModel[] = [
     calculatorRuleSetCurrent: true,
     category: 'Мемлекет',
     cost: 'Ресми дереккөз тексерілгеннен кейін көрсетіледі.',
+    costAsOf: undefined,
     documents: [
-      { name: 'Қажетті құжаттардың расталған тізімі осы блокта болады.' },
-      { name: 'Әр құжатқа жағдайға байланысты түсіндірме қосылады.' },
+      { name: 'Қажетті құжаттардың расталған тізімі осы блокта болады.', optional: false },
+      { name: 'Әр құжатқа жағдайға байланысты түсіндірме қосылады.', optional: true },
+    ],
+    eligibility: [
+      {
+        condition: 'Бұл бөлім қызметтің сізге сәйкес келетінін түсіндіреді.',
+        explanation: 'Нақты шарттар ресми дереккөздер тексерілгеннен кейін толтырылады.',
+      },
     ],
     faq: [
       {
@@ -20,6 +27,7 @@ export const demoScenarios: ScenarioViewModel[] = [
     ],
     officialLinks: [],
     processingTime: 'Ресми мерзім тексерілгеннен кейін көрсетіледі.',
+    processingTimeExplanation: undefined,
     requirements: ['Сценарийге қатысты талаптар ресми дереккөзден толтырылады.'],
     seo: {
       description: 'QALAI сценарий бетінің тек дизайн және құрылым үлгісі.',

@@ -56,3 +56,12 @@ Anonymous generic CMS reads for Scenarios and rule sets are disabled. Public pag
 ## Localization
 
 The initial public language is Kazakh (`kk`). Translatable fields are marked `localized`, while slugs and machine keys are stable and unlocalized. Russian content is intentionally not part of this MVP.
+
+## Closed-alpha draft import
+
+The five research-backed alpha drafts live in a code-reviewed source pack rather than the public
+demo fixture. `npm run db:seed:alpha` requires `QALAI_ALLOW_ALPHA_SEED=true`, imports only missing
+records, and always uses draft, unverified and noindex state. Claim ledgers and conflict decisions
+remain in the pack; the CMS receives their official Source references and internal evidence notes.
+
+See [alpha-scenarios.md](alpha-scenarios.md) for the review and publication procedure.

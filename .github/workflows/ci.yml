@@ -56,6 +56,13 @@ jobs:
           npm run db:seed
           npm run db:seed
         timeout-minutes: 2
+      - name: Import closed-alpha drafts twice to prove safe idempotency
+        run: |
+          npm run db:seed:alpha
+          npm run db:seed:alpha
+        timeout-minutes: 3
+        env:
+          QALAI_ALLOW_ALPHA_SEED: 'true'
       - name: CMS and draft-isolation integration gate
         run: npm run test:integration:cms
         timeout-minutes: 2

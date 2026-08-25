@@ -54,3 +54,11 @@ These conditions are enforced at publication and evaluated again on every public
 Salary, maternity, childcare and vehicle-tax modules remain unavailable until their formula, dates, caps, rounding and control examples are supported by official sources. A polished form is not evidence of correctness.
 
 A Scenario can reference a calculator rule set only when that rule set is published, verified, currently effective and backed by a current official primary Source. A rule set used by a published Scenario cannot be changed in the live snapshot, unpublished or deleted; draft revisions remain possible and require a new coordinated review before replacing it.
+
+## Research packs are not reviews
+
+An evidence-backed draft may record a fresh source check without being verified. Automated or
+agent-assisted research must not stamp `reviewedAt`, select `reviewedBy`, or publish. The five alpha
+drafts therefore remain unverified and noindex until a separate factual reviewer checks the rendered
+content and a native Kazakh-language editor approves the copy. See
+[alpha-scenarios.md](alpha-scenarios.md).
