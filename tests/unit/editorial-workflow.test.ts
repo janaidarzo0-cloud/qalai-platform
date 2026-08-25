@@ -54,6 +54,35 @@ describe('closed-alpha import boundary', () => {
       false,
     )
   })
+
+  it('preserves alpha notes and review date when Payload supplies an original draft on create', () => {
+    const result = prepareEditorialVerification({
+      canReview: true,
+      data: {
+        _status: 'draft',
+        verification: {
+          nextReviewAt: '2026-09-25T00:00:00.000Z',
+          notes: 'ЖАРИЯЛАУҒА БОЛМАЙДЫ',
+          riskLevel: 'high',
+          status: 'unverified',
+        },
+      },
+      materialFields: MATERIAL_FIELDS,
+      now: NOW,
+      operation: 'create',
+      originalDoc: { _status: 'draft', id: 123 },
+      reviewerID: null,
+      trustedUnverifiedImport: true,
+      willBePublished: false,
+    })
+
+    expect(result.verification).toEqual({
+      nextReviewAt: '2026-09-25T00:00:00.000Z',
+      notes: 'ЖАРИЯЛАУҒА БОЛМАЙДЫ',
+      riskLevel: 'high',
+      status: 'unverified',
+    })
+  })
 })
 
 describe('editorial verification transitions', () => {

@@ -36,6 +36,7 @@ export const prepareEditorialVerification = ({
   operation,
   originalDoc,
   reviewerID,
+  trustedUnverifiedImport = false,
   willBePublished,
 }: {
   canReview: boolean
@@ -45,12 +46,16 @@ export const prepareEditorialVerification = ({
   operation: 'create' | 'update'
   originalDoc?: DocumentData | null
   reviewerID: number | string | null
+  trustedUnverifiedImport?: boolean
   willBePublished: boolean
 }): DocumentData => {
   const originalVerification = (originalDoc?.verification ?? {}) as VerificationData
   const incomingVerification = (data.verification ?? {}) as VerificationData
   const isDuplicate =
-    operation === 'create' && originalDoc != null && Object.keys(originalDoc).length > 0
+    !trustedUnverifiedImport &&
+    operation === 'create' &&
+    originalDoc != null &&
+    Object.keys(originalDoc).length > 0
   const materialChanged =
     operation === 'update' && hasMaterialChange(data, originalDoc, materialFields)
 

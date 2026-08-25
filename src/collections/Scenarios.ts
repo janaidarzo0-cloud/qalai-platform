@@ -105,6 +105,7 @@ export const protectPublishedScenario: CollectionBeforeChangeHook = async ({
     operation,
     originalDoc,
     reviewerID: getUserID(req.user),
+    trustedUnverifiedImport: canImportClosedAlphaMetadata,
     willBePublished: nextStatus === 'published',
   })
 
