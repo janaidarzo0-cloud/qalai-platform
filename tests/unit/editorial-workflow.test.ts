@@ -24,6 +24,12 @@ const verifiedDocument = {
 }
 
 describe('closed-alpha import boundary', () => {
+  it('uses a process-global non-serializable token across module loaders', () => {
+    expect(createClosedAlphaImportContext().qalaiClosedAlphaImport).toBe(
+      Symbol.for('qalai.closed-alpha-import.v1'),
+    )
+  })
+
   const draftContext = () => {
     const context = createClosedAlphaImportContext()
     captureEditorialOperation({

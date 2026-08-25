@@ -2,7 +2,7 @@ import { APIError, type CollectionBeforeOperationHook, type RequestContext } fro
 
 const DRAFT_SAVE_CONTEXT_KEY = 'qalaiDraftSave'
 const CLOSED_ALPHA_IMPORT_CONTEXT_KEY = 'qalaiClosedAlphaImport'
-const CLOSED_ALPHA_IMPORT_TOKEN = Symbol('qalaiClosedAlphaImport')
+const CLOSED_ALPHA_IMPORT_TOKEN = Symbol.for('qalai.closed-alpha-import.v1')
 
 export const createClosedAlphaImportContext = (): RequestContext => ({
   [CLOSED_ALPHA_IMPORT_CONTEXT_KEY]: CLOSED_ALPHA_IMPORT_TOKEN,
