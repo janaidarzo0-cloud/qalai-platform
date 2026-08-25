@@ -56,6 +56,31 @@ export const protectPublishedScenario: CollectionBeforeChangeHook = async ({
       ? originalDoc.publishedSlug
       : null
 
+  if (process.env.QALAI_RUN_CMS_INTEGRATION === 'true') {
+    const incomingVerification =
+      data.verification && typeof data.verification === 'object'
+        ? (data.verification as Record<string, unknown>)
+        : {}
+    const originalVerification =
+      originalDoc?.verification && typeof originalDoc.verification === 'object'
+        ? (originalDoc.verification as Record<string, unknown>)
+        : {}
+    req.payload.logger.info(
+      {
+        canImportClosedAlphaMetadata,
+        contextImportType: typeof context.qalaiClosedAlphaImport,
+        draftSave: context.qalaiDraftSave === true,
+        incomingRisk: incomingVerification.riskLevel,
+        incomingStatus: incomingVerification.status,
+        nextStatus,
+        operation,
+        originalStatus: originalVerification.status,
+        slug: data.slug ?? originalDoc?.slug,
+      },
+      '[alpha-import-debug]',
+    )
+  }
+
   assertEditorialStatusTransition({
     canReview,
     context,
