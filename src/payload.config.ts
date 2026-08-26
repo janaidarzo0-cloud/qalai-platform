@@ -13,7 +13,7 @@ import { Sources } from '@/collections/Sources'
 import { Users } from '@/collections/Users'
 import { SiteSettings } from '@/globals/SiteSettings'
 import { createMediaStoragePluginOptions } from '@/lib/cms/media-storage'
-import { isPayloadDBPushEnabled } from '@/lib/env/database'
+import { getDatabaseConnectionOptions, isPayloadDBPushEnabled } from '@/lib/env/database'
 import { getMediaStorageConfig, MAX_MEDIA_FILE_BYTES } from '@/lib/env/media'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -35,6 +35,8 @@ if (!databaseURL) {
 if (!payloadSecret || payloadSecret.length < 32) {
   throw new Error('PAYLOAD_SECRET must contain at least 32 characters.')
 }
+
+const databaseConnection = getDatabaseConnectionOptions(databaseURL)
 
 if (databasePushEnabled && process.env.NODE_ENV === 'production') {
   throw new Error('PAYLOAD_DB_PUSH must remain false in production. Apply committed migrations.')
@@ -63,7 +65,7 @@ export default buildConfig({
     migrationDir: path.resolve(dirname, 'migrations'),
     pool: {
       connectionTimeoutMillis: 3_000,
-      connectionString: databaseURL,
+      ...databaseConnection,
       max: Number(process.env.DATABASE_POOL_MAX ?? 10),
     },
     push: databasePushEnabled,

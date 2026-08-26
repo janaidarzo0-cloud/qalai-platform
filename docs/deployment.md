@@ -10,6 +10,7 @@ Required variables:
 ```dotenv
 DATABASE_URL=
 DATABASE_DIRECT_URL=
+DATABASE_CA_CERT_BASE64=
 PAYLOAD_SECRET=
 NEXT_PUBLIC_SITE_URL=
 QALAI_CONTENT_MODE=cms
@@ -77,6 +78,11 @@ an isolated Payload migration process as `DATABASE_URL`, and forces `PAYLOAD_DB_
 compatibility alias `npm run db:migrate:direct` performs the same safe operation. There is no
 standard npm command that migrates through the runtime pool URL. Use SSL and percent-encode reserved
 characters in database passwords.
+
+For Supabase, download the project's CA certificate, base64-encode the complete PEM file and store it
+as the server-only `DATABASE_CA_CERT_BASE64` variable. QALAI removes connection-string `sslmode`
+parameters and verifies the server certificate against this CA. Hosted Supabase connections fail
+closed when the CA is missing or malformed.
 
 ## Migration flow
 
