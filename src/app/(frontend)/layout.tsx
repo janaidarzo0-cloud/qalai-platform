@@ -62,6 +62,7 @@ const FrontendLayout = ({ children }: { children: ReactNode }) => {
             <div>
               <nav aria-label="QALAI туралы ақпарат">
                 <Link href="/about">Біз туралы</Link>
+                <Link href="/contact">Байланыс</Link>
                 <Link href="/editorial-policy">Редакциялық қағида</Link>
                 <Link href="/privacy">Құпиялық</Link>
               </nav>

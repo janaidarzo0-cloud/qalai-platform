@@ -1,3 +1,4 @@
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import type { CalculatorDefinition } from '@/modules/calculators/types'
 
 export type HomeQuickAction = {
@@ -10,7 +11,13 @@ export const getVisibleHomeCalculators = <T extends CalculatorDefinition>(
   calculators: readonly T[],
   publicLaunch: boolean,
 ): readonly T[] =>
-  publicLaunch ? calculators.filter((calculator) => calculator.status === 'available') : calculators
+  publicLaunch
+    ? calculators.filter(
+        (calculator) =>
+          calculator.status === 'available' &&
+          isPublicLaunchTask({ key: calculator.key, type: 'calculator' }),
+      )
+    : calculators
 
 export const getVisibleHomeQuickActions = <T extends HomeQuickAction>(
   actions: readonly T[],

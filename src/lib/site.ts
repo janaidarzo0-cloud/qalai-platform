@@ -5,6 +5,15 @@ export const siteConfig = {
   name: 'QALAI',
 } as const
 
+const publicEmailPattern =
+  /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i
+
+export const getPublicContactEmail = (): string | null => {
+  const email = process.env.QALAI_PUBLIC_CONTACT_EMAIL?.trim()
+  if (!email || email.length > 254 || !publicEmailPattern.test(email)) return null
+  return email.toLocaleLowerCase('en-US')
+}
+
 export const getSiteURL = () => {
   const configuredURL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
   return configuredURL.endsWith('/') ? configuredURL.slice(0, -1) : configuredURL
@@ -18,6 +27,7 @@ export type IndexingBlocker =
   | 'explicit-opt-in-required'
   | 'indexable-host-required'
   | 'preview-environment'
+  | 'public-contact-required'
 
 export const getIndexingBlockers = (): IndexingBlocker[] => {
   const blockers: IndexingBlocker[] = []
@@ -27,6 +37,7 @@ export const getIndexingBlockers = (): IndexingBlocker[] => {
     blockers.push('explicit-approval-required')
   }
   if (process.env.QALAI_CONTENT_MODE !== 'cms') blockers.push('cms-content-required')
+  if (!getPublicContactEmail()) blockers.push('public-contact-required')
 
   const indexableHost = process.env.QALAI_INDEXABLE_HOST?.trim().toLocaleLowerCase('en-US')
   if (!indexableHost || !/^[a-z0-9.-]+$/.test(indexableHost)) {

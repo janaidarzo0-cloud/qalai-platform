@@ -1,4 +1,5 @@
 import type { TaskRef } from '@/lib/analytics/events'
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import { getCalculatorByKey } from '@/modules/calculators/registry'
 import type { CalculatorKey } from '@/modules/calculators/types'
 
@@ -22,5 +23,10 @@ export const getRelatedCalculatorKeys = (source: TaskRef): readonly CalculatorKe
 export const getRelatedCalculators = (source: TaskRef, publicOnly = false) =>
   getRelatedCalculatorKeys(source).flatMap((key) => {
     const calculator = getCalculatorByKey(key)
-    return calculator && (!publicOnly || calculator.status === 'available') ? [calculator] : []
+    return calculator &&
+      (!publicOnly ||
+        (calculator.status === 'available' &&
+          isPublicLaunchTask({ key: calculator.key, type: 'calculator' })))
+      ? [calculator]
+      : []
   })

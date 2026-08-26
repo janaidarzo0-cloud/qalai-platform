@@ -9,6 +9,7 @@ import { RelatedCalculatorLinks } from '@/components/RelatedCalculatorLinks'
 import { SalaryCalculator } from '@/components/SalaryCalculator'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { VehicleTaxCalculator } from '@/components/VehicleTaxCalculator'
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import { absoluteURL, isIndexingAllowed } from '@/lib/site'
 import { calculatorDefinitions, getCalculatorBySlug } from '@/modules/calculators/registry'
 
@@ -21,7 +22,9 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   const calculator = getCalculatorBySlug(slug)
   if (!calculator) return {}
 
-  const isAvailable = calculator.status === 'available'
+  const isAvailable =
+    calculator.status === 'available' &&
+    isPublicLaunchTask({ key: calculator.key, type: 'calculator' })
 
   return {
     alternates: { canonical: `/calculator/${calculator.slug}` },

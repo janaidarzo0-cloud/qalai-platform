@@ -9,6 +9,7 @@ import { RelatedCalculatorLinks } from '@/components/RelatedCalculatorLinks'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { getScenarioBySlug } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import { absoluteURL, isIndexingAllowed } from '@/lib/site'
 
 type PageProps = { params: Promise<{ slug: string }> }
@@ -24,7 +25,11 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const scenario = await getScenarioBySlug(slug)
   if (!scenario) return {}
-  const mayIndex = isIndexingAllowed() && scenario.status === 'published' && !scenario.seo.noIndex
+  const mayIndex =
+    isIndexingAllowed() &&
+    scenario.status === 'published' &&
+    !scenario.seo.noIndex &&
+    isPublicLaunchTask({ key: scenario.slug, type: 'scenario' })
 
   return {
     alternates: { canonical: `/scenario/${scenario.slug}` },

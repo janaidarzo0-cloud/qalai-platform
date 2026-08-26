@@ -41,6 +41,7 @@ const AboutPage = () => (
         </p>
 
         <div className="info-page__links">
+          <Link href="/contact">Бізбен байланысу →</Link>
           <Link href="/editorial-policy">Материалды қалай тексереміз →</Link>
           <Link href="/privacy">Құпиялық саясаты →</Link>
         </div>

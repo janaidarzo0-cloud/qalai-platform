@@ -122,6 +122,8 @@ Details are tracked in [SECURITY.md](SECURITY.md).
 - [Analytics](docs/analytics.md)
 - [Editorial media](docs/media.md)
 - [Deployment](docs/deployment.md)
+- [Public launch cohort](docs/public-launch.md)
+- [Domain decision](docs/domain-decision-2026-08-26.md)
 
 ## Explicitly out of scope for this phase
 

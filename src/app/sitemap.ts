@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import { getSiteURL, isIndexingAllowed } from '@/lib/site'
 import { calculatorDefinitions } from '@/modules/calculators/registry'
 
@@ -14,20 +15,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { changeFrequency: 'weekly', priority: 1, url: baseURL },
-    ...['about', 'editorial-policy', 'privacy'].map((path) => ({
+    ...['about', 'contact', 'editorial-policy', 'privacy'].map((path) => ({
       changeFrequency: 'monthly' as const,
       priority: 0.5,
       url: `${baseURL}/${path}`,
     })),
     ...scenarios
-      .filter((scenario) => scenario.status === 'published' && !scenario.seo.noIndex)
+      .filter(
+        (scenario) =>
+          scenario.status === 'published' &&
+          !scenario.seo.noIndex &&
+          isPublicLaunchTask({ key: scenario.slug, type: 'scenario' }),
+      )
       .map((scenario) => ({
         changeFrequency: 'weekly' as const,
         priority: 0.8,
         url: `${baseURL}/scenario/${scenario.slug}`,
       })),
     ...calculatorDefinitions
-      .filter((calculator) => calculator.status === 'available')
+      .filter(
+        (calculator) =>
+          calculator.status === 'available' &&
+          isPublicLaunchTask({ key: calculator.key, type: 'calculator' }),
+      )
       .map((calculator) => ({
         changeFrequency: 'monthly' as const,
         priority: 0.9,

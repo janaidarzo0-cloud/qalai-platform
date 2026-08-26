@@ -15,8 +15,13 @@ describe('public home catalogue', () => {
   })
 
   it('exposes only available and trusted task destinations after launch', () => {
-    expect(getVisibleHomeCalculators(calculatorDefinitions, true).map(({ key }) => key)).toEqual([
+    const availableCalculators = calculatorDefinitions.map((calculator) => ({
+      ...calculator,
+      status: 'available' as const,
+    }))
+    expect(getVisibleHomeCalculators(availableCalculators, true).map(({ key }) => key)).toEqual([
       'auto-loan',
+      'salary',
     ])
     expect(
       getVisibleHomeQuickActions(actions, new Set(['/calculator/avtonesie-kalkulyatory']), true),

@@ -29,7 +29,7 @@ verified source
 | Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha                          |
 | Measurement        | **Done locally** | Consent-aware funnel, search-result clicks and atomic session-task deduplication pass CI      |
 | Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA    |
-| Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate                  |
+| Public launch      | **Preparing**    | Cohort and launch guard are fixed; domain, contact mailbox and independent review remain      |
 | First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition               |
 
 ## Now: closed alpha
@@ -45,7 +45,7 @@ Target: 2026-09-07. Scope confidence is high for autonomous repository work and 
 | Resolved Tasks measurement       | P0       | One session-task pair is counted at most once; successful calculation, official transition and helpful feedback are distinguished | Stefania | One analytics provider for staging                                 |
 | Closed noindex staging           | P0       | Supabase-backed CMS mode is deployed with secrets, readiness checks and no public indexing                                        | Stefania | Supabase, storage and hosting access                               |
 | Alpha research run               | P1       | 10–15 target users complete at least 30 task attempts with structured issue capture                                               | Stefania | Staging accepted                                                   |
-| Revenue-ready launch foundation  | P1       | About, editorial and privacy pages are done; public domain, Search Console, contact and ad rules remain                           | Stefania | Five independently verified demand-led pages                       |
+| Revenue-ready launch foundation  | P1       | Trust/contact pages and launch guard are done; domain, mailbox, Search Console and ad rules remain                                | Stefania | Five independently verified demand-led pages                       |
 
 ### Alpha acceptance
 

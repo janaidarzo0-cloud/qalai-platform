@@ -44,7 +44,7 @@ test('closed staging stays out of search indexes', async ({ page, request }) => 
   const pageResponse = await page.goto('/')
   expect(pageResponse?.ok()).toBe(true)
   expect(pageResponse?.headers()['x-robots-tag']).toContain('noindex')
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+  await expect(page.locator('meta[name="robots"]').first()).toHaveAttribute('content', /noindex/)
 
   const canonicalHref = await page.locator('link[rel="canonical"]').getAttribute('href')
   expect(canonicalHref).toBeTruthy()
@@ -230,7 +230,7 @@ test('high-intent content leads to the relevant calculators without opening inde
   await expect(
     page.getByRole('heading', { level: 1, name: 'Декреттік төлем калькуляторы' }),
   ).toBeVisible()
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+  await expect(page.locator('meta[name="robots"]').first()).toHaveAttribute('content', /noindex/)
   await expect(page.getByRole('link', { name: /Бала күтімі/ })).toHaveAttribute(
     'href',
     '/calculator/bala-kutimi-tolemi',
@@ -264,6 +264,7 @@ test('publisher trust pages explain ownership, editorial rules and privacy', asy
   await page.goto('/')
   const footer = page.locator('footer')
   await expect(footer.getByRole('link', { name: 'Біз туралы' })).toHaveAttribute('href', '/about')
+  await expect(footer.getByRole('link', { name: 'Байланыс' })).toHaveAttribute('href', '/contact')
   await expect(footer.getByRole('link', { name: 'Редакциялық қағида' })).toHaveAttribute(
     'href',
     '/editorial-policy',
@@ -272,6 +273,7 @@ test('publisher trust pages explain ownership, editorial rules and privacy', asy
 
   for (const [pathname, heading] of [
     ['/about', 'Күрделі рәсімді түсінікті әрекетке айналдырамыз.'],
+    ['/contact', 'Сұрақ, ұсыныс немесе қате таптыңыз ба?'],
     ['/editorial-policy', '«QALAI тексерді» белгісі қалай беріледі?'],
     ['/privacy', 'Есептеу мәндерін және жеке деректерді аналитикаға жібермейміз.'],
   ] as const) {
@@ -352,6 +354,7 @@ test.describe('mobile viewport', () => {
       '/calculator/zhalaqy-kalkulyatory',
       '/calculator/kolik-salygy-kalkulyatory',
       '/about',
+      '/contact',
       '/privacy',
       '/scenario/etsq-alu',
       '/scenario/ayypuldardy-tekseru-zhane-toleu',

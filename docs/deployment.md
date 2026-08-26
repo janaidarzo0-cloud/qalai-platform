@@ -44,10 +44,11 @@ and `/preview` keep the response header even after public indexing is enabled.
 
 Public indexing requires every lock simultaneously: both flags must equal lowercase `true`,
 `QALAI_CONTENT_MODE=cms`, `NEXT_PUBLIC_SITE_URL` must be a plain HTTPS origin, its hostname must
-exactly equal `QALAI_INDEXABLE_HOST`, and a Vercel deployment must be the production environment.
-This is intentionally redundant: changing one variable cannot expose demo content or a preview host.
-In public mode the homepage and related-task navigation also omit alpha calculators and unpublished
-task links.
+exactly equal `QALAI_INDEXABLE_HOST`, `QALAI_PUBLIC_CONTACT_EMAIL` must contain the validated public
+mailbox, and a Vercel deployment must be the production environment. This is intentionally redundant:
+changing one variable cannot expose demo content or a preview host. In public mode the homepage,
+sitemap, metadata, search and related-task navigation are also restricted to the fixed launch cohort
+in [public-launch.md](public-launch.md).
 
 Media storage also fails closed for every production build and deployment. Use a dedicated public
 S3-compatible bucket that contains only public editorial raster images; local disk is allowed only

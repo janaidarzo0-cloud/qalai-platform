@@ -15,6 +15,8 @@
     "test:e2e": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/run-e2e-local.ts",
     "test:e2e:hosted": "cross-env QALAI_E2E_HOSTED=true playwright test",
     "test:watch": "vitest",
+    "launch:report": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/report-launch-readiness.ts",
+    "launch:check": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/report-launch-readiness.ts --strict",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",

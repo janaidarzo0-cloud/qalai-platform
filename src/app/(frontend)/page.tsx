@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { TaskSearch } from '@/components/TaskSearch'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
+import { isPublicLaunchTask } from '@/lib/launch/cohort'
 import { getVisibleHomeCalculators, getVisibleHomeQuickActions } from '@/lib/public-catalog'
 import { buildTaskSearchIndex } from '@/lib/search/tasks'
 import { isIndexingAllowed } from '@/lib/site'
@@ -24,8 +25,11 @@ const quickActions = [
 const HomePage = async () => {
   const publicLaunch = isIndexingAllowed()
   const scenarios = await listPublishedScenarios()
-  const taskSearchIndex = buildTaskSearchIndex(
-    scenarios.map((scenario) => ({
+  const visibleScenarios = publicLaunch
+    ? scenarios.filter((scenario) => isPublicLaunchTask({ key: scenario.slug, type: 'scenario' }))
+    : scenarios
+  const fullTaskSearchIndex = buildTaskSearchIndex(
+    visibleScenarios.map((scenario) => ({
       category: scenario.category,
       shortAnswer: scenario.shortAnswer,
       slug: scenario.slug,
@@ -35,6 +39,9 @@ const HomePage = async () => {
     })),
     calculatorDefinitions,
   )
+  const taskSearchIndex = publicLaunch
+    ? fullTaskSearchIndex.filter((task) => isPublicLaunchTask(task.task))
+    : fullTaskSearchIndex
   const publicTaskHrefs = new Set(taskSearchIndex.map((task) => task.href))
   const visibleQuickActions = getVisibleHomeQuickActions(
     quickActions,
@@ -87,7 +94,7 @@ const HomePage = async () => {
             <p>Алдымен қысқа жауап. Содан кейін әрекет. Тек төменде — барлық егжей-тегжей.</p>
           </div>
           <div className="card-grid">
-            {scenarios.map((scenario) => (
+            {visibleScenarios.map((scenario) => (
               <Link
                 className="content-card"
                 href={`/scenario/${scenario.slug}`}

@@ -13,6 +13,7 @@ const managedEnvironmentKeys = [
   'QALAI_ALLOW_INDEXING',
   'QALAI_CONTENT_MODE',
   'QALAI_INDEXABLE_HOST',
+  'QALAI_PUBLIC_CONTACT_EMAIL',
   'QALAI_PUBLIC_LAUNCH_APPROVED',
   'VERCEL_ENV',
 ] as const
@@ -33,6 +34,7 @@ const enablePublicIndexing = () => {
   process.env.QALAI_ALLOW_INDEXING = 'true'
   process.env.QALAI_CONTENT_MODE = 'cms'
   process.env.QALAI_INDEXABLE_HOST = 'public.qalai.test'
+  process.env.QALAI_PUBLIC_CONTACT_EMAIL = 'contact@public.qalai.test'
   process.env.QALAI_PUBLIC_LAUNCH_APPROVED = 'true'
   process.env.VERCEL_ENV = 'production'
 }
@@ -49,6 +51,7 @@ describe('fail-closed indexing policy', () => {
         'cms-content-required',
         'indexable-host-required',
         'canonical-url-invalid',
+        'public-contact-required',
       ]),
     )
     expect(generateRootMetadata().robots).toEqual({ follow: false, index: false })
