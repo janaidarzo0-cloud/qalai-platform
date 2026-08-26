@@ -5,25 +5,52 @@ import nextConfig from '../../next.config'
 import { generateMetadata as generateRootMetadata } from '@/app/(frontend)/layout'
 import robots from '@/app/robots'
 import sitemap from '@/app/sitemap'
-import { isIndexingAllowed } from '@/lib/site'
+import { getIndexingBlockers, isIndexingAllowed } from '@/lib/site'
 import { proxy } from '@/proxy'
 
-const originalAllowIndexing = process.env.QALAI_ALLOW_INDEXING
-const originalSiteURL = process.env.NEXT_PUBLIC_SITE_URL
+const managedEnvironmentKeys = [
+  'NEXT_PUBLIC_SITE_URL',
+  'QALAI_ALLOW_INDEXING',
+  'QALAI_CONTENT_MODE',
+  'QALAI_INDEXABLE_HOST',
+  'QALAI_PUBLIC_LAUNCH_APPROVED',
+  'VERCEL_ENV',
+] as const
+const originalEnvironment = new Map(
+  managedEnvironmentKeys.map((key) => [key, process.env[key]] as const),
+)
 
 afterEach(() => {
-  if (originalAllowIndexing == null) delete process.env.QALAI_ALLOW_INDEXING
-  else process.env.QALAI_ALLOW_INDEXING = originalAllowIndexing
-
-  if (originalSiteURL == null) delete process.env.NEXT_PUBLIC_SITE_URL
-  else process.env.NEXT_PUBLIC_SITE_URL = originalSiteURL
+  for (const key of managedEnvironmentKeys) {
+    const originalValue = originalEnvironment.get(key)
+    if (originalValue == null) delete process.env[key]
+    else process.env[key] = originalValue
+  }
 })
+
+const enablePublicIndexing = () => {
+  process.env.NEXT_PUBLIC_SITE_URL = 'https://public.qalai.test'
+  process.env.QALAI_ALLOW_INDEXING = 'true'
+  process.env.QALAI_CONTENT_MODE = 'cms'
+  process.env.QALAI_INDEXABLE_HOST = 'public.qalai.test'
+  process.env.QALAI_PUBLIC_LAUNCH_APPROVED = 'true'
+  process.env.VERCEL_ENV = 'production'
+}
 
 describe('fail-closed indexing policy', () => {
   it('blocks crawlers, omits the sitemap hint and sets a global response header by default', async () => {
-    delete process.env.QALAI_ALLOW_INDEXING
+    for (const key of managedEnvironmentKeys) delete process.env[key]
 
     expect(isIndexingAllowed()).toBe(false)
+    expect(getIndexingBlockers()).toEqual(
+      expect.arrayContaining([
+        'explicit-opt-in-required',
+        'explicit-approval-required',
+        'cms-content-required',
+        'indexable-host-required',
+        'canonical-url-invalid',
+      ]),
+    )
     expect(generateRootMetadata().robots).toEqual({ follow: false, index: false })
     expect(robots()).toEqual({ rules: { disallow: '/', userAgent: '*' } })
     expect(await sitemap()).toEqual([])
@@ -43,13 +70,10 @@ describe('fail-closed indexing policy', () => {
     expect(response.headers.get('x-robots-tag')).toBe('noindex, nofollow, noarchive')
   })
 
-  it('allows indexing only for the exact explicit true value', async () => {
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://staging.qalai.test/'
-    process.env.QALAI_ALLOW_INDEXING = 'TRUE'
-    expect(isIndexingAllowed()).toBe(false)
-
-    process.env.QALAI_ALLOW_INDEXING = 'true'
+  it('allows indexing only when every public-launch lock matches', async () => {
+    enablePublicIndexing()
     expect(isIndexingAllowed()).toBe(true)
+    expect(getIndexingBlockers()).toEqual([])
     expect(generateRootMetadata().robots).toEqual({ follow: true, index: true })
     expect(robots()).toEqual({
       rules: {
@@ -57,7 +81,7 @@ describe('fail-closed indexing policy', () => {
         disallow: ['/admin/', '/api/', '/preview/'],
         userAgent: '*',
       },
-      sitemap: 'https://staging.qalai.test/sitemap.xml',
+      sitemap: 'https://public.qalai.test/sitemap.xml',
     })
     const headers = (await nextConfig.headers?.()) ?? []
     expect(headers.filter((route) => route.source !== '/:path*')).toEqual(
@@ -75,5 +99,29 @@ describe('fail-closed indexing policy', () => {
       const privateResponse = proxy(new NextRequest(`https://qalai.test${pathname}`))
       expect(privateResponse.headers.get('x-robots-tag')).toBe('noindex, nofollow, noarchive')
     }
+  })
+
+  it('fails closed for demo content, host drift, insecure origins and Vercel previews', () => {
+    enablePublicIndexing()
+
+    process.env.QALAI_CONTENT_MODE = 'demo'
+    expect(getIndexingBlockers()).toContain('cms-content-required')
+
+    process.env.QALAI_CONTENT_MODE = 'cms'
+    process.env.QALAI_PUBLIC_LAUNCH_APPROVED = 'false'
+    expect(getIndexingBlockers()).toContain('explicit-approval-required')
+
+    process.env.QALAI_PUBLIC_LAUNCH_APPROVED = 'true'
+    process.env.QALAI_INDEXABLE_HOST = 'other.qalai.test'
+    expect(getIndexingBlockers()).toContain('canonical-host-mismatch')
+
+    process.env.QALAI_INDEXABLE_HOST = 'public.qalai.test'
+    process.env.NEXT_PUBLIC_SITE_URL = 'http://public.qalai.test'
+    expect(getIndexingBlockers()).toContain('canonical-url-invalid')
+
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://public.qalai.test'
+    process.env.VERCEL_ENV = 'preview'
+    expect(getIndexingBlockers()).toContain('preview-environment')
+    expect(isIndexingAllowed()).toBe(false)
   })
 })

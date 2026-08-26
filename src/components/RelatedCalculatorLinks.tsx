@@ -4,18 +4,20 @@ import Link from 'next/link'
 
 import { trackEvent } from '@/lib/analytics/client'
 import type { TaskRef } from '@/lib/analytics/events'
-import { getRelatedCalculatorKeys } from '@/lib/related-tasks'
-import { getCalculatorByKey } from '@/modules/calculators/registry'
+import { getRelatedCalculators } from '@/lib/related-tasks'
 
 type Props = {
+  publicOnly?: boolean
   source: TaskRef
   variant?: 'aside' | 'section'
 }
 
-export const RelatedCalculatorLinks = ({ source, variant = 'section' }: Props) => {
-  const calculators = getRelatedCalculatorKeys(source)
-    .map((key) => getCalculatorByKey(key))
-    .filter((calculator) => calculator != null)
+export const RelatedCalculatorLinks = ({
+  publicOnly = false,
+  source,
+  variant = 'section',
+}: Props) => {
+  const calculators = getRelatedCalculators(source, publicOnly)
 
   if (calculators.length === 0) return null
 

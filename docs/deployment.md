@@ -35,12 +35,19 @@ Analytics is optional and fail-closed. Generate `ANALYTICS_HASH_SECRET` separate
 `PAYLOAD_SECRET`. To enable the staging funnel, set `ANALYTICS_ENABLED=true`, use a dedicated staging
 GA4 stream/API secret and change `ANALYTICS_PROVIDER=ga4`. Provider credentials are server-only.
 
-Indexing is also fail-closed. Keep `QALAI_ALLOW_INDEXING=false` for local, preview and closed-alpha
-staging. This makes `robots.txt` disallow the whole site, empties the sitemap, sets page metadata to
-noindex and adds `X-Robots-Tag: noindex, nofollow, noarchive` at both build and request time. The
-request-time guard prevents a prebuilt artifact from becoming indexable after an environment change.
-`/admin`, `/api` and `/preview` keep the response header even after public indexing is enabled. Set
-the variable to `true` only after public-launch approval and verify the actual hostname again.
+Indexing is also fail-closed. Keep `QALAI_ALLOW_INDEXING=false` and
+`QALAI_PUBLIC_LAUNCH_APPROVED=false` for local, preview and closed-alpha staging. This makes
+`robots.txt` disallow the whole site, empties the sitemap, sets page metadata to noindex and adds
+`X-Robots-Tag: noindex, nofollow, noarchive` at both build and request time. The request-time guard
+prevents a prebuilt artifact from becoming indexable after an environment change. `/admin`, `/api`
+and `/preview` keep the response header even after public indexing is enabled.
+
+Public indexing requires every lock simultaneously: both flags must equal lowercase `true`,
+`QALAI_CONTENT_MODE=cms`, `NEXT_PUBLIC_SITE_URL` must be a plain HTTPS origin, its hostname must
+exactly equal `QALAI_INDEXABLE_HOST`, and a Vercel deployment must be the production environment.
+This is intentionally redundant: changing one variable cannot expose demo content or a preview host.
+In public mode the homepage and related-task navigation also omit alpha calculators and unpublished
+task links.
 
 Media storage also fails closed for every production build and deployment. Use a dedicated public
 S3-compatible bucket that contains only public editorial raster images; local disk is allowed only
@@ -112,3 +119,5 @@ must use committed migrations:
 - verify consent accept/decline/revoke and the `?qalai_qa=1` internal-traffic exclusion;
 - configure a dedicated staging GA4 Measurement Protocol stream and inspect its allowlisted payload;
 - confirm `robots.txt`, sitemap, canonical and noindex behavior on the actual hostname.
+- confirm the public domain matches `QALAI_INDEXABLE_HOST`, then enable both launch flags only in the
+  production environment.

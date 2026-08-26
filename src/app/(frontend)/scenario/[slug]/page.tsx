@@ -223,6 +223,7 @@ const ScenarioPage = async ({ params }: PageProps) => {
 
           <aside className="scenario-aside">
             <RelatedCalculatorLinks
+              publicOnly={isIndexingAllowed()}
               source={{ key: scenario.slug, type: 'scenario' }}
               variant="aside"
             />

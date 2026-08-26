@@ -266,7 +266,10 @@ const CalculatorPage = async ({ params }: PageProps) => {
             </Link>
           </section>
         )}
-        <RelatedCalculatorLinks source={{ key: calculator.key, type: 'calculator' }} />
+        <RelatedCalculatorLinks
+          publicOnly={isIndexingAllowed()}
+          source={{ key: calculator.key, type: 'calculator' }}
+        />
       </div>
     </div>
   )

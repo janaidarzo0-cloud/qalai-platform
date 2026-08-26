@@ -32,6 +32,8 @@ not implementation.
    closed-alpha banners on indexable pages.
 6. Measure the path from a high-intent Scenario to its related calculator using fixed task IDs only;
    never send entered values or calculated amounts.
+7. Use the multi-lock launch guard so public navigation and indexing contain only trusted Scenarios
+   and available calculators; never expose alpha cards from an indexable page.
 
 Success signals:
 

@@ -1,4 +1,5 @@
 import type { TaskRef } from '@/lib/analytics/events'
+import { getCalculatorByKey } from '@/modules/calculators/registry'
 import type { CalculatorKey } from '@/modules/calculators/types'
 
 const scenarioToCalculators: Readonly<Record<string, readonly CalculatorKey[]>> = {
@@ -17,3 +18,9 @@ export const getRelatedCalculatorKeys = (source: TaskRef): readonly CalculatorKe
   source.type === 'scenario'
     ? (scenarioToCalculators[source.key] ?? [])
     : (calculatorToCalculators[source.key as CalculatorKey] ?? [])
+
+export const getRelatedCalculators = (source: TaskRef, publicOnly = false) =>
+  getRelatedCalculatorKeys(source).flatMap((key) => {
+    const calculator = getCalculatorByKey(key)
+    return calculator && (!publicOnly || calculator.status === 'available') ? [calculator] : []
+  })

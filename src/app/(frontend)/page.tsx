@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { TaskSearch } from '@/components/TaskSearch'
 import { listPublishedScenarios } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
+import { getVisibleHomeCalculators, getVisibleHomeQuickActions } from '@/lib/public-catalog'
 import { buildTaskSearchIndex } from '@/lib/search/tasks'
+import { isIndexingAllowed } from '@/lib/site'
 import { calculatorDefinitions } from '@/modules/calculators/registry'
 
 export const dynamic = 'force-dynamic'
@@ -20,6 +22,7 @@ const quickActions = [
 ]
 
 const HomePage = async () => {
+  const publicLaunch = isIndexingAllowed()
   const scenarios = await listPublishedScenarios()
   const taskSearchIndex = buildTaskSearchIndex(
     scenarios.map((scenario) => ({
@@ -32,6 +35,13 @@ const HomePage = async () => {
     })),
     calculatorDefinitions,
   )
+  const publicTaskHrefs = new Set(taskSearchIndex.map((task) => task.href))
+  const visibleQuickActions = getVisibleHomeQuickActions(
+    quickActions,
+    publicTaskHrefs,
+    publicLaunch,
+  )
+  const visibleCalculators = getVisibleHomeCalculators(calculatorDefinitions, publicLaunch)
 
   return (
     <>
@@ -56,7 +66,7 @@ const HomePage = async () => {
       <section className="section section--tight">
         <div className="container">
           <div className="quick-actions">
-            {quickActions.map((action) => (
+            {visibleQuickActions.map((action) => (
               <Link href={action.href} key={action.href}>
                 <span>{action.mark}</span>
                 <strong>{action.label}</strong>
@@ -90,11 +100,13 @@ const HomePage = async () => {
               </Link>
             ))}
           </div>
-          <p className="demo-note">
-            Бұл материалдар ресми дереккөздермен толтырылған жабық альфа нұсқалары. Тәуелсіз
-            редактор тексермейінше олар іздеу жүйелеріне ашылмайды және «Qalai тексерді» белгісін
-            алмайды.
-          </p>
+          {!publicLaunch ? (
+            <p className="demo-note">
+              Бұл материалдар ресми дереккөздермен толтырылған жабық альфа нұсқалары. Тәуелсіз
+              редактор тексермейінше олар іздеу жүйелеріне ашылмайды және «Qalai тексерді» белгісін
+              алмайды.
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -108,7 +120,7 @@ const HomePage = async () => {
             <p>Реттелетін формулалар тек ресми rule set тексерілгеннен кейін іске қосылады.</p>
           </div>
           <div className="calculator-grid">
-            {calculatorDefinitions.map((calculator, index) => (
+            {visibleCalculators.map((calculator, index) => (
               <Link href={`/calculator/${calculator.slug}`} key={calculator.key}>
                 <span>0{index + 1}</span>
                 <h3>{calculator.shortTitle}</h3>
