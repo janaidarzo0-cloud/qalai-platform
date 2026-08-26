@@ -99,12 +99,12 @@ See [deployment.md](docs/deployment.md) before configuring a hosted environment.
 
 ## Version gate
 
-The scaffold pins `Payload 3.88.0` and `Next.js 16.3.2`. Payload officially accepts this Next.js range, but an open upstream issue reports blank unauthenticated Admin pages on some Next 16 setups. Next.js also announced a scheduled critical security release for 26 August 2026.
+The scaffold pins `Payload 3.88.0` and the 26 August 2026 security release `Next.js 16.3.3`. Payload officially accepts this Next.js range, but an open upstream issue reports blank unauthenticated Admin pages on some Next 16 setups.
 
-Do not deploy this scaffold unchanged. Before the first hosted environment:
+Before the first public deployment:
 
-1. install the patched Next.js release;
-2. run `/admin/create-first-user` and `/admin/login` smoke tests;
+1. run `/admin/create-first-user`, `/admin/login`, `/admin/forgot` and `/admin/logout` smoke tests on the hosted release candidate;
+2. verify an authenticated Admin session;
 3. run REST CRUD, migration and production-build checks;
 4. keep all Payload packages on the same exact version.
 

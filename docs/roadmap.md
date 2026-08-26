@@ -28,7 +28,7 @@ verified source
 | CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass   |
 | Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha            |
 | Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI  |
-| Staging            | **Blocked**      | Requires hosted PostgreSQL/storage and deployment credentials                   |
+| Staging            | **In progress**  | Security release is installed; hosting sign-in and Supabase resources remain    |
 | Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate    |
 | First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition |
 
@@ -38,7 +38,7 @@ Target: 2026-09-07. Scope confidence is high for autonomous repository work and 
 
 | Initiative                       | Priority | Outcome                                                                                                                           | Owner    | Dependency                                                         |
 | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------ |
-| Security and editorial authority | P0       | Patched framework versions, role-based publishing, expiring verification and protected internal fields                            | Stefania | Compatible Next.js security release                                |
+| Security and editorial authority | P0       | Patched framework versions, role-based publishing, expiring verification and protected internal fields                            | Stefania | Hosted Payload Admin smoke                                         |
 | Reproducible CMS database        | P0       | Empty PostgreSQL database reaches a working CMS through committed migrations and seed                                             | Stefania | GitHub Actions PostgreSQL; hosted Supabase for staging             |
 | Integration and E2E gate         | P0       | Admin/auth, CRUD, draft isolation, publish-to-page and calculator flows fail safely in CI                                         | Stefania | Baseline migration                                                 |
 | Five verified task scenarios     | P0       | Five Kazakh task pages have claim evidence, review dates, working official CTAs and mobile QA                                     | Stefania | Stable official sources; native Kazakh review before wider testing |

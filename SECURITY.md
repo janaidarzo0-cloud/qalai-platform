@@ -4,21 +4,17 @@
 
 QALAI is an initial development scaffold, not a production release.
 
-On 25 August 2026:
+On 26 August 2026, QALAI upgraded to the official Next.js security release `16.3.3`. Payload issue [#17545](https://github.com/payloadcms/payload/issues/17545) still describes blank unauthenticated Admin routes on some tested Next 16 versions, so the hosted Admin compatibility check remains a release gate.
 
-- Next.js announced a critical security patch scheduled for 26 August 2026.
-- Payload issue [#17545](https://github.com/payloadcms/payload/issues/17545) remained open and described blank unauthenticated Admin routes on tested Next 16 versions.
-- The related Payload fix PR [#17638](https://github.com/payloadcms/payload/pull/17638) was still open, so no production-safe Next/Payload version intersection had been confirmed.
-
-The repository therefore remains pinned to its tested development versions. Do not treat a newer npm `latest` tag by itself as proof that the scheduled security fix and the Payload Admin compatibility fix are both present.
-
-Before any public deployment, upgrade to the patched Next.js version supported by the installed Payload release and explicitly verify:
+Before any public deployment, explicitly verify on the hosted release candidate:
 
 - `/admin/create-first-user`, `/admin/login`, `/admin/forgot` and `/admin/logout`;
 - an authenticated Admin session;
 - Payload REST create/read/update/delete;
 - draft isolation for anonymous users;
 - database migrations and the production build.
+
+Do not treat a successful dependency upgrade or local build by itself as proof that hosted Payload Admin authentication is healthy.
 
 The CMS also treats the editorial dependency graph as a security boundary: anonymous Scenario and RuleSet reads are closed; drafts, expired reviews, draft Categories and stale Source/RuleSet evidence fail closed; trust-graph writes are serialized in PostgreSQL transactions. User bulk edit/delete is disabled to preserve the last-admin invariant.
 
