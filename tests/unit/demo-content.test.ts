@@ -62,4 +62,21 @@ describe('demo content safety', () => {
     expect(selfEmployed?.shortAnswer).toContain('ҚР азаматы немесе қандас')
     expect(selfEmployed?.eligibility.some((item) => item.condition.includes('қандас'))).toBe(true)
   })
+
+  it('keeps the official 2026 opening and simplified-closing time gates for an IP', () => {
+    const openIp = demoScenarios.find((scenario) => scenario.slug === 'zhk-ashu')
+    const closeIp = demoScenarios.find((scenario) => scenario.slug === 'zhk-zhabu')
+    const closeConditions = closeIp?.eligibility.map((item) => item.condition).join(' ') ?? ''
+
+    expect(openIp?.processingTime).toContain('1 жұмыс күні')
+    expect(closeIp?.processingTime).toContain('берілген күні')
+    expect(closeIp?.processingTime).toContain('келесі күннен кешіктірмей')
+    expect(closeConditions).toContain('ҚҚС')
+    expect(closeConditions).toContain('Бірлескен кәсіпкерлік')
+    expect(closeConditions).toContain('104-бабындағы жекелеген қызмет')
+    expect(closeConditions).toContain('берешегі жоқ')
+    expect(closeConditions).toContain('Алдыңғы салық кезеңінің міндеттемелері')
+    expect(closeConditions).toContain('Орындалмаған хабарламалар')
+    expect(closeConditions).toContain('Ашық банк шоттары')
+  })
 })

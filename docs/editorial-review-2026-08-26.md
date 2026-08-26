@@ -85,3 +85,42 @@ business and income conditions.
 
 Remaining gate: tax-terminology review by an independent native Kazakh editor and authenticated
 device testing of the e-Salyq Business/eLicense routes.
+
+## Individual-entrepreneur opening route
+
+Official pages checked:
+
+- [eGov start-of-activity notification service](https://egov.kz/cms/kk/services/business_registration/reg_ip);
+- [eGov online registration guide](https://egov.kz/cms/kk/articles/ip-registration);
+- [2026 State Revenue Committee tax-regime guide](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1233244?lang=ru).
+
+Confirmed: the notification is free, is completed through eLicense and signed with the applicant's
+EDS. The eGov guide says that business may start from submission of the notification and that the
+result appears within one working day. QALAI now shows that useful time instead of the vague “online
+notification” label. The source link was also corrected from a redirecting Russian URL to the live
+Kazakh service card.
+
+Remaining gate: authenticated eLicense completion, 2026 tax-terminology review and native Kazakh
+copy approval.
+
+## Individual-entrepreneur closing route
+
+Official pages checked:
+
+- [Ministry of Finance online closing-service announcement](https://www.gov.kz/memleket/entities/minfin/press/news/details/1247311?lang=ru);
+- [Ministry of Finance order and current rules](https://www.gov.kz/memleket/entities/minfin/documents/details/925017?lang=ru);
+- [Adilet legal record](https://www.adilet.zan.kz/rus/docs/V2500037312);
+- [State Revenue Committee 2026 explanation](https://www.gov.kz/memleket/entities/kgd/press/news/details/1168654?lang=ru).
+
+Two material issues were corrected. The controlling act is the acting Minister of Finance order of
+31 October 2025 No. 654, as amended by order No. 117 in 2026, not order No. 642. The simplified route
+now exposes all seven simultaneous conditions: no VAT registration, no joint entrepreneurship, no
+listed Article 104 activity, no tax or social-payment debt, prior-period obligations fulfilled, no
+unresolved notices and no open bank accounts.
+
+The official timing is now visible: acceptance or rejection is sent on the filing day; after the tax
+obligation is fulfilled, deregistration occurs no later than the following day. Amounts in the
+liquidation return must be paid within ten calendar days. QALAI continues to require the user to
+confirm final deregistration instead of treating application submission as successful closure.
+
+Remaining gate: authenticated ELC completion and independent tax/native-Kazakh review.
