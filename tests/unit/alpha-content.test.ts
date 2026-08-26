@@ -88,6 +88,27 @@ describe('closed-alpha Scenario source pack', () => {
     ).toBe(true)
   })
 
+  it('keeps the current residence route, age gate, and owner-confirmation window', () => {
+    const residence = alphaScenarioDrafts.find(
+      (scenario) => scenario.slug === 'turgylikty-zherge-tirkelu',
+    )
+    const residenceJSON = JSON.stringify(residence)
+
+    expect(residence?.editorial.conflicts).toEqual([])
+    expect(residence?.processingTime.value).toBe('Портал арқылы 15 минут ішінде')
+    expect(residenceJSON).toContain('14 жас')
+    expect(residenceJSON).toContain('1 сағат ішінде')
+    expect(residenceJSON).toContain('банк қолданбаларында')
+    expect(residence?.evidence.primarySourceKeys).toEqual(
+      expect.arrayContaining([
+        'permanent-registration-service',
+        'temporary-registration-service',
+        'residence-current-guide',
+      ]),
+    )
+    expect(residenceJSON).not.toContain('қызмет арнасы өзгеріп жатқандықтан')
+  })
+
   it('bounds every 2026 snapshot at Kazakhstan midnight and attributes identity sources', () => {
     const identityFees = alphaSources.find((source) => source.key === 'identity-fees-2026')
     expect(identityFees?.publisher).toBe('Қорғалжын ауданының әкімдігі')
@@ -151,7 +172,7 @@ describe('closed-alpha Scenario source pack', () => {
         steps: scenario.steps,
         verification: {
           nextReviewAt: '2027-02-01T00:00:00.000Z',
-          reviewedAt: '2026-08-25T01:00:00.000Z',
+          reviewedAt: '2026-08-26T01:00:00.000Z',
           reviewedBy: 'annual-boundary-reviewer',
           status: 'verified',
         },

@@ -165,3 +165,68 @@ requires the user to retain the placement notice and monitor the account for vac
 
 Remaining gate: authenticated testing in at least three regional systems and native Kazakh copy
 approval.
+
+## Residence registration route
+
+Official pages checked:
+
+- [permanent-registration service card](https://www.gov.kz/services/3038?lang=kk);
+- [temporary-registration service card](https://www.gov.kz/services/3888?lang=kk);
+- [current registration channels and documents guide](https://www.gov.kz/situations/424/1044?lang=ru);
+- [registration rules](https://adilet.zan.kz/rus/docs/V2400035045).
+
+The earlier channel warning is no longer appropriate. The live permanent and temporary service
+cards both provide an online route, state that the service is free and give a 15-minute portal
+processing time. The March 2026 government guide additionally lists service centres and supported
+bank applications. QALAI now presents the online route directly instead of asking the user to resolve
+the old inconsistency.
+
+Two material details were added: separate residence registration starts at age 14, and a homeowner
+must confirm a non-owner's online application within one hour after registration or the request is
+automatically rejected. The one-month stay, ten-day application period and retention of permanent
+registration during temporary registration remain unchanged.
+
+Remaining gate: authenticated owner/non-owner testing in eGov and at least one supported bank
+application, plus native Kazakh copy approval.
+
+## Identity-card expiry route
+
+Official pages checked:
+
+- [current ID service card](https://www.gov.kz/services/3087?lang=ru);
+- [2026 online replacement guide](https://www.gov.kz/situations/22/1556?lang=ru);
+- [2026 government fee explanation](https://www.gov.kz/situations/22/158?lang=ru);
+- [2026 police explanation of the new Tax Code](https://www.gov.kz/memleket/entities/mvd-shymkent/press/news/details/1151733?lang=ru).
+
+Confirmed: online replacement is limited to the expiry reason, from 30 calendar days before expiry
+through no more than ten calendar days after it. The normal production time remains up to 15 working
+days. From 1 January 2026, first issuance and replacement because of expiry are free under the new Tax
+Code, even though two service pages still display the older general 0.2-MCI instruction. QALAI keeps
+the newer rule, clearly records the source conflict and advises users not to wait for the overlapping
+tenth day.
+
+Remaining gate: authenticated online submission, independent legal review of the exact tenth-day
+boundary and native Kazakh copy approval.
+
+## Lost or stolen identity-card route
+
+Official pages checked:
+
+- [current lost-or-stolen ID guide](https://www.gov.kz/situations/22/162);
+- [current ID service card and document list](https://www.gov.kz/services/3087?lang=ru);
+- [2026 government fee explanation](https://www.gov.kz/situations/22/158?lang=ru);
+- [2026 police explanation of repeated-loss fees](https://www.gov.kz/memleket/entities/mvd-shymkent/press/news/details/1151733?lang=ru).
+
+Confirmed: a lost or stolen identity card cannot use the expiry-only online pilot. The user may visit
+any convenient service centre. A simple loss requires a written circumstances statement; theft
+requires the police notification coupon. The 2026 fee is 0.2 MCI (865 tenge) for the first and second
+loss within a year and 1 MCI (4,325 tenge) after more than two losses. The normal production time is
+up to 15 working days.
+
+The current administrative threshold remains ten days to one month for a warning and more than one
+month for a 7-MCI fine (30,275 tenge in 2026). QALAI continues to exclude an older eGov article's
+three-month threshold and preserves the warning that a recovered old card is invalid after the loss
+application is filed.
+
+Remaining gate: authenticated service-centre/fee-flow testing, independent legal review and native
+Kazakh copy approval.

@@ -100,4 +100,15 @@ describe('demo content safety', () => {
       false,
     )
   })
+
+  it('shows the reviewed online residence route in the prototype', () => {
+    const residence = demoScenarios.find(
+      (scenario) => scenario.slug === 'turgylikty-zherge-tirkelu',
+    )
+
+    expect(residence?.shortAnswer).toContain('14 жастан бастап')
+    expect(residence?.shortAnswer).toContain('онлайн қолжетімді')
+    expect(residence?.processingTime).toBe('Портал арқылы 15 минут ішінде')
+    expect(residence?.processingTimeExplanation).toContain('1 сағат ішінде')
+  })
 })
