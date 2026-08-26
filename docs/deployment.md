@@ -97,14 +97,6 @@ must use committed migrations:
 5. apply migrations with `npm run db:migrate` before the production build/deploy;
 6. run smoke checks.
 
-## Closed-alpha content bootstrap
-
-After the first administrator is created, the authenticated same-origin `POST
-/api/admin/alpha-seed` maintenance action can import the reviewed source pack. It requires the exact
-`IMPORT_CLOSED_ALPHA_DRAFTS` form confirmation and an administrator session. The import is
-idempotent, preserves existing records and creates Scenarios and Categories only as noindex,
-unverified drafts. It never publishes content.
-
 ## Pre-production gate
 
 - upgrade to the scheduled patched Next.js release compatible with Payload;

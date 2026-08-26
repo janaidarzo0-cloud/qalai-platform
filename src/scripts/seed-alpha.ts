@@ -1,5 +1,4 @@
 import config from '@payload-config'
-import { pathToFileURL } from 'node:url'
 import { getPayload, type Payload } from 'payload'
 
 import {
@@ -35,7 +34,7 @@ const formatClaims = (
     .map((claim) => `${claim.id}: ${claim.statement}`)
     .join('\n')
 
-export const seedClosedAlpha = async (payload: Payload) => {
+const seedAlpha = async (payload: Payload) => {
   await assertRetiredAlphaScenariosAreSafe(payload)
   await assertAlphaSourcePackIsCompatible(payload)
 
@@ -191,13 +190,6 @@ export const seedClosedAlpha = async (payload: Payload) => {
   payload.logger.info(
     `[alpha-seed] ${created} draft Scenarios created; ${skipped} existing Scenarios preserved. Nothing was published.`,
   )
-
-  return {
-    categories: categoryIDs.size,
-    created,
-    skipped,
-    sources: sourceIDs.size,
-  }
 }
 
 const main = async () => {
@@ -214,20 +206,15 @@ const main = async () => {
 
   const payload = await getPayload({ config })
   try {
-    await seedClosedAlpha(payload)
+    await seedAlpha(payload)
   } finally {
     clearTimeout(watchdog)
   }
 }
 
-const isDirectExecution =
-  Boolean(process.argv[1]) && import.meta.url === pathToFileURL(process.argv[1]).href
-
-if (isDirectExecution) {
-  main()
-    .then(() => process.exit(0))
-    .catch((error: unknown) => {
-      console.error(error)
-      process.exit(1)
-    })
-}
+main()
+  .then(() => process.exit(0))
+  .catch((error: unknown) => {
+    console.error(error)
+    process.exit(1)
+  })
