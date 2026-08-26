@@ -10,6 +10,18 @@ const allowedOfficialHosts = new Set(
     .map((host) => host.trim().toLowerCase())
     .filter(Boolean),
 )
+const demandScenarioSlugs = [
+  'zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+  'ayypuldardy-tekseru-zhane-toleu',
+  'zhumyssyz-retinde-tirkelu-zhane-tolem',
+  'zhk-ashu',
+  'zhk-zhabu',
+  'bala-tuuy-tolemderi',
+  'balabaksha-kezege-turu',
+  'turgylikty-zherge-tirkelu',
+  'zheke-kualik-merzimi-ayaktaldy',
+  'zheke-kualik-zhogaldy-nemese-urlandy',
+]
 
 test('closed staging stays out of search indexes', async ({ page, request }) => {
   if (hostedAcceptance) {
@@ -38,7 +50,9 @@ test('closed staging stays out of search indexes', async ({ page, request }) => 
   expect(canonicalHref).toBeTruthy()
   const canonicalURL = new URL(canonicalHref!)
   const actualURL = new URL(page.url())
-  expect(canonicalURL.origin).toBe(actualURL.origin)
+  expect(canonicalURL.origin).toBe(
+    process.env.QALAI_E2E_EXPECT_CANONICAL_ORIGIN ?? actualURL.origin,
+  )
   expect(canonicalURL.pathname).toBe('/')
   await expect(page.locator('html')).toHaveAttribute('lang', 'kk')
 })
@@ -67,6 +81,119 @@ test('auto-loan calculator completes the primary outcome', async ({ page }) => {
   await page.getByRole('button', { name: 'Ай сайынғы төлемді есептеу' }).click()
   await expect(page.getByRole('alert').filter({ hasText: 'Мәндерді тексеріңіз' })).toBeVisible()
   expect(browserErrors).toEqual([])
+})
+
+test('salary alpha calculates 2026 take-home pay without becoming indexable', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+
+  await page.goto('/calculator/zhalaqy-kalkulyatory')
+  await expect(page.getByRole('heading', { level: 1, name: 'Жалақы калькуляторы' })).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+  await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /408.*975.*₸/ })).toBeVisible()
+  await expect(page.getByText(/31.*025.*₸/)).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-salary-2026-v1')).toBeVisible()
+
+  await page.getByRole('checkbox', { name: /30 АЕК базалық шегерімді қолдану/ }).uncheck()
+  await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /396.*000.*₸/ })).toBeVisible()
+  expect(browserErrors).toEqual([])
+})
+
+test('vehicle-tax alpha calculates the 2026 obligation without becoming indexable', async ({
+  page,
+}) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+
+  await page.goto('/calculator/kolik-salygy-kalkulyatory')
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Көлік салығы калькуляторы' }),
+  ).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+  await page.getByRole('button', { name: 'Салықты есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /16.*461.*₸/ })).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-vehicle-tax-2026-v1')).toBeVisible()
+
+  await page.getByLabel('Шығарылған жылы').fill('2005')
+  await page.getByRole('button', { name: 'Салықты есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /8.*231.*₸/ })).toBeVisible()
+  await expect(page.getByText(/коэффициент 0.5/)).toBeVisible()
+  expect(browserErrors).toEqual([])
+})
+
+test('EDS alpha route uses only official destinations and remains unverified', async ({ page }) => {
+  await page.goto('/scenario/etsq-alu')
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'ЭЦҚ-ны онлайн қалай алуға болады?' }),
+  ).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.getByText('Редактор тексеруде')).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+  const officialLinks = page
+    .getByRole('heading', { name: 'Ресми қызметте жалғастыру' })
+    .locator('..')
+    .getByRole('link')
+  await expect(officialLinks).toHaveCount(2)
+
+  for (let index = 0; index < 2; index += 1) {
+    const href = await officialLinks.nth(index).getAttribute('href')
+    expect(href).toBeTruthy()
+    expect(['nca.pki.gov.kz', 'ncl.pki.gov.kz']).toContain(new URL(href!).hostname)
+  }
+})
+
+test('publisher trust pages explain ownership, editorial rules and privacy', async ({ page }) => {
+  await page.goto('/')
+  const footer = page.locator('footer')
+  await expect(footer.getByRole('link', { name: 'Біз туралы' })).toHaveAttribute('href', '/about')
+  await expect(footer.getByRole('link', { name: 'Редакциялық қағида' })).toHaveAttribute(
+    'href',
+    '/editorial-policy',
+  )
+  await expect(footer.getByRole('link', { name: 'Құпиялық' })).toHaveAttribute('href', '/privacy')
+
+  for (const [pathname, heading] of [
+    ['/about', 'Күрделі рәсімді түсінікті әрекетке айналдырамыз.'],
+    ['/editorial-policy', '«QALAI тексерді» белгісі қалай беріледі?'],
+    ['/privacy', 'Есептеу мәндерін және жеке деректерді аналитикаға жібермейміз.'],
+  ] as const) {
+    const response = await page.goto(pathname)
+    expect(response?.ok()).toBe(true)
+    await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible()
+  }
+})
+
+test('all ten demand-led routes render sourced noindex alpha content', async ({ page }) => {
+  for (const slug of demandScenarioSlugs) {
+    const response = await page.goto(`/scenario/${slug}`)
+    expect(response?.ok()).toBe(true)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+    const officialActions = page
+      .getByRole('heading', { name: 'Ресми қызметте жалғастыру' })
+      .locator('..')
+      .getByRole('link')
+    expect(await officialActions.count()).toBeGreaterThan(0)
+
+    const sourceLinks = page.locator('.aside-card--sources').getByRole('link')
+    expect(await sourceLinks.count()).toBeGreaterThan(0)
+  }
 })
 
 test('scenario outcome has the correct closed-alpha action state', async ({ page }) => {
@@ -116,6 +243,13 @@ test.describe('mobile viewport', () => {
     for (const pathname of [
       '/',
       '/calculator/avtonesie-kalkulyatory',
+      '/calculator/zhalaqy-kalkulyatory',
+      '/calculator/kolik-salygy-kalkulyatory',
+      '/about',
+      '/privacy',
+      '/scenario/etsq-alu',
+      '/scenario/ayypuldardy-tekseru-zhane-toleu',
+      '/scenario/zhk-zhabu',
       `/scenario/${scenarioSlug}`,
     ]) {
       const response = await page.goto(pathname)

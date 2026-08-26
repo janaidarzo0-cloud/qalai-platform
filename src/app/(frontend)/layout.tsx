@@ -59,7 +59,14 @@ const FrontendLayout = ({ children }: { children: ReactNode }) => {
               <span className="brand brand--footer">QALAI.</span>
               <p>Жауап → әрекет → толық түсіндірме.</p>
             </div>
-            <p>QALAI ресми қызмет көрсетпейді. Соңғы әрекет әрқашан ресми ресурста орындалады.</p>
+            <div>
+              <nav aria-label="QALAI туралы ақпарат">
+                <Link href="/about">Біз туралы</Link>
+                <Link href="/editorial-policy">Редакциялық қағида</Link>
+                <Link href="/privacy">Құпиялық</Link>
+              </nav>
+              <p>QALAI ресми қызмет көрсетпейді. Соңғы әрекет әрқашан ресми ресурста орындалады.</p>
+            </div>
           </div>
         </footer>
         <AnalyticsRuntime enabled={analyticsEnabled} />

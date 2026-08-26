@@ -49,6 +49,8 @@ const ScenarioPage = async ({ params }: PageProps) => {
   if (!scenario) notFound()
 
   const isVerified = isScenarioTrusted(scenario)
+  const isSourcedAlpha =
+    !isVerified && scenario.verification.status === 'in-review' && scenario.sources.length > 0
   const costDate = scenario.costAsOf ?? scenario.factsCheckedAt
 
   const howToSchema = isVerified
@@ -81,7 +83,9 @@ const ScenarioPage = async ({ params }: PageProps) => {
 
         {!isVerified ? (
           <div className="draft-banner" role="status">
-            ДЕМО · Бұл мазмұн тек UX құрылымын көрсетеді және нақты нұсқаулық ретінде қолданылмайды.
+            {isSourcedAlpha
+              ? 'ЖАБЫҚ АЛЬФА · Ресми дереккөздер жиналды, бірақ тәуелсіз редактор әлі растаған жоқ.'
+              : 'ДЕМО · Бұл мазмұн тек UX құрылымын көрсетеді және нақты нұсқаулық ретінде қолданылмайды.'}
           </div>
         ) : null}
 
@@ -94,7 +98,13 @@ const ScenarioPage = async ({ params }: PageProps) => {
           <div className={`verification-card ${isVerified ? 'verification-card--verified' : ''}`}>
             <span>{isVerified ? '✓' : '!'}</span>
             <div>
-              <strong>{isVerified ? 'Qalai тексерді' : 'Тексерілмеген демо'}</strong>
+              <strong>
+                {isVerified
+                  ? 'Qalai тексерді'
+                  : isSourcedAlpha
+                    ? 'Редактор тексеруде'
+                    : 'Тексерілмеген демо'}
+              </strong>
               <p>
                 {isVerified && scenario.verification.reviewedAt
                   ? `Соңғы тексеру: ${new Intl.DateTimeFormat('kk-KZ').format(new Date(scenario.verification.reviewedAt))}`

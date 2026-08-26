@@ -9,10 +9,14 @@ import { calculatorDefinitions } from '@/modules/calculators/registry'
 export const dynamic = 'force-dynamic'
 
 const quickActions = [
-  { href: '/scenario/zheke-kasipkerlik-ashu-demo', label: 'ЖК ашу', mark: '01' },
-  { href: '/calculator/dekrettik-tolem-kalkulyatory', label: 'Декреттік төлем', mark: '02' },
-  { href: '/calculator/kolik-salygy-kalkulyatory', label: 'Көлік салығы', mark: '03' },
-  { href: '/calculator/avtonesie-kalkulyatory', label: 'Автонесие', mark: '04' },
+  { href: '/scenario/etsq-alu', label: 'ЭЦҚ алу', mark: '01' },
+  { href: '/calculator/zhalaqy-kalkulyatory', label: 'Жалақы', mark: '02' },
+  {
+    href: '/scenario/zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+    label: 'ЖК және салық',
+    mark: '03',
+  },
+  { href: '/scenario/ayypuldardy-tekseru-zhane-toleu', label: 'Айыппұл', mark: '04' },
 ]
 
 const HomePage = async () => {
@@ -87,8 +91,9 @@ const HomePage = async () => {
             ))}
           </div>
           <p className="demo-note">
-            Қазір көрсетілген сценарий — UX үлгісі. CMS режимінде бұл блокқа тек жарияланған және
-            тексерілген материалдар келеді.
+            Бұл материалдар ресми дереккөздермен толтырылған жабық альфа нұсқалары. Тәуелсіз
+            редактор тексермейінше олар іздеу жүйелеріне ашылмайды және «Qalai тексерді» белгісін
+            алмайды.
           </p>
         </div>
       </section>
@@ -109,7 +114,11 @@ const HomePage = async () => {
                 <h3>{calculator.shortTitle}</h3>
                 <p>{calculator.summary}</p>
                 <small>
-                  {calculator.status === 'available' ? 'MVP модулі дайын' : 'Дереккөз тексерілуде'}
+                  {calculator.status === 'available'
+                    ? 'MVP модулі дайын'
+                    : calculator.status === 'alpha'
+                      ? 'Жабық альфа дайын'
+                      : 'Дереккөз тексерілуде'}
                 </small>
               </Link>
             ))}

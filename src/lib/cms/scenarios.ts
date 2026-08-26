@@ -96,7 +96,9 @@ const mapScenario = (doc: Scenario, now: Date): ScenarioViewModel | null => {
 }
 
 export const listPublishedScenarios = async (): Promise<ScenarioViewModel[]> => {
-  if (isDemoContentMode()) return demoScenarios
+  if (isDemoContentMode()) {
+    return demoScenarios.filter((scenario) => scenario.slug !== 'zheke-kasipkerlik-ashu-demo')
+  }
 
   const payload = await getCMSPayload()
   const result = await payload.find({

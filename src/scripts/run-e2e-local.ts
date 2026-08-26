@@ -92,6 +92,7 @@ const run = async () => {
       env: {
         ...process.env,
         QALAI_E2E_BASE_URL: baseURL,
+        QALAI_E2E_EXPECT_CANONICAL_ORIGIN: parsedBaseURL.origin,
         QALAI_E2E_EXTERNAL_SERVER: 'true',
       },
       stdio: 'inherit',

@@ -23,7 +23,8 @@ export const calculatorDefinitions = [
     title: 'Көлік салығы калькуляторы',
     shortTitle: 'Көлік салығы',
     summary: 'Көлік параметрлері мен жыл бойынша салықты түсінікті түрде есептейді.',
-    status: 'source-review',
+    status: 'alpha',
+    formulaVersion: 'kz-vehicle-tax-2026-v1',
   },
   {
     key: 'auto-loan',
@@ -39,8 +40,9 @@ export const calculatorDefinitions = [
     slug: 'zhalaqy-kalkulyatory',
     title: 'Жалақы калькуляторы',
     shortTitle: 'Жалақы',
-    summary: 'Жалақыдан ұсталымдар мен қолға түсетін соманы есептеуге арналған модуль.',
-    status: 'source-review',
+    summary: '2026 жылғы ұсталымдар мен қолға түсетін айлық соманы есептеңіз.',
+    status: 'alpha',
+    formulaVersion: 'kz-salary-2026-v1',
   },
 ] as const satisfies readonly CalculatorDefinition[]
 

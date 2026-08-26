@@ -7,7 +7,7 @@ export const calculatorKeys = [
 ] as const
 
 export type CalculatorKey = (typeof calculatorKeys)[number]
-export type CalculatorStatus = 'available' | 'source-review'
+export type CalculatorStatus = 'alpha' | 'available' | 'source-review'
 
 export type CalculatorDefinition = {
   key: CalculatorKey

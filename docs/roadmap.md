@@ -1,10 +1,13 @@
 # QALAI product roadmap
 
-Last updated: 2026-08-25
+Last updated: 2026-08-26
 
 ## Product direction
 
-QALAI will prove one trustworthy end-to-end task journey before scaling the catalogue. The next milestone is a closed alpha, not the full public MVP.
+QALAI will prove a trustworthy search-to-resolution loop and turn it into a publisher business. The
+next milestone remains a closed alpha, but scope is now explicitly prioritized by its contribution
+to organic traffic and first revenue. The business sequence is documented in
+[revenue-strategy.md](revenue-strategy.md).
 
 The alpha must demonstrate:
 
@@ -18,15 +21,16 @@ verified source
 
 ## Status overview
 
-| Area               | Status           | Current position                                                               |
-| ------------------ | ---------------- | ------------------------------------------------------------------------------ |
-| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place     |
-| Trusted content    | **In progress**  | Five sourced drafts exist; native Kazakh, reviewer and hosted mobile QA remain |
-| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass  |
-| Calculators        | **On track**     | Auto-loan works; four regulated modules remain correctly locked                |
-| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI |
-| Staging            | **Blocked**      | Requires hosted PostgreSQL/storage and deployment credentials                  |
-| Public launch      | **Not started**  | Deliberately follows closed-alpha evidence                                     |
+| Area               | Status           | Current position                                                                |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------- |
+| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place      |
+| Trusted content    | **In progress**  | Ten sourced drafts exist; native Kazakh, reviewer and hosted mobile QA remain   |
+| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass   |
+| Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha            |
+| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI  |
+| Staging            | **Blocked**      | Requires hosted PostgreSQL/storage and deployment credentials                   |
+| Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate    |
+| First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition |
 
 ## Now: closed alpha
 
@@ -41,6 +45,7 @@ Target: 2026-09-07. Scope confidence is high for autonomous repository work and 
 | Resolved Tasks measurement       | P0       | One session-task pair is counted at most once; successful calculation, official transition and helpful feedback are distinguished | Stefania | One analytics provider for staging                                 |
 | Closed noindex staging           | P0       | Supabase-backed CMS mode is deployed with secrets, readiness checks and no public indexing                                        | Stefania | Supabase, storage and hosting access                               |
 | Alpha research run               | P1       | 10–15 target users complete at least 30 task attempts with structured issue capture                                               | Stefania | Staging accepted                                                   |
+| Revenue-ready launch foundation  | P1       | About, editorial and privacy pages are done; public domain, Search Console, contact and ad rules remain                           | Stefania | Five independently verified demand-led pages                       |
 
 ### Alpha acceptance
 
@@ -63,7 +68,9 @@ Alpha exit signals:
 
 ## First five content scenarios
 
-Demand ratings are proxies based on official operation/recipient volumes and recurrence, not keyword-volume claims.
+These five scenarios remain the closed-alpha trust and workflow pack; they are not presented as the
+highest-volume search topics. The measured Kazakhstan demand baseline and the resulting public
+expansion order are documented in [demand-research-2026-08.md](demand-research-2026-08.md).
 
 | Order | Scenario                                                                              | Risk   | Alpha treatment                                                                                 | Primary starting sources                                                                                                                                                                                                                                                                                  |
 | ----: | ------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -80,6 +87,27 @@ Review cadence:
 - every amount and deadline displays an as-of date;
 - an official action link accompanies every outcome.
 
+## Demand-led expansion after alpha
+
+The first measured Wordstat and Google Trends pass moves the following work ahead of additional
+document pages and credit calculators:
+
+1. obtain EDS;
+2. salary calculator;
+3. IP taxes and 2026 regime choice;
+4. check fines;
+5. unemployment registration and payment;
+6. open IP;
+7. close IP;
+8. vehicle-tax calculator — working in closed alpha;
+9. child-payment eligibility journey;
+10. kindergarten application and queue check.
+
+Mixed-language search aliases are required, starting with the observed `ИП ашу`; mapped variants
+such as `ЭЦП алу`, `прописка` and `декретные` must be validated later in Search Console. The public
+answer remains Kazakh-first. Search-volume priority does not bypass the source, verification,
+native-language or publication gates.
+
 ## Ten-day execution plan
 
 | Day | Committed result                                                                                                    |
@@ -90,7 +118,7 @@ Review cadence:
 |   4 | Test Admin/auth, role restrictions, REST/Local API CRUD and anonymous draft isolation                               |
 |   5 | Complete Resolved Tasks deduplication, page views and calculator resolution; remove or implement placeholder search |
 |   6 | Add critical Playwright paths, database-aware readiness and CMS empty states                                        |
-| 7–8 | Author and evidence six drafts for the five alpha tasks; mobile and official-link QA for each                       |
+| 7–8 | Review ten demand-led drafts; complete native-language, mobile and official-link QA for each                        |
 |   9 | Independent factual, Kazakh-language, accessibility and analytics-debug review                                      |
 |  10 | Deploy release candidate, run hosted smoke and backup/rollback rehearsal, prepare tester tasks                      |
 
@@ -106,6 +134,8 @@ Time horizon: the following 1–3 months, conditioned on alpha evidence.
 - Add useful search and related-task discovery.
 - Establish a content freshness queue and reviewer operating cadence.
 - Improve conversion from answer to official action without dark patterns.
+- Submit the original-content site to AdSense and run a restrained placement test only after the
+  public trust and policy gates pass.
 
 ## Later
 
@@ -116,7 +146,10 @@ Time horizon: the following 1–3 months, conditioned on alpha evidence.
 
 ## Explicitly not now
 
-AI chat, user accounts, comments, news, ads, mobile apps, Russian public content, marketplace functionality, bulk AI publication and unverified regulated calculators remain out of scope.
+AI chat, user accounts, comments, news, premature ad code, paid Google Ads acquisition, mobile apps,
+Russian public content, marketplace functionality, bulk AI publication and unverified regulated
+calculators remain out of scope. Display monetization itself is a `Next` item after public launch,
+not a discarded direction.
 
 ## External dependencies and default decisions
 

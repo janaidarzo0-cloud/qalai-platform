@@ -14,6 +14,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { changeFrequency: 'weekly', priority: 1, url: baseURL },
+    ...['about', 'editorial-policy', 'privacy'].map((path) => ({
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+      url: `${baseURL}/${path}`,
+    })),
     ...scenarios
       .filter((scenario) => scenario.status === 'published' && !scenario.seo.noIndex)
       .map((scenario) => ({

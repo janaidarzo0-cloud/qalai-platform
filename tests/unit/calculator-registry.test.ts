@@ -14,11 +14,20 @@ describe('calculator registry', () => {
       .filter(({ status }) => status === 'source-review')
       .map(({ key }) => key)
 
-    expect(sourceReviewKeys).toEqual([
-      'maternity-benefit',
-      'childcare-benefit',
-      'vehicle-tax',
-      'salary',
-    ])
+    expect(sourceReviewKeys).toEqual(['maternity-benefit', 'childcare-benefit'])
+  })
+
+  it('exposes the salary module only as a closed-alpha calculation', () => {
+    expect(calculatorDefinitions.find(({ key }) => key === 'salary')).toMatchObject({
+      formulaVersion: 'kz-salary-2026-v1',
+      status: 'alpha',
+    })
+  })
+
+  it('exposes the vehicle-tax module only as a closed-alpha calculation', () => {
+    expect(calculatorDefinitions.find(({ key }) => key === 'vehicle-tax')).toMatchObject({
+      formulaVersion: 'kz-vehicle-tax-2026-v1',
+      status: 'alpha',
+    })
   })
 })

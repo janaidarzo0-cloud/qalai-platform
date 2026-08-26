@@ -8,14 +8,14 @@ import {
 import { assertScenarioCanPublish } from '@/lib/cms/publication'
 
 const allowedOfficialHost = (hostname: string) =>
-  ['adilet.zan.kz', 'egov.kz', 'enbek.kz', 'gov.kz'].some(
+  ['adilet.zan.kz', 'efinance.gov.kz', 'egov.kz', 'enbek.kz', 'gov.kz'].some(
     (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
   )
 
 describe('closed-alpha Scenario source pack', () => {
-  it('contains six unique drafts for the five agreed tasks', () => {
-    expect(alphaScenarioDrafts).toHaveLength(6)
-    expect(new Set(alphaScenarioDrafts.map((scenario) => scenario.slug)).size).toBe(6)
+  it('contains ten unique demand-led drafts', () => {
+    expect(alphaScenarioDrafts).toHaveLength(10)
+    expect(new Set(alphaScenarioDrafts.map((scenario) => scenario.slug)).size).toBe(10)
     expect(alphaScenarioDrafts.map((scenario) => scenario.slug)).toEqual([
       'turgylikty-zherge-tirkelu',
       'zheke-kualik-merzimi-ayaktaldy',
@@ -23,6 +23,10 @@ describe('closed-alpha Scenario source pack', () => {
       'bala-tuuy-tolemderi',
       'zhumyssyz-retinde-tirkelu-zhane-tolem',
       'zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+      'ayypuldardy-tekseru-zhane-toleu',
+      'zhk-ashu',
+      'zhk-zhabu',
+      'balabaksha-kezege-turu',
     ])
     expect(alphaScenarioDrafts.map((scenario) => scenario.slug)).not.toContain(
       retiredAlphaScenarioSlugs[0],

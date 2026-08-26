@@ -1,15 +1,21 @@
 # Closed-alpha Scenario pack
 
-Checked: 2026-08-25. Mandatory next review: 2026-09-25.
+Checked: original pack 2026-08-25; demand expansion 2026-08-26. Earliest mandatory next review:
+2026-09-25.
 
-The repository contains six evidence-backed Kazakh draft Scenarios in
-`src/content/alpha-scenarios.ts`. They answer the five agreed alpha tasks:
+The repository contains ten evidence-backed Kazakh draft Scenarios in
+`src/content/alpha-scenarios.ts` and `src/content/demand-scenarios.ts`:
 
 1. permanent or temporary residence registration;
-2. identity-card replacement, deliberately split into separate expiry and loss/theft drafts;
-3. childbirth and childcare payments;
-4. unemployment registration and work-loss payment;
-5. choosing between the 2026 self-employed regime and registering an IP.
+2. identity-card replacement after expiry;
+3. identity-card replacement after loss or theft;
+4. childbirth and childcare payments;
+5. unemployment registration and work-loss payment;
+6. choosing between the 2026 self-employed regime and registering an IP;
+7. checking and paying administrative or vehicle fines;
+8. opening an IP online;
+9. closing an IP through the 2026 online route;
+10. joining the kindergarten queue.
 
 Each draft includes eligibility, requirements, documents, cost/as-of information, processing
 time, ordered actions, official CTAs, FAQ, material claims, evidence notes, source keys, recorded

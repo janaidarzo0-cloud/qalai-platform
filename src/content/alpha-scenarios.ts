@@ -1,3 +1,5 @@
+import { demandExpansionDrafts, demandExpansionSources } from './demand-scenarios'
+
 /**
  * Editorial source pack for the closed alpha.
  *
@@ -78,7 +80,7 @@ const START_OF_2026_KZ = '2025-12-31T19:00:00.000Z'
 const END_OF_2026_KZ = '2026-12-31T19:00:00.000Z'
 const NEXT_REVIEW_AT = '2026-09-25T00:00:00.000Z'
 
-export const ALPHA_SOURCE_PACK_VERSION = '2026-08-25.identity-split-v2'
+export const ALPHA_SOURCE_PACK_VERSION = '2026-08-26.demand-expansion-v3'
 
 export const alphaSources: AlphaSource[] = [
   {
@@ -365,6 +367,7 @@ export const alphaSources: AlphaSource[] = [
     trustTier: 'official-provider',
     url: 'https://egov.kz/cms/kk/articles/ip-registration',
   },
+  ...demandExpansionSources,
 ]
 
 export const retiredAlphaScenarioSlugs = ['zheke-kualikti-auystyru'] as const
@@ -1652,4 +1655,5 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
     whoIsItFor:
       '2026 жылы Қазақстанда жалғыз өзі табыс табуды немесе шағын кәсіп бастауды жоспарлап, заңды нысанды таңдап жүрген адамға.',
   },
+  ...demandExpansionDrafts,
 ]

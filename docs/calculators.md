@@ -37,9 +37,53 @@ Rules:
 
 The scaffold implements the standard annuity formula and excludes bank fees, insurance, commissions and campaigns. This module demonstrates the technical contract; it is not a bank offer.
 
-## Government-dependent modules
+## Salary module
 
-The other four registry entries have `source-review` status. Their URLs are `noindex` and show a transparent unavailable state. To implement one:
+The salary module is a working closed-alpha estimate with formula version
+`kz-salary-2026-v1`. It is `noindex` and is not added to public task search until an independent
+editorial check is complete.
+
+The first rule set assumes a Kazakhstan resident employee receives the same gross salary in each
+month of 2026. It includes:
+
+- employee pension contribution: 10%, with a 50 MZW income cap;
+- employee health-insurance contribution: 2%, with a 20 MZW income cap;
+- an optional basic deduction of 30 MRP per month, used at one tax agent;
+- annualized 10%/15% progressive individual-income-tax bands.
+
+It excludes one-off bonuses, employer-paid contributions and special social deductions. Inputs and
+results are never sent to analytics.
+
+Primary control sources:
+
+- [2026 individual income tax rates and deductions](https://www.gov.kz/memleket/entities/kgd-vko/press/news/details/1238674?lang=ru);
+- [employee pension contribution](https://www.gov.kz/situations/332/intro?lang=ru);
+- [2026 employee health-insurance contribution](https://www.gov.kz/memleket/entities/minfin/press/article/details/235407?lang=ru);
+- [2026 MRP and minimum wage](https://www.gov.kz/article/17157?lang=ru).
+
+## Vehicle-tax module
+
+The vehicle-tax module is a working closed-alpha estimate with formula version
+`kz-vehicle-tax-2026-v1`. It remains `noindex` until an independent control calculation and native
+Kazakh review are complete.
+
+The first rule set covers category-B passenger cars owned by individuals in the 2026 tax year. It
+uses the seven engine-volume bands, the additional 7 tenge per cubic centimetre above the band's
+lower boundary for engines over 1,500 cc, age coefficients of 0.7 and 0.5, and months of ownership.
+It excludes exemptions, legal entities and other vehicle categories. The final official assessment
+must be checked in the KGD portal or e-Salyq Azamat.
+
+Primary control sources:
+
+- [Tax Code article 565: rates and age coefficients](https://adilet.kz/ru/laws/nk/st-565/);
+- [Tax Code article 566: ownership-period calculation](https://adilet.kz/ru/laws/nk/st-566/);
+- [2026 MRP](https://www.gov.kz/article/17157?lang=ru);
+- [KGD summary of the 2026 changes](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1167191?lang=ru).
+
+## Remaining government-dependent modules
+
+Maternity benefit and childcare benefit remain in `source-review` status. Their URLs are `noindex`
+and show a transparent unavailable state. To implement one:
 
 1. collect primary official sources and effective dates;
 2. define typed input and rule-set schemas;
