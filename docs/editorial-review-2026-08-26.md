@@ -49,3 +49,39 @@ and deadline to the official system.
 
 Remaining gate: authenticated end-to-end service completion cannot be performed without using a
 real citizen's case data; native Kazakh copy review also remains.
+
+## Unemployment registration and payment route
+
+Official pages checked:
+
+- [eGov unemployment registration service](https://egov.kz/cms/kk/services/pass363_mtszn);
+- [2026 Ministry of Labour payment guidance](https://www.gov.kz/memleket/entities/enbek/press/news/details/1170681);
+- [current government situation guide](https://www.gov.kz/situations/18/99);
+- [Social Code](https://adilet.zan.kz/kaz/docs/K2300000224).
+
+Confirmed: registration is free, the service card gives two working days and requires no uploaded
+documents. Payment eligibility begins after unemployment registration, requires at least six months
+of social-insurance participation and depends on contribution history. The official 2026 guidance
+supports the one-to-six-month range, use of the last 24 months of income, the 45% reference rate and
+the proactive 1414 route. QALAI correctly refuses to promise a personal amount.
+
+Remaining gate: authenticated completion and native Kazakh copy review.
+
+## Self-employed regime or individual entrepreneur route
+
+Official pages checked:
+
+- [State Revenue Committee 2026 regime explanation](https://www.gov.kz/memleket/entities/kgd/press/news/details/1185260);
+- [current government eligibility guide](https://www.gov.kz/situations/810/1707);
+- [permitted activities resolution No. 994](https://adilet.zan.kz/kaz/docs/P2500000994);
+- [eGov individual-entrepreneur registration guide](https://egov.kz/cms/kk/articles/ip-registration).
+
+Confirmed: the self-employed regime is limited to Kazakhstan citizens and kandas who are not
+registered as individual entrepreneurs, do not employ workers, perform a permitted activity and stay
+within 300 MCI per calendar month. For 2026, the official guide gives 1,297,500 tenge; the regime uses
+e-Salyq Business and 4% social payments. One material omission was corrected: QALAI now states the
+citizen-or-kandas condition in the answer and eligibility checklist instead of presenting only the
+business and income conditions.
+
+Remaining gate: tax-terminology review by an independent native Kazakh editor and authenticated
+device testing of the e-Salyq Business/eLicense routes.

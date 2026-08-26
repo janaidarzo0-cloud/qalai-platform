@@ -53,4 +53,13 @@ describe('demo content safety', () => {
     expect(eds?.processingTime).toContain('модерацияға жіберілсе')
     expect(eds?.processingTimeExplanation).toContain('Қалыпты онлайн өтінімге')
   })
+
+  it('keeps the citizenship gate in the 2026 self-employed regime guidance', () => {
+    const selfEmployed = demoScenarios.find(
+      (scenario) => scenario.slug === 'zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+    )
+
+    expect(selfEmployed?.shortAnswer).toContain('ҚР азаматы немесе қандас')
+    expect(selfEmployed?.eligibility.some((item) => item.condition.includes('қандас'))).toBe(true)
+  })
 })
