@@ -46,4 +46,11 @@ describe('demo content safety', () => {
       'zheke-kualik-zhogaldy-nemese-urlandy',
     ])
   })
+
+  it('does not present conditional EDS document moderation as the normal service time', () => {
+    const eds = demoScenarios.find((scenario) => scenario.slug === 'etsq-alu')
+
+    expect(eds?.processingTime).toContain('модерацияға жіберілсе')
+    expect(eds?.processingTimeExplanation).toContain('Қалыпты онлайн өтінімге')
+  })
 })

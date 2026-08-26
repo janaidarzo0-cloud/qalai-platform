@@ -21,16 +21,16 @@ verified source
 
 ## Status overview
 
-| Area               | Status           | Current position                                                                |
-| ------------------ | ---------------- | ------------------------------------------------------------------------------- |
-| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place      |
-| Trusted content    | **In progress**  | Ten sourced drafts exist; native Kazakh, reviewer and hosted mobile QA remain   |
-| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass   |
-| Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha            |
-| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI  |
-| Staging            | **In progress**  | Security release is installed; hosting sign-in and Supabase resources remain    |
-| Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate    |
-| First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition |
+| Area               | Status           | Current position                                                                              |
+| ------------------ | ---------------- | --------------------------------------------------------------------------------------------- |
+| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place                    |
+| Trusted content    | **In progress**  | Ten sourced drafts exist; hosted mobile QA passed; native Kazakh and reviewer approval remain |
+| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass                 |
+| Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha                          |
+| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI                |
+| Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA    |
+| Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate                  |
+| First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition               |
 
 ## Now: closed alpha
 
