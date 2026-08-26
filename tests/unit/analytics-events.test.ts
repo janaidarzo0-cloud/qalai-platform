@@ -48,6 +48,28 @@ describe('analytics event privacy contract', () => {
     ).toBe(false)
   })
 
+  it('allows only fixed source and destination task identifiers for internal links', () => {
+    expect(
+      serializeAnalyticsEvent({
+        destination: { key: 'maternity-benefit', type: 'calculator' },
+        name: 'internal_task_link_click',
+        task: { key: 'bala-tuuy-tolemderi', type: 'scenario' },
+      }),
+    ).toEqual({
+      destination: { key: 'maternity-benefit', type: 'calculator' },
+      name: 'internal_task_link_click',
+      task: { key: 'bala-tuuy-tolemderi', type: 'scenario' },
+    })
+    expect(
+      serializeAnalyticsEvent({
+        amount: 612_360,
+        destination: { key: 'maternity-benefit', type: 'calculator' },
+        name: 'internal_task_link_click',
+        task: { key: 'bala-tuuy-tolemderi', type: 'scenario' },
+      }),
+    ).toBeNull()
+  })
+
   it('derives a resolved task only from the three explicit success signals', () => {
     const calculator = { key: 'auto-loan', type: 'calculator' } as const
     const scenario = { key: 'zheke-kasipkerlik-ashu', type: 'scenario' } as const

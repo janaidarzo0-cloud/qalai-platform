@@ -59,6 +59,16 @@ export const toGA4Event = (
           result_count_bucket: event.resultCountBucket,
         },
       }
+    case 'internal_task_link_click':
+      return {
+        name: event.name,
+        params: {
+          ...common,
+          ...taskParameters(event),
+          destination_key: event.destination.key,
+          destination_type: event.destination.type,
+        },
+      }
     case 'task_resolved':
       return {
         name: event.name,

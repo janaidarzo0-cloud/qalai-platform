@@ -130,6 +130,12 @@ export const ingestAnalyticsEnvelope = async ({
 }): Promise<IngestResult> => {
   const task = 'task' in envelope.event ? envelope.event.task : null
   if (task && !(await isTaskEligibleForAnalytics(task))) return 'ineligible'
+  if (
+    envelope.event.name === 'internal_task_link_click' &&
+    !(await isTaskEligibleForAnalytics(envelope.event.destination))
+  ) {
+    return 'ineligible'
+  }
 
   const config = getServerAnalyticsConfig()
   if (!config.hashSecret) return 'ineligible'

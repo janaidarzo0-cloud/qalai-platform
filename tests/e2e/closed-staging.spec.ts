@@ -192,6 +192,32 @@ test('childcare-benefit alpha separates working and non-working payments', async
   expect(browserErrors).toEqual([])
 })
 
+test('high-intent content leads to the relevant calculators without opening indexing', async ({
+  page,
+}) => {
+  await page.goto('/scenario/bala-tuuy-tolemderi')
+  const related = page.getByRole('heading', { name: 'Сомаңызды бірден есептеңіз' }).locator('..')
+
+  await expect(related.getByRole('link', { name: /Декреттік төлем/ })).toHaveAttribute(
+    'href',
+    '/calculator/dekrettik-tolem-kalkulyatory',
+  )
+  await expect(related.getByRole('link', { name: /Бала күтімі/ })).toHaveAttribute(
+    'href',
+    '/calculator/bala-kutimi-tolemi',
+  )
+
+  await related.getByRole('link', { name: /Декреттік төлем/ }).click()
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Декреттік төлем калькуляторы' }),
+  ).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+  await expect(page.getByRole('link', { name: /Бала күтімі/ })).toHaveAttribute(
+    'href',
+    '/calculator/bala-kutimi-tolemi',
+  )
+})
+
 test('EDS alpha route uses only official destinations and remains unverified', async ({ page }) => {
   await page.goto('/scenario/etsq-alu')
 

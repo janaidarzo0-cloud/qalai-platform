@@ -1269,6 +1269,45 @@ a {
   max-width: 760px;
 }
 
+.related-task-links__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 22px;
+}
+
+.related-task-links__grid > a {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  padding: 18px;
+  text-decoration: none;
+}
+
+.related-task-links a > span:first-child {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.related-task-links a small {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.related-task-links--aside {
+  display: grid;
+  gap: 12px;
+}
+
+.related-task-links--aside h2 {
+  margin: 0 0 4px;
+}
+
 .calculator-explanation code {
   background: var(--paper-strong);
   border-radius: 8px;

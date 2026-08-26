@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { AnalyticsLink } from '@/components/AnalyticsLink'
 import { Feedback } from '@/components/Feedback'
 import { JsonLd } from '@/components/JsonLd'
+import { RelatedCalculatorLinks } from '@/components/RelatedCalculatorLinks'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { getScenarioBySlug } from '@/lib/cms/scenarios'
 import { isScenarioTrusted } from '@/lib/cms/trust'
@@ -221,6 +222,10 @@ const ScenarioPage = async ({ params }: PageProps) => {
           </div>
 
           <aside className="scenario-aside">
+            <RelatedCalculatorLinks
+              source={{ key: scenario.slug, type: 'scenario' }}
+              variant="aside"
+            />
             <div className="aside-card">
               <p className="eyebrow">Келесі қадам</p>
               <h2>Ресми қызметте жалғастыру</h2>

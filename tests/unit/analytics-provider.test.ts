@@ -49,4 +49,30 @@ describe('GA4 provider allowlist', () => {
     })
     expect(serialized).not.toMatch(/amount|email|iin|query|result|salary|telephone|phone/i)
   })
+
+  it('maps internal task links without sending page text or financial values', () => {
+    const result = toGA4Event(
+      {
+        destination: { key: 'childcare-benefit', type: 'calculator' },
+        name: 'internal_task_link_click',
+        task: { key: 'bala-tuuy-tolemderi', type: 'scenario' },
+      },
+      eventID,
+      'staging',
+      'https://staging.qalai.kz',
+    )
+
+    expect(result).toEqual({
+      name: 'internal_task_link_click',
+      params: {
+        app_environment: 'staging',
+        destination_key: 'childcare-benefit',
+        destination_type: 'calculator',
+        event_id: eventID,
+        schema_version: 1,
+        task_key: 'bala-tuuy-tolemderi',
+        task_type: 'scenario',
+      },
+    })
+  })
 })

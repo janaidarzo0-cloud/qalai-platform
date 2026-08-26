@@ -20,15 +20,16 @@ The anonymous session is a random value in a `HttpOnly`, `Secure`, `SameSite=Lax
 rolling 30-minute lifetime. PostgreSQL and GA4 receive only an HMAC; the raw cookie never leaves the
 QALAI origin.
 
-| Client event          | Purpose                                       | Can derive resolution |
-| --------------------- | --------------------------------------------- | --------------------- |
-| `page_view`           | Canonical public pathname                     | No                    |
-| `task_opened`         | Trusted Scenario or available calculator open | No                    |
-| `calculator_start`    | Calculator submitted                          | No                    |
-| `calculator_complete` | Success/error only, never values              | Success only          |
-| `official_link_click` | Primary official action selected              | Yes                   |
-| `feedback_submitted`  | Found/not found answer                        | Positive only         |
-| `search_submitted`    | Query-length and result-count buckets         | No                    |
+| Client event               | Purpose                                       | Can derive resolution |
+| -------------------------- | --------------------------------------------- | --------------------- |
+| `page_view`                | Canonical public pathname                     | No                    |
+| `task_opened`              | Trusted Scenario or available calculator open | No                    |
+| `calculator_start`         | Calculator submitted                          | No                    |
+| `calculator_complete`      | Success/error only, never values              | Success only          |
+| `official_link_click`      | Primary official action selected              | Yes                   |
+| `feedback_submitted`       | Found/not found answer                        | Positive only         |
+| `search_submitted`         | Query-length and result-count buckets         | No                    |
+| `internal_task_link_click` | Fixed source and destination task IDs only    | No                    |
 
 ## Consent and exclusions
 
@@ -51,6 +52,7 @@ The request schema rejects unknown properties. Never collect or send:
 
 - calculator inputs or results, including money, salary, family or vehicle values;
 - free-form search text;
+- labels, page copy or financial values attached to internal-link events;
 - names, IIN, phone numbers, email addresses or user/admin IDs;
 - query strings, hashes, referrers or arbitrary URLs;
 - Payload draft content, titles, answers or publisher text;

@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { AutoLoanCalculator } from '@/components/AutoLoanCalculator'
 import { ChildcareBenefitCalculator } from '@/components/ChildcareBenefitCalculator'
 import { MaternityBenefitCalculator } from '@/components/MaternityBenefitCalculator'
+import { RelatedCalculatorLinks } from '@/components/RelatedCalculatorLinks'
 import { SalaryCalculator } from '@/components/SalaryCalculator'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { VehicleTaxCalculator } from '@/components/VehicleTaxCalculator'
@@ -265,6 +266,7 @@ const CalculatorPage = async ({ params }: PageProps) => {
             </Link>
           </section>
         )}
+        <RelatedCalculatorLinks source={{ key: calculator.key, type: 'calculator' }} />
       </div>
     </div>
   )

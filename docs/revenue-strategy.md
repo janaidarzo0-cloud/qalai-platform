@@ -20,12 +20,18 @@ as an AdSense-supported market.
 
 ## Now: build traffic assets
 
+The five Product Definition calculators now have working first rule sets. Four regulated modules
+remain in closed alpha; independent factual and native-Kazakh review is the publication bottleneck,
+not implementation.
+
 1. Finish five independently reviewed, indexable high-demand tasks.
 2. Release salary and vehicle-tax calculators after control calculations and native Kazakh review.
 3. Deploy the public domain, Search Console and privacy-safe Resolved Tasks measurement.
 4. Add About, editorial policy, privacy and contact pages before an AdSense application.
 5. Apply to AdSense only when the live site has original useful content, clear navigation and no
    closed-alpha banners on indexable pages.
+6. Measure the path from a high-intent Scenario to its related calculator using fixed task IDs only;
+   never send entered values or calculated amounts.
 
 Success signals:
 

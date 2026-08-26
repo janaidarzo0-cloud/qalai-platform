@@ -95,6 +95,13 @@ export const clientAnalyticsEventSchema = z.discriminatedUnion('name', [
       resultCountBucket: z.enum(['0', '1-3', '4-10', '11+']),
     })
     .strict(),
+  z
+    .object({
+      destination: taskRefSchema,
+      name: z.literal('internal_task_link_click'),
+      task: taskRefSchema,
+    })
+    .strict(),
 ])
 
 export type AnalyticsEvent = z.infer<typeof clientAnalyticsEventSchema>
