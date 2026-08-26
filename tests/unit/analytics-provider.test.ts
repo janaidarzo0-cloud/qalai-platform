@@ -75,4 +75,34 @@ describe('GA4 provider allowlist', () => {
       },
     })
   })
+
+  it('maps search-result clicks without sending the query', () => {
+    const result = toGA4Event(
+      {
+        name: 'search_result_click',
+        positionBucket: '1',
+        queryLengthBucket: '1-20',
+        resultCountBucket: '1-3',
+        task: { key: 'auto-loan', type: 'calculator' },
+      },
+      eventID,
+      'staging',
+      'https://staging.qalai.kz',
+    )
+
+    expect(result).toEqual({
+      name: 'search_result_click',
+      params: {
+        app_environment: 'staging',
+        event_id: eventID,
+        position_bucket: '1',
+        query_length_bucket: '1-20',
+        result_count_bucket: '1-3',
+        schema_version: 1,
+        task_key: 'auto-loan',
+        task_type: 'calculator',
+      },
+    })
+    expect(JSON.stringify(result)).not.toContain('кредит на машину')
+  })
 })

@@ -70,6 +70,34 @@ describe('analytics event privacy contract', () => {
     ).toBeNull()
   })
 
+  it('allows search-result clicks only as fixed buckets and task identifiers', () => {
+    expect(
+      serializeAnalyticsEvent({
+        name: 'search_result_click',
+        positionBucket: '1',
+        queryLengthBucket: '1-20',
+        resultCountBucket: '1-3',
+        task: { key: 'auto-loan', type: 'calculator' },
+      }),
+    ).toEqual({
+      name: 'search_result_click',
+      positionBucket: '1',
+      queryLengthBucket: '1-20',
+      resultCountBucket: '1-3',
+      task: { key: 'auto-loan', type: 'calculator' },
+    })
+    expect(
+      serializeAnalyticsEvent({
+        name: 'search_result_click',
+        positionBucket: '1',
+        query: 'кредит на машину',
+        queryLengthBucket: '1-20',
+        resultCountBucket: '1-3',
+        task: { key: 'auto-loan', type: 'calculator' },
+      }),
+    ).toBeNull()
+  })
+
   it('derives a resolved task only from the three explicit success signals', () => {
     const calculator = { key: 'auto-loan', type: 'calculator' } as const
     const scenario = { key: 'zheke-kasipkerlik-ashu', type: 'scenario' } as const

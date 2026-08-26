@@ -27,7 +27,7 @@ verified source
 | Trusted content    | **In progress**  | Ten sourced drafts exist; hosted mobile QA passed; native Kazakh and reviewer approval remain |
 | CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass                 |
 | Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha                          |
-| Measurement        | **Done locally** | Consent-aware first-party funnel and atomic session-task deduplication pass CI                |
+| Measurement        | **Done locally** | Consent-aware funnel, search-result clicks and atomic session-task deduplication pass CI      |
 | Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA    |
 | Public launch      | **Not started**  | Five verified demand-led pages, Search Console and policy pages are the gate                  |
 | First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition               |
@@ -104,10 +104,11 @@ document pages and credit calculators:
 10. childcare-benefit calculator — working in closed alpha;
 11. kindergarten application and queue check.
 
-Mixed-language search aliases are required, starting with the observed `ИП ашу`; mapped variants
-such as `ЭЦП алу`, `прописка` and `декретные` must be validated later in Search Console. The public
-answer remains Kazakh-first. Search-volume priority does not bypass the source, verification,
-native-language or publication gates.
+Mixed-language search aliases now cover the priority catalogue, starting with the observed `ИП ашу`
+and mapped variants such as `ЭЦП алу`, `прописка` and `декретные`. They remain private discovery
+metadata, never replace the Kazakh-first answer, and will be refined from Search Console evidence.
+Search-volume priority does not bypass the source, verification, native-language or publication
+gates.
 
 ## Ten-day execution plan
 

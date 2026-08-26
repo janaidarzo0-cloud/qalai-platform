@@ -4,6 +4,7 @@ import {
   buildTaskSearchIndex,
   getQueryLengthBucket,
   getResultCountBucket,
+  getSearchResultPositionBucket,
   searchTasks,
   type ScenarioSearchSource,
 } from '@/lib/search/tasks'
@@ -12,7 +13,7 @@ import { calculatorDefinitions } from '@/modules/calculators/registry'
 const scenario = (overrides: Partial<ScenarioSearchSource> = {}): ScenarioSearchSource => ({
   category: 'Мемлекет',
   shortAnswer: 'Жеке кәсіпкерлікті онлайн тіркеуге арналған қадамдар.',
-  slug: 'zheke-kasipkerlik-ashu',
+  slug: 'zhk-ashu',
   status: 'published',
   title: 'ЖК қалай ашуға болады?',
   trusted: true,
@@ -31,7 +32,7 @@ describe('task search', () => {
     )
 
     expect(index.map(({ href }) => href)).toEqual([
-      '/scenario/zheke-kasipkerlik-ashu',
+      '/scenario/zhk-ashu',
       '/calculator/avtonesie-kalkulyatory',
     ])
   })
@@ -40,12 +41,31 @@ describe('task search', () => {
     const index = buildTaskSearchIndex([scenario()], calculatorDefinitions)
 
     expect(searchTasks(index, '  КӘСІПКЕРЛІК, қадамдар!  ').map(({ href }) => href)).toEqual([
-      '/scenario/zheke-kasipkerlik-ashu',
+      '/scenario/zhk-ashu',
     ])
     expect(searchTasks(index, 'автонесие төлемді').map(({ href }) => href)).toEqual([
       '/calculator/avtonesie-kalkulyatory',
     ])
     expect(searchTasks(index, '   ')).toEqual([])
+  })
+
+  it('finds tasks by measured mixed-language demand aliases', () => {
+    const availableCalculators = calculatorDefinitions.map((calculator) => ({
+      ...calculator,
+      status: 'available' as const,
+    }))
+    const index = buildTaskSearchIndex([scenario()], availableCalculators)
+
+    expect(searchTasks(index, 'открыть ИП').map(({ href }) => href)).toEqual(['/scenario/zhk-ashu'])
+    expect(searchTasks(index, 'кредит на машину').map(({ href }) => href)).toEqual([
+      '/calculator/avtonesie-kalkulyatory',
+    ])
+    expect(searchTasks(index, 'декретные').map(({ href }) => href)).toEqual([
+      '/calculator/dekrettik-tolem-kalkulyatory',
+    ])
+    expect(searchTasks(index, 'зарплата на руки').map(({ href }) => href)).toEqual([
+      '/calculator/zhalaqy-kalkulyatory',
+    ])
   })
 
   it('reports only bounded analytics buckets', () => {
@@ -61,6 +81,13 @@ describe('task search', () => {
       '4-10',
       '4-10',
       '11+',
+    ])
+    expect([1, 2, 3, 4, 20].map(getSearchResultPositionBucket)).toEqual([
+      '1',
+      '2-3',
+      '2-3',
+      '4+',
+      '4+',
     ])
   })
 })

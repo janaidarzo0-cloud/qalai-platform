@@ -97,6 +97,15 @@ export const clientAnalyticsEventSchema = z.discriminatedUnion('name', [
     .strict(),
   z
     .object({
+      name: z.literal('search_result_click'),
+      positionBucket: z.enum(['1', '2-3', '4+']),
+      queryLengthBucket: z.enum(['1-20', '21-50', '51+']),
+      resultCountBucket: z.enum(['1-3', '4-10', '11+']),
+      task: taskRefSchema,
+    })
+    .strict(),
+  z
+    .object({
       destination: taskRefSchema,
       name: z.literal('internal_task_link_click'),
       task: taskRefSchema,

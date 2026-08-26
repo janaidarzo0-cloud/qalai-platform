@@ -7,6 +7,7 @@ import { trackEvent } from '@/lib/analytics/client'
 import {
   getQueryLengthBucket,
   getResultCountBucket,
+  getSearchResultPositionBucket,
   searchTasks,
   type SearchTask,
 } from '@/lib/search/tasks'
@@ -17,6 +18,10 @@ type Props = {
 
 export const TaskSearch = ({ tasks }: Props) => {
   const [results, setResults] = useState<SearchTask[] | null>(null)
+  const [searchContext, setSearchContext] = useState<{
+    queryLengthBucket: ReturnType<typeof getQueryLengthBucket>
+    resultCountBucket: Exclude<ReturnType<typeof getResultCountBucket>, '0'>
+  } | null>(null)
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -25,11 +30,14 @@ export const TaskSearch = ({ tasks }: Props) => {
     if (!query) return
 
     const nextResults = searchTasks(tasks, query)
+    const queryLengthBucket = getQueryLengthBucket(query)
+    const resultCountBucket = getResultCountBucket(nextResults.length)
     trackEvent({
       name: 'search_submitted',
-      queryLengthBucket: getQueryLengthBucket(query),
-      resultCountBucket: getResultCountBucket(nextResults.length),
+      queryLengthBucket,
+      resultCountBucket,
     })
+    setSearchContext(resultCountBucket === '0' ? null : { queryLengthBucket, resultCountBucket })
     setResults(nextResults)
   }
 
@@ -61,8 +69,20 @@ export const TaskSearch = ({ tasks }: Props) => {
       </p>
       {results && results.length > 0 ? (
         <nav aria-label="Іздеу нәтижелері" className="task-search__results">
-          {results.map((task) => (
-            <Link href={task.href} key={task.href}>
+          {results.map((task, index) => (
+            <Link
+              href={task.href}
+              key={task.href}
+              onClick={() => {
+                if (!searchContext) return
+                trackEvent({
+                  name: 'search_result_click',
+                  positionBucket: getSearchResultPositionBucket(index + 1),
+                  ...searchContext,
+                  task: task.task,
+                })
+              }}
+            >
               <span className="task-search__result-meta">{task.meta}</span>
               <strong>{task.title}</strong>
               <span aria-hidden="true">↗</span>

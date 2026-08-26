@@ -29,6 +29,7 @@ QALAI origin.
 | `official_link_click`      | Primary official action selected              | Yes                   |
 | `feedback_submitted`       | Found/not found answer                        | Positive only         |
 | `search_submitted`         | Query-length and result-count buckets         | No                    |
+| `search_result_click`      | Fixed task ID, position and count buckets     | No                    |
 | `internal_task_link_click` | Fixed source and destination task IDs only    | No                    |
 
 ## Consent and exclusions
@@ -52,7 +53,7 @@ The request schema rejects unknown properties. Never collect or send:
 
 - calculator inputs or results, including money, salary, family or vehicle values;
 - free-form search text;
-- labels, page copy or financial values attached to internal-link events;
+- labels, page copy or financial values attached to internal-link or search-result events;
 - names, IIN, phone numbers, email addresses or user/admin IDs;
 - query strings, hashes, referrers or arbitrary URLs;
 - Payload draft content, titles, answers or publisher text;

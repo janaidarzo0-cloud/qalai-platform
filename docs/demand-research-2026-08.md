@@ -123,7 +123,8 @@ production; they do not authorize publication.
 3. Split opening and closing an IP into separate search outcomes.
 4. Treat child payments as one discovery journey with separate result pages/calculators; narrow
    birth-benefit wording alone understates the cluster.
-5. Add mixed-language aliases to search and SEO fields while keeping the public answer Kazakh-first.
+5. Mixed-language aliases are now implemented in the private on-site search catalogue while the
+   public answer stays Kazakh-first. Validate and refine the phrases from Search Console after launch.
 6. Refresh Wordstat and Trends quarterly, before annual tax/benefit updates, and after any major
    search-platform methodology change.
 7. Replace proxy demand with Search Console impressions, click-through rate and Resolved Task Rate

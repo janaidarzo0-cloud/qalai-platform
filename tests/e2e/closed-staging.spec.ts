@@ -57,6 +57,25 @@ test('closed staging stays out of search indexes', async ({ page, request }) => 
   await expect(page.locator('html')).toHaveAttribute('lang', 'kk')
 })
 
+test('mixed-language search finds a public task without exposing alpha content', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByLabel('Сұрағыңызды жазыңыз').fill('кредит на машину')
+  await page.getByRole('button', { name: 'Нұсқаулықты табу' }).click()
+
+  await expect(page.getByText('1 тексерілген материал табылды.')).toBeVisible()
+  const result = page.getByRole('link', { name: /Автонесие калькуляторы/ })
+  await expect(result).toHaveAttribute('href', '/calculator/avtonesie-kalkulyatory')
+  await expect(page.getByText(/Декреттік төлем калькуляторы/)).toHaveCount(0)
+
+  await result.click()
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Автонесие калькуляторы' }),
+  ).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+})
+
 test('auto-loan calculator completes the primary outcome', async ({ page }) => {
   const browserErrors: string[] = []
   page.on('console', (message) => {
