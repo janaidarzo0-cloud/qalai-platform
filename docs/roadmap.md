@@ -101,7 +101,7 @@ document pages and credit calculators:
 7. close IP;
 8. vehicle-tax calculator — working in closed alpha;
 9. maternity-benefit calculator — working in closed alpha;
-10. child-payment eligibility journey;
+10. childcare-benefit calculator — working in closed alpha;
 11. kindergarten application and queue check.
 
 Mixed-language search aliases are required, starting with the observed `ИП ашу`; mapped variants

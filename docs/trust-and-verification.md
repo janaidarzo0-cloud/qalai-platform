@@ -51,10 +51,9 @@ These conditions are enforced at publication and evaluated again on every public
 
 ## Regulated calculators
 
-Salary, maternity and vehicle-tax modules have source-backed formulas and control examples but stay
-in closed alpha and `noindex` until an independent factual and native-language review. Childcare
-remains unavailable while its formula review is incomplete. A polished form is not evidence of
-correctness.
+Salary, maternity, childcare and vehicle-tax modules have source-backed formulas and control
+examples but stay in closed alpha and `noindex` until an independent factual and native-language
+review. A polished form is not evidence of correctness.
 
 A Scenario can reference a calculator rule set only when that rule set is published, verified, currently effective and backed by a current official primary Source. A rule set used by a published Scenario cannot be changed in the live snapshot, unpublished or deleted; draft revisions remain possible and require a new coordinated review before replacing it.
 

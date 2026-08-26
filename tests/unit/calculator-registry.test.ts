@@ -9,12 +9,15 @@ describe('calculator registry', () => {
     expect(new Set(calculatorDefinitions.map(({ slug }) => slug)).size).toBe(5)
   })
 
-  it('keeps regulated calculators unavailable until source review', () => {
-    const sourceReviewKeys = calculatorDefinitions
-      .filter(({ status }) => status === 'source-review')
-      .map(({ key }) => key)
+  it('has no remaining calculator in source-review after the first rule sets are implemented', () => {
+    expect(calculatorDefinitions.map(({ status }) => status)).not.toContain('source-review')
+  })
 
-    expect(sourceReviewKeys).toEqual(['childcare-benefit'])
+  it('exposes the childcare-benefit module only as a closed-alpha calculation', () => {
+    expect(calculatorDefinitions.find(({ key }) => key === 'childcare-benefit')).toMatchObject({
+      formulaVersion: 'kz-childcare-benefit-2026-v1',
+      status: 'alpha',
+    })
   })
 
   it('exposes the maternity-benefit module only as a closed-alpha calculation', () => {

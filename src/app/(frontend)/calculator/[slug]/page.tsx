@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { AutoLoanCalculator } from '@/components/AutoLoanCalculator'
+import { ChildcareBenefitCalculator } from '@/components/ChildcareBenefitCalculator'
 import { MaternityBenefitCalculator } from '@/components/MaternityBenefitCalculator'
 import { SalaryCalculator } from '@/components/SalaryCalculator'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
@@ -69,7 +70,46 @@ const CalculatorPage = async ({ params }: PageProps) => {
           </div>
         ) : null}
 
-        {calculator.key === 'maternity-benefit' ? (
+        {calculator.key === 'childcare-benefit' ? (
+          <>
+            <ChildcareBenefitCalculator />
+            <section className="calculator-explanation">
+              <h2>Бұл қалай есептелді?</h2>
+              <p>
+                Әлеуметтік аударымы бар ата-ана үшін соңғы 24 айда Қорға аударым түскен табыс
+                жиынтығы 24-ке бөлініп, 40% коэффициентіне көбейтіледі. Тағайындалған сомадан 10%
+                міндетті зейнетақы жарнасы ұсталады. 2026 жылғы ең жоғары әлеуметтік төлем — айына
+                238 000 теңге, ал ең төменгі деңгей баланың кезегіне қарай мемлекеттік жәрдемақыдан
+                кем болмауы тиіс. Әлеуметтік аударымы жоқ ата-анаға 5,76–8,90 АЕК мөлшеріндегі
+                мемлекеттік жәрдемақы көрсетіледі.
+              </p>
+              <p>
+                Бұл нұсқа екі 12 айлық кезеңнің әрқайсысында табыс тұрақты болған қарапайым жағдайға
+                арналған. Ай сайынғы табыс өзгерсе, бірнеше төлеуші немесе ЖК кірісі болса, ресми
+                тағайындау сомасы өзгеше болуы мүмкін.
+              </p>
+              <ul className="official-source-list">
+                <li>
+                  <a href="https://www.gov.kz/situations/315/intro?lang=ru">
+                    gov.kz: 24 ай, 40% және төлем түрлері
+                  </a>
+                </li>
+                <li>
+                  <a href="https://adilet.zan.kz/rus/docs/K2300000224">
+                    Әлеуметтік кодекстің 84–85-баптары
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.gov.kz/memleket/entities/enbek-zko/press/news/details/1201481">
+                    gov.kz: 2026 жылғы жәрдемақы мөлшерлері
+                  </a>
+                </li>
+              </ul>
+              <p>Нақты соманы eGov-тағы тағайындау нәтижесімен салыстырыңыз.</p>
+              <code>formulaVersion: {calculator.formulaVersion}</code>
+            </section>
+          </>
+        ) : calculator.key === 'maternity-benefit' ? (
           <>
             <MaternityBenefitCalculator />
             <section className="calculator-explanation">

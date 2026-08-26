@@ -116,8 +116,9 @@ Primary control sources:
 
 ## Remaining government-dependent modules
 
-Childcare benefit remains in `source-review` status. Its URL is `noindex` and shows a transparent
-unavailable state. To implement it:
+All five Product Definition calculators now have an implemented first rule set. Salary, maternity,
+childcare and vehicle tax remain in closed alpha; auto loan is the only generally available module.
+Any new regulated calculator must follow this process:
 
 1. collect primary official sources and effective dates;
 2. define typed input and rule-set schemas;
@@ -126,3 +127,25 @@ unavailable state. To implement it:
 5. add minimum, maximum, zero, invalid and date-boundary tests;
 6. create and verify a Payload rule set;
 7. change registry status only after review.
+
+## Childcare-benefit module
+
+The childcare-benefit module is a working closed-alpha estimate with formula version
+`kz-childcare-benefit-2026-v1`. It separates participants with social contributions from parents
+without social contributions and remains `noindex` pending independent review.
+
+For the working-parent path, the user enters a representative monthly social-contribution income
+and paid-month count for each of the two preceding twelve-month periods. Gaps are zero and the total
+is divided by 24. The result uses the 0.4 income-replacement coefficient, applies the child-order
+minimum with pension contributions grossed up, caps the assigned amount at 40% of 7 MZW (238,000
+tenge in 2026), and shows the bank amount after 10% pension withholding.
+
+For the non-working path, the module applies the 2026 state-benefit rates of 5.76, 6.81, 7.85 or
+8.90 MRP according to child order. It rounds fractional-tenge statutory products upward to match
+the officially published 2026 amounts: 24,912; 29,454; 33,952; and 38,493 tenge.
+
+Primary control sources:
+
+- [gov.kz calculation guide](https://www.gov.kz/situations/315/intro?lang=ru);
+- [Social Code articles 84-85](https://adilet.zan.kz/rus/docs/K2300000224);
+- [official 2026 state-benefit amounts](https://www.gov.kz/memleket/entities/enbek-zko/press/news/details/1201481).

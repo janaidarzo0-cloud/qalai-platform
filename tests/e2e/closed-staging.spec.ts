@@ -168,6 +168,30 @@ test('maternity-benefit alpha matches the 2026 official control examples', async
   expect(browserErrors).toEqual([])
 })
 
+test('childcare-benefit alpha separates working and non-working payments', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+
+  await page.goto('/calculator/bala-kutimi-tolemi')
+  await expect(page.getByRole('heading', { level: 1, name: 'Бала күтімі төлемі' })).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+  await page.getByRole('button', { name: 'Ай сайынғы төлемді есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /63.*000.*₸/ })).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-childcare-benefit-2026-v1')).toBeVisible()
+
+  await page.getByLabel('Жұмыс және әлеуметтік аударым мәртебесі').selectOption('non-working')
+  await page.getByLabel('Баланың кезегі').selectOption('4')
+  await page.getByRole('button', { name: 'Ай сайынғы төлемді есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /38.*493.*₸/ })).toBeVisible()
+  await expect(page.getByText(/8.9 АЕК/)).toBeVisible()
+  expect(browserErrors).toEqual([])
+})
+
 test('EDS alpha route uses only official destinations and remains unverified', async ({ page }) => {
   await page.goto('/scenario/etsq-alu')
 
@@ -279,6 +303,7 @@ test.describe('mobile viewport', () => {
       '/',
       '/calculator/avtonesie-kalkulyatory',
       '/calculator/dekrettik-tolem-kalkulyatory',
+      '/calculator/bala-kutimi-tolemi',
       '/calculator/zhalaqy-kalkulyatory',
       '/calculator/kolik-salygy-kalkulyatory',
       '/about',

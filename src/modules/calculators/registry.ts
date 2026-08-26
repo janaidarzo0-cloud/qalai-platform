@@ -16,7 +16,8 @@ export const calculatorDefinitions = [
     title: 'Бала күтімі төлемі',
     shortTitle: 'Бала күтімі',
     summary: 'Ай сайынғы төлемді ресми ережелер бойынша есептеуге арналған модуль.',
-    status: 'source-review',
+    status: 'alpha',
+    formulaVersion: 'kz-childcare-benefit-2026-v1',
   },
   {
     key: 'vehicle-tax',
