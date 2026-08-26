@@ -277,6 +277,17 @@ export const alphaSources: AlphaSource[] = [
     validUntil: END_OF_2026_KZ,
   },
   {
+    key: 'child-payments-ministry-2026',
+    language: 'kk',
+    publisher: 'Қазақстан Республикасы Еңбек және халықты әлеуметтік қорғау министрлігі',
+    sourceType: 'government',
+    title: '2026 жылғы бала тууы және бала күтімі төлемдері туралы түсіндірме',
+    trustTier: 'primary-official',
+    url: 'https://www.gov.kz/memleket/entities/enbek/press/news/details/1181117',
+    validFrom: START_OF_2026_KZ,
+    validUntil: END_OF_2026_KZ,
+  },
+  {
     documentNumber:
       'Қазақстан Республикасы Еңбек министрінің 2023 жылғы 24 мамырдағы № 169 бұйрығы',
     key: 'child-allowance-rules',
@@ -1152,7 +1163,12 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
             '2026 жылғы екінші және үшінші балаға ай сайынғы күтім жәрдемақысының теңгелік сомасы eGov пен Еңбек министрлігінің материалында 1 теңгеге айырмашылықпен берілген.',
           resolution:
             'Альфа бұл екі жолға тек заңдағы АЕК коэффициентін көрсетеді; теңгелік соманы жарияламайды.',
-          sourceKeys: ['child-allowances-egov', 'social-code', 'budget-2026'],
+          sourceKeys: [
+            'child-allowances-egov',
+            'child-payments-ministry-2026',
+            'social-code',
+            'budget-2026',
+          ],
         },
       ],
       publicationBlockers: [
@@ -1164,6 +1180,10 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       researchCheckedAt: CHECKED_AT,
     },
     eligibility: [
+      {
+        condition: 'Қазақстан азаматы, қандас немесе Қазақстанда тұрақты тұратын шетелдіксіз.',
+        explanation: '2026 жылғы ресми түсіндірме осы үш топтың өтініш бере алатынын көрсетеді.',
+      },
       {
         condition: 'Біржолғы туу жәрдемақысы жұмысқа және табысқа тәуелді емес.',
         explanation: 'Егіз немесе үшем туған жағдайда әр балаға бөлек төленеді.',
@@ -1193,7 +1213,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
           evidence:
             '2026 жылғы бюджетте АЕК 4 325 теңге; eGov 38 АЕК = 164 350 және 63 АЕК = 272 475 деп көрсетеді.',
           id: 'CHILD-02',
-          sourceKeys: ['budget-2026', 'child-allowances-egov'],
+          sourceKeys: ['budget-2026', 'child-allowances-egov', 'child-payments-ministry-2026'],
           statement: '2026 жылғы біржолғы жәрдемақының теңгелік сомасы.',
         },
         {
@@ -1228,6 +1248,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
         'social-code',
         'budget-2026',
         'child-allowances-egov',
+        'child-payments-ministry-2026',
         'child-care-payment-service',
         'child-allowance-rules',
       ],
@@ -1283,7 +1304,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
         actionLabel: 'Жәрдемақы қызметін ашу',
         actionUrl: 'https://www.gov.kz/services/3450?lang=kk',
         description:
-          'Біржолғы жәрдемақы барлық отбасына беріледі. Өтінішті туған күннен бастап 18 ай ішінде беріңіз.',
+          'Біржолғы жәрдемақы құқығы бар өтініш берушіге табысына қарамастан беріледі. Өтінішті туған күннен бастап 18 ай ішінде беріңіз.',
         title: 'Біржолғы жәрдемақыға өтініш беріңіз',
       },
       {
@@ -1301,7 +1322,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
     ],
     title: 'Бала туған кезде қандай төлем алуға болады?',
     whoIsItFor:
-      'Қазақстанда бала туғаннан кейін біржолғы жәрдемақы мен 1,5 жасқа дейінгі күтім төлемін рәсімдейтін ата-анаға немесе күтушіге.',
+      'Бала туғаннан кейін біржолғы жәрдемақы мен 1,5 жасқа дейінгі күтім төлемін рәсімдейтін Қазақстан азаматына, қандасқа немесе Қазақстанда тұрақты тұратын шетелдікке.',
   },
   {
     category: {

@@ -79,4 +79,25 @@ describe('demo content safety', () => {
     expect(closeConditions).toContain('Орындалмаған хабарламалар')
     expect(closeConditions).toContain('Ашық банк шоттары')
   })
+
+  it('keeps child-payment residence eligibility and routes kindergarten through the region router', () => {
+    const childPayments = demoScenarios.find((scenario) => scenario.slug === 'bala-tuuy-tolemderi')
+    const kindergarten = demoScenarios.find(
+      (scenario) => scenario.slug === 'balabaksha-kezege-turu',
+    )
+
+    expect(childPayments?.shortAnswer).toContain('164 350')
+    expect(childPayments?.shortAnswer).toContain('272 475')
+    expect(
+      childPayments?.eligibility.some((item) =>
+        item.condition.includes('тұрақты тұратын шетелдік'),
+      ),
+    ).toBe(true)
+    expect(kindergarten?.shortAnswer).toContain('өңіріңізге арналған кезек жүйесін')
+    expect(kindergarten?.shortAnswer).toContain('төрт ұйымды белгілеу')
+    expect(kindergarten?.officialLinks[0]?.url).toBe('https://www.gov.kz/services/3042?lang=kk')
+    expect(kindergarten?.steps.some((step) => step.actionUrl?.includes('/services/S001'))).toBe(
+      false,
+    )
+  })
 })

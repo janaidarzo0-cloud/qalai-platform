@@ -124,3 +124,44 @@ liquidation return must be paid within ten calendar days. QALAI continues to req
 confirm final deregistration instead of treating application submission as successful closure.
 
 Remaining gate: authenticated ELC completion and independent tax/native-Kazakh review.
+
+## Child-birth and care payments route
+
+Official pages checked:
+
+- [eGov 2026 allowances and social payments guide](https://egov.kz/cms/kk/articles/disabled_persons/allowance);
+- [Ministry of Labour 2026 child-payment explanation](https://www.gov.kz/memleket/entities/enbek/press/news/details/1181117);
+- [child-care income-loss service card](https://www.gov.kz/services/3450?lang=kk);
+- [Social Code](https://adilet.zan.kz/kaz/docs/K2300000224).
+
+Confirmed: the 2026 one-time birth allowance is 164,350 tenge for the first through third child and
+272,475 tenge from the fourth child. The application limit is 18 months, and the portal notification
+for the birth allowance is seven working days. The fixed budget care allowance and the insured
+income-loss payment remain separate routes; QALAI does not invent a personal insured amount.
+
+One material eligibility omission was corrected. The current Ministry explanation allows claims by
+Kazakhstan citizens, kandas and foreigners permanently residing in Kazakhstan. The route no longer
+uses the broader phrase “all families” without that status gate. The known one-tenge discrepancy in
+second- and third-child monthly amounts remains excluded from the public answer.
+
+Remaining gate: authenticated application, independent benefit-specialist review and native Kazakh
+copy approval.
+
+## Kindergarten queue route
+
+Official pages checked:
+
+- [current government service and regional-system router](https://www.gov.kz/services/3042?lang=kk);
+- [government queue application guide](https://www.gov.kz/situations/58/219?lang=kk).
+
+The previous generic eGov action URL was not a dependable national entry point. It was replaced with
+the current government service card, which routes applicants to different systems by region. The
+answer now tells the parent to select the region first and treats the guide's four-organisation
+instruction as general guidance, with an explicit warning that the regional interface may differ.
+
+Confirmed: the service is free; general and first-priority applications are processed automatically,
+while out-of-turn, sanatorium and special applications can take up to one working day. QALAI still
+requires the user to retain the placement notice and monitor the account for vacancy messages.
+
+Remaining gate: authenticated testing in at least three regional systems and native Kazakh copy
+approval.
