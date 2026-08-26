@@ -57,8 +57,11 @@ export const SalaryCalculator = () => {
           <label className="checkbox-field">
             <input defaultChecked name="applyBasicDeduction" type="checkbox" />
             <span>
-              <strong>30 АЕК базалық шегерімді қолдану</strong>
-              <small>Бұл шегерімді бір салық агенті ғана қолдана алады.</small>
+              <strong>Жұмыс берушім 30 АЕК базалық шегерімді қолданады</strong>
+              <small>
+                Шегерім қызметкердің өтінішімен бір салық агентінде ғана қолданылады және келесі
+                айға көшірілмейді.
+              </small>
             </span>
           </label>
         </div>
@@ -73,12 +76,16 @@ export const SalaryCalculator = () => {
       </form>
 
       <section className="calculator-result" aria-live="polite" aria-labelledby="result-title">
-        <p className="eyebrow">Қолға түсетін сома</p>
+        <p className="eyebrow">
+          {result?.progressiveRateApplied ? 'Орташа қолға түсетін сома' : 'Қолға түсетін сома'}
+        </p>
         <h2 id="result-title">{result ? formatKzt(result.netSalary) : 'Есептеуге дайын'}</h2>
         <p>
-          {result
-            ? '2026 жылғы ережелер бойынша айлық бағалау'
-            : 'Жалақыңызды енгізіп, «Есептеу» түймесін басыңыз.'}
+          {result?.progressiveRateApplied
+            ? `Жылдық салық салынатын табыс ${formatKzt(result.annualTaxThreshold)} шегінен асады. Бұл — тұрақты жалақыға арналған жылдық ЖТС-ты 12 айға бөлген орташа баға; нақты айлық ұсталым өзгеруі мүмкін.`
+            : result
+              ? '2026 жылғы ережелер бойынша айлық бағалау'
+              : 'Жалақыңызды енгізіп, «Есептеу» түймесін басыңыз.'}
         </p>
         {result ? (
           <dl className="result-list">
@@ -90,10 +97,22 @@ export const SalaryCalculator = () => {
               <dt>МӘМС жарнасы</dt>
               <dd>− {formatKzt(result.employeeHealthInsurance)}</dd>
             </div>
+            {result.assumptions.applyBasicDeduction ? (
+              <div>
+                <dt>Қолданылған базалық шегерім</dt>
+                <dd>{formatKzt(result.basicDeduction)}</dd>
+              </div>
+            ) : null}
             <div>
-              <dt>Жеке табыс салығы</dt>
+              <dt>{result.progressiveRateApplied ? 'Орташа айлық ЖТС' : 'Жеке табыс салығы'}</dt>
               <dd>− {formatKzt(result.individualIncomeTax)}</dd>
             </div>
+            {result.progressiveRateApplied ? (
+              <div>
+                <dt>Жылдық ЖТС бағасы</dt>
+                <dd>− {formatKzt(result.annualIndividualIncomeTax)}</dd>
+              </div>
+            ) : null}
             <div>
               <dt>Барлық ұсталым</dt>
               <dd>{formatKzt(result.totalWithheld)}</dd>

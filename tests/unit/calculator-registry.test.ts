@@ -19,7 +19,7 @@ describe('calculator registry', () => {
 
   it('exposes the salary module only as a closed-alpha calculation', () => {
     expect(calculatorDefinitions.find(({ key }) => key === 'salary')).toMatchObject({
-      formulaVersion: 'kz-salary-2026-v1',
+      formulaVersion: 'kz-salary-2026-v2',
       status: 'alpha',
     })
   })

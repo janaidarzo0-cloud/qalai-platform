@@ -98,11 +98,16 @@ test('salary alpha calculates 2026 take-home pay without becoming indexable', as
   await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
   await expect(page.getByRole('heading', { name: /408.*975.*₸/ })).toBeVisible()
   await expect(page.getByText(/31.*025.*₸/)).toBeVisible()
-  await expect(page.getByText('formulaVersion: kz-salary-2026-v1')).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-salary-2026-v2')).toBeVisible()
 
-  await page.getByRole('checkbox', { name: /30 АЕК базалық шегерімді қолдану/ }).uncheck()
+  await page.getByRole('checkbox', { name: /30 АЕК базалық шегерімді қолданады/ }).uncheck()
   await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
   await expect(page.getByRole('heading', { name: /396.*000.*₸/ })).toBeVisible()
+
+  await page.getByLabel('Есептелген айлық жалақы').fill('5000000')
+  await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
+  await expect(page.getByText('Орташа қолға түсетін сома')).toBeVisible()
+  await expect(page.getByText(/нақты айлық ұсталым өзгеруі мүмкін/)).toBeVisible()
   expect(browserErrors).toEqual([])
 })
 

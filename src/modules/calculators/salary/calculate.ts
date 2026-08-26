@@ -11,7 +11,7 @@ export const salaryRule2026 = {
   mrp: 4_325,
   pensionBaseMzw: 50,
   pensionRate: 0.1,
-  version: 'kz-salary-2026-v1',
+  version: 'kz-salary-2026-v2',
 } as const
 
 export type SalaryResult = {
@@ -19,6 +19,9 @@ export type SalaryResult = {
     applyBasicDeduction: boolean
     regularMonthlySalary: true
   }
+  annualIndividualIncomeTax: number
+  annualTaxThreshold: number
+  annualTaxableIncome: number
   basicDeduction: number
   employeeHealthInsurance: number
   formulaVersion: typeof salaryRule2026.version
@@ -26,6 +29,7 @@ export type SalaryResult = {
   individualIncomeTax: number
   netSalary: number
   pensionContribution: number
+  progressiveRateApplied: boolean
   taxableIncome: number
   totalWithheld: number
 }
@@ -54,14 +58,22 @@ export const calculateSalary = (rawInput: SalaryInput): SalaryResult => {
       salaryRule2026.employeeHealthInsuranceBaseMzw * salaryRule2026.minimumWage,
     ) * salaryRule2026.employeeHealthInsuranceRate,
   )
+  const basicDeductionLimit = salaryRule2026.basicDeductionMrp * salaryRule2026.mrp
+  const incomeAvailableForBasicDeduction = Math.max(
+    0,
+    input.grossSalary - pensionContribution - employeeHealthInsurance,
+  )
   const basicDeduction = input.applyBasicDeduction
-    ? salaryRule2026.basicDeductionMrp * salaryRule2026.mrp
+    ? Math.min(basicDeductionLimit, incomeAvailableForBasicDeduction)
     : 0
   const taxableIncome = Math.max(
     0,
     input.grossSalary - pensionContribution - employeeHealthInsurance - basicDeduction,
   )
-  const individualIncomeTax = Math.round(calculateProgressiveAnnualTax(taxableIncome * 12) / 12)
+  const annualTaxableIncome = taxableIncome * 12
+  const annualTaxThreshold = salaryRule2026.ipnAnnualThresholdMrp * salaryRule2026.mrp
+  const annualIndividualIncomeTax = Math.round(calculateProgressiveAnnualTax(annualTaxableIncome))
+  const individualIncomeTax = Math.round(annualIndividualIncomeTax / 12)
   const totalWithheld = pensionContribution + employeeHealthInsurance + individualIncomeTax
 
   return {
@@ -69,6 +81,9 @@ export const calculateSalary = (rawInput: SalaryInput): SalaryResult => {
       applyBasicDeduction: input.applyBasicDeduction,
       regularMonthlySalary: true,
     },
+    annualIndividualIncomeTax,
+    annualTaxThreshold,
+    annualTaxableIncome,
     basicDeduction,
     employeeHealthInsurance,
     formulaVersion: salaryRule2026.version,
@@ -76,6 +91,7 @@ export const calculateSalary = (rawInput: SalaryInput): SalaryResult => {
     individualIncomeTax,
     netSalary: input.grossSalary - totalWithheld,
     pensionContribution,
+    progressiveRateApplied: annualTaxableIncome > annualTaxThreshold,
     taxableIncome,
     totalWithheld,
   }
