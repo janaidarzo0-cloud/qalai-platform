@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { AutoLoanCalculator } from '@/components/AutoLoanCalculator'
+import { MaternityBenefitCalculator } from '@/components/MaternityBenefitCalculator'
 import { SalaryCalculator } from '@/components/SalaryCalculator'
 import { TaskOpenedTracker } from '@/components/TaskOpenedTracker'
 import { VehicleTaxCalculator } from '@/components/VehicleTaxCalculator'
@@ -68,7 +69,44 @@ const CalculatorPage = async ({ params }: PageProps) => {
           </div>
         ) : null}
 
-        {calculator.key === 'auto-loan' ? (
+        {calculator.key === 'maternity-benefit' ? (
+          <>
+            <MaternityBenefitCalculator />
+            <section className="calculator-explanation">
+              <h2>Бұл қалай есептелді?</h2>
+              <p>
+                Бұл нұсқа бір жұмыс берушіден тұрақты жалақы алатын және әлеуметтік аударымдары
+                Қорға нақты түскен қызметкерге арналған. Соңғы 12 айдағы есепке алынған табыс 12-ге
+                бөлініп, еңбекке жарамсыздық күндерінің коэффициентіне көбейтіледі. Нәтижеден 10%
+                міндетті зейнетақы жарнасы ұсталады. 2026 жылы бір айға есепке алынатын табыс 7 ЕТЖ,
+                яғни 595 000 теңгеден аспайды. Ай сайынғы табысы өзгерген, бірнеше жұмыс берушісі
+                немесе ЖК кірісі бар жағдай бұл қарапайым нұсқаға кірмейді.
+              </p>
+              <ul className="official-source-list">
+                <li>
+                  <a href="https://egov.kz/cms/ru/articles/child/ui_decret?mobile=no">
+                    eGov: декрет демалысы және 2026 жылғы есептеу мысалдары
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.gov.kz/memleket/entities/karaganda-osakarovka-esil/press/article/details/209132">
+                    gov.kz: күн саны және 7 ЕТЖ шегі
+                  </a>
+                </li>
+                <li>
+                  <a href="https://adilet.zan.kz/rus/docs/K2300000224">
+                    Әділет: Қазақстан Республикасының Әлеуметтік кодексі
+                  </a>
+                </li>
+              </ul>
+              <p>
+                Нақты тағайындалған соманы eGov немесе Мемлекеттік әлеуметтік сақтандыру қорының
+                деректерімен салыстырыңыз.
+              </p>
+              <code>formulaVersion: {calculator.formulaVersion}</code>
+            </section>
+          </>
+        ) : calculator.key === 'auto-loan' ? (
           <>
             <AutoLoanCalculator />
             <section className="calculator-explanation">

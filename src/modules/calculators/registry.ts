@@ -7,7 +7,8 @@ export const calculatorDefinitions = [
     title: 'Декреттік төлем калькуляторы',
     shortTitle: 'Декреттік төлем',
     summary: 'Төлем мөлшерін есептеп, формула мен келесі қадамдарды түсіндіреді.',
-    status: 'source-review',
+    status: 'alpha',
+    formulaVersion: 'kz-maternity-benefit-2026-v1',
   },
   {
     key: 'childcare-benefit',

@@ -91,10 +91,33 @@ Primary control sources:
 - [KGD summary of the 2026 changes](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1167191?lang=ru);
 - [KGD payment deadline for individuals](https://astana.kgd.gov.kz/ru/news/sroki-i-poryadok-uplaty-naloga-na-transport-v-2026-godu-2-157904).
 
+## Maternity-benefit module
+
+The maternity-benefit module is a working closed-alpha estimate with formula version
+`kz-maternity-benefit-2026-v1`. It remains `noindex` and outside public task search until an
+independent editorial and native Kazakh review is complete.
+
+The first rule set covers an employee with one stable gross monthly salary and standard 10% pension
+contributions. The user states how many of the preceding twelve months had social contributions and
+selects a supported incapacity-sheet duration of 126, 140, 170 or 184 days. Gaps are treated as zero
+income and the total is divided by twelve. The calculation caps monthly income after the employee
+pension contribution at 7 MZW (595,000 tenge in 2026), multiplies the average by leave days divided
+by 30, and deducts 10% from the social payment for the pension contribution.
+
+It excludes variable monthly income, multiple employers, individual-entrepreneur income, returned
+or late social contributions and employer top-ups under employment or collective agreements. The
+official Fund assessment remains controlling.
+
+Primary control sources:
+
+- [eGov maternity leave and 2026 control examples](https://egov.kz/cms/ru/articles/child/ui_decret?mobile=no);
+- [Ministry explanation of leave durations and the 7 MZW cap](https://www.gov.kz/memleket/entities/karaganda-osakarovka-esil/press/article/details/209132);
+- [Social Code](https://adilet.zan.kz/rus/docs/K2300000224).
+
 ## Remaining government-dependent modules
 
-Maternity benefit and childcare benefit remain in `source-review` status. Their URLs are `noindex`
-and show a transparent unavailable state. To implement one:
+Childcare benefit remains in `source-review` status. Its URL is `noindex` and shows a transparent
+unavailable state. To implement it:
 
 1. collect primary official sources and effective dates;
 2. define typed input and rule-set schemas;

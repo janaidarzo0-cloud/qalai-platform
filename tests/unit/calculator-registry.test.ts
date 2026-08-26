@@ -14,7 +14,14 @@ describe('calculator registry', () => {
       .filter(({ status }) => status === 'source-review')
       .map(({ key }) => key)
 
-    expect(sourceReviewKeys).toEqual(['maternity-benefit', 'childcare-benefit'])
+    expect(sourceReviewKeys).toEqual(['childcare-benefit'])
+  })
+
+  it('exposes the maternity-benefit module only as a closed-alpha calculation', () => {
+    expect(calculatorDefinitions.find(({ key }) => key === 'maternity-benefit')).toMatchObject({
+      formulaVersion: 'kz-maternity-benefit-2026-v1',
+      status: 'alpha',
+    })
   })
 
   it('exposes the salary module only as a closed-alpha calculation', () => {

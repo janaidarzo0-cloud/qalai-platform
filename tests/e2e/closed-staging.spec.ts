@@ -143,6 +143,31 @@ test('vehicle-tax alpha calculates the 2026 obligation without becoming indexabl
   expect(browserErrors).toEqual([])
 })
 
+test('maternity-benefit alpha matches the 2026 official control examples', async ({ page }) => {
+  const browserErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(message.text())
+  })
+  page.on('pageerror', (error) => browserErrors.push(error.message))
+
+  await page.goto('/calculator/dekrettik-tolem-kalkulyatory')
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Декреттік төлем калькуляторы' }),
+  ).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
+
+  await page.getByRole('button', { name: 'Төлемді есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /612.*360.*₸/ })).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-maternity-benefit-2026-v1')).toBeVisible()
+
+  await page.getByLabel('Есептелген тұрақты айлық жалақы').fill('700000')
+  await page.getByRole('button', { name: 'Төлемді есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /2.*249.*100.*₸/ })).toBeVisible()
+  await expect(page.getByText(/7 ЕТЖ шегімен/)).toBeVisible()
+  expect(browserErrors).toEqual([])
+})
+
 test('EDS alpha route uses only official destinations and remains unverified', async ({ page }) => {
   await page.goto('/scenario/etsq-alu')
 
@@ -253,6 +278,7 @@ test.describe('mobile viewport', () => {
     for (const pathname of [
       '/',
       '/calculator/avtonesie-kalkulyatory',
+      '/calculator/dekrettik-tolem-kalkulyatory',
       '/calculator/zhalaqy-kalkulyatory',
       '/calculator/kolik-salygy-kalkulyatory',
       '/about',

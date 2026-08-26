@@ -1120,6 +1120,30 @@ a {
   gap: 8px;
 }
 
+.field-grid label > small {
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.field-grid select,
+.field-grid label > input {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  min-height: 50px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.field-grid select:focus,
+.field-grid label > input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(20, 96, 68, 0.14);
+  outline: 0;
+}
+
 .field-grid .checkbox-field {
   align-items: flex-start;
   background: var(--paper);

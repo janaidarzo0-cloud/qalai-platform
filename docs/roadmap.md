@@ -100,8 +100,9 @@ document pages and credit calculators:
 6. open IP;
 7. close IP;
 8. vehicle-tax calculator — working in closed alpha;
-9. child-payment eligibility journey;
-10. kindergarten application and queue check.
+9. maternity-benefit calculator — working in closed alpha;
+10. child-payment eligibility journey;
+11. kindergarten application and queue check.
 
 Mixed-language search aliases are required, starting with the observed `ИП ашу`; mapped variants
 such as `ЭЦП алу`, `прописка` and `декретные` must be validated later in Search Console. The public
