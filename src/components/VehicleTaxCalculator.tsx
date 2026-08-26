@@ -84,6 +84,7 @@ export const VehicleTaxCalculator = () => {
               required
               type="number"
             />
+            <small>Сатып алған айды қосыңыз, ал сатқан айды қоспаңыз.</small>
           </label>
         </div>
         <button className="button button--wide" type="submit">
@@ -101,7 +102,7 @@ export const VehicleTaxCalculator = () => {
         <h2 id="result-title">{result ? formatKzt(result.taxAmount) : 'Есептеуге дайын'}</h2>
         <p>
           {result
-            ? `${result.ownershipMonths} ай үшін алдын ала есеп. 2026 жылғы міндеттеме 2027 жылы төленеді.`
+            ? `${result.ownershipMonths} ай үшін алдын ала есеп. 2027 жылғы 1 сәуірден кешіктірмей төленеді.`
             : 'Көлік куәлігіндегі деректерді енгізіп, «Есептеу» түймесін басыңыз.'}
         </p>
         {result ? (

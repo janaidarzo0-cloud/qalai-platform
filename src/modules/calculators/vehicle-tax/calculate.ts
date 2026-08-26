@@ -17,7 +17,7 @@ export const vehicleTaxRule2026 = {
     { maxCc: Number.POSITIVE_INFINITY, minCcExclusive: 4_000, mrp: 117 },
   ],
   taxYear: 2026,
-  version: 'kz-vehicle-tax-2026-v1',
+  version: 'kz-vehicle-tax-2026-v2',
 } as const
 
 export type VehicleTaxResult = {
@@ -39,7 +39,7 @@ export type VehicleTaxResult = {
 
 const getAgeCoefficient = (ageYears: number) => {
   if (ageYears > 20) return vehicleTaxRule2026.ageCoefficients.over20Years
-  if (ageYears > 10) return vehicleTaxRule2026.ageCoefficients.over10Years
+  if (ageYears >= 10) return vehicleTaxRule2026.ageCoefficients.over10Years
   return 1
 }
 

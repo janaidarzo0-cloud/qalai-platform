@@ -71,21 +71,25 @@ Primary control sources:
 ## Vehicle-tax module
 
 The vehicle-tax module is a working closed-alpha estimate with formula version
-`kz-vehicle-tax-2026-v1`. It remains `noindex` until an independent control calculation and native
+`kz-vehicle-tax-2026-v2`. It remains `noindex` until an independent control calculation and native
 Kazakh review are complete.
 
 The first rule set covers category-B passenger cars owned by individuals in the 2026 tax year. It
 uses the seven engine-volume bands, the additional 7 tenge per cubic centimetre above the band's
-lower boundary for engines over 1,500 cc, age coefficients of 0.7 and 0.5, and months of ownership.
+lower boundary for engines over 1,500 cc, age coefficients of 0.7 from 10 through 20 years inclusive
+and 0.5 over 20 years, and months of ownership. The acquisition month is included and the disposal
+month is excluded when the user determines the ownership-month input. The v2 review corrects the
+ten-year boundary, adds engine-band boundary tests and adds a 4,200 cc partial-year control example.
 It excludes exemptions, legal entities and other vehicle categories. The final official assessment
 must be checked in the KGD portal or e-Salyq Azamat.
 
 Primary control sources:
 
-- [Tax Code article 565: rates and age coefficients](https://adilet.kz/ru/laws/nk/st-565/);
-- [Tax Code article 566: ownership-period calculation](https://adilet.kz/ru/laws/nk/st-566/);
+- [current Tax Code](https://adilet.zan.kz/rus/docs/K2500000214);
+- [KGD calculation rules and ownership-period boundaries](https://www.gov.kz/memleket/entities/kgd-zhetysu/press/news/details/1174210);
 - [2026 MRP](https://www.gov.kz/article/17157?lang=ru);
-- [KGD summary of the 2026 changes](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1167191?lang=ru).
+- [KGD summary of the 2026 changes](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1167191?lang=ru);
+- [KGD payment deadline for individuals](https://astana.kgd.gov.kz/ru/news/sroki-i-poryadok-uplaty-naloga-na-transport-v-2026-godu-2-157904).
 
 ## Remaining government-dependent modules
 

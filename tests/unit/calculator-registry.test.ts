@@ -26,7 +26,7 @@ describe('calculator registry', () => {
 
   it('exposes the vehicle-tax module only as a closed-alpha calculation', () => {
     expect(calculatorDefinitions.find(({ key }) => key === 'vehicle-tax')).toMatchObject({
-      formulaVersion: 'kz-vehicle-tax-2026-v1',
+      formulaVersion: 'kz-vehicle-tax-2026-v2',
       status: 'alpha',
     })
   })

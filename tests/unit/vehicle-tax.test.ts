@@ -9,6 +9,9 @@ describe('calculateVehicleTax', () => {
   it.each([
     [1_100, 1, 4_325],
     [1_500, 2, 8_650],
+    [1_501, 3, 12_982],
+    [2_000, 3, 16_475],
+    [2_001, 6, 25_957],
     [1_998, 3, 16_461],
     [2_499, 6, 29_443],
     [3_000, 9, 42_425],
@@ -20,10 +23,16 @@ describe('calculateVehicleTax', () => {
     ).toMatchObject({ baseRateMrp: mrp, taxAmount })
   })
 
-  it('applies the 0.7 coefficient when the car is over ten years old', () => {
+  it('applies the 0.7 coefficient from ten through twenty years inclusive', () => {
     expect(
-      calculateVehicleTax({ engineVolumeCc: 1_998, manufactureYear: 2015, ownershipMonths: 12 }),
-    ).toMatchObject({ ageCoefficient: 0.7, ageYears: 11, taxAmount: 11_523 })
+      calculateVehicleTax({ engineVolumeCc: 1_998, manufactureYear: 2017, ownershipMonths: 12 }),
+    ).toMatchObject({ ageCoefficient: 1, ageYears: 9, taxAmount: 16_461 })
+    expect(
+      calculateVehicleTax({ engineVolumeCc: 1_998, manufactureYear: 2016, ownershipMonths: 12 }),
+    ).toMatchObject({ ageCoefficient: 0.7, ageYears: 10, taxAmount: 11_523 })
+    expect(
+      calculateVehicleTax({ engineVolumeCc: 1_998, manufactureYear: 2006, ownershipMonths: 12 }),
+    ).toMatchObject({ ageCoefficient: 0.7, ageYears: 20, taxAmount: 11_523 })
   })
 
   it('applies the 0.5 coefficient when the car is over twenty years old', () => {
@@ -38,12 +47,24 @@ describe('calculateVehicleTax', () => {
     ).toMatchObject({ fullYearTax: 16_461, taxAmount: 8_231 })
   })
 
+  it('matches a high-volume partial-year control calculation', () => {
+    expect(
+      calculateVehicleTax({ engineVolumeCc: 4_200, manufactureYear: 2015, ownershipMonths: 7 }),
+    ).toMatchObject({
+      ageCoefficient: 0.7,
+      annualTaxBeforeAgeCoefficient: 507_425,
+      excessCc: 200,
+      fullYearTax: 355_198,
+      taxAmount: 207_199,
+    })
+  })
+
   it('keeps the official 2026 constants explicit and versioned', () => {
     expect(vehicleTaxRule2026).toMatchObject({
       excessRatePerCc: 7,
       mrp: 4_325,
       taxYear: 2026,
-      version: 'kz-vehicle-tax-2026-v1',
+      version: 'kz-vehicle-tax-2026-v2',
     })
   })
 

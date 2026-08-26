@@ -24,7 +24,7 @@ export const calculatorDefinitions = [
     shortTitle: 'Көлік салығы',
     summary: 'Көлік параметрлері мен жыл бойынша салықты түсінікті түрде есептейді.',
     status: 'alpha',
-    formulaVersion: 'kz-vehicle-tax-2026-v1',
+    formulaVersion: 'kz-vehicle-tax-2026-v2',
   },
   {
     key: 'auto-loan',

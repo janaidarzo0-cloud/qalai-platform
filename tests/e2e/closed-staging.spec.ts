@@ -129,7 +129,12 @@ test('vehicle-tax alpha calculates the 2026 obligation without becoming indexabl
 
   await page.getByRole('button', { name: 'Салықты есептеу' }).click()
   await expect(page.getByRole('heading', { name: /16.*461.*₸/ })).toBeVisible()
-  await expect(page.getByText('formulaVersion: kz-vehicle-tax-2026-v1')).toBeVisible()
+  await expect(page.getByText('formulaVersion: kz-vehicle-tax-2026-v2')).toBeVisible()
+
+  await page.getByLabel('Шығарылған жылы').fill('2016')
+  await page.getByRole('button', { name: 'Салықты есептеу' }).click()
+  await expect(page.getByRole('heading', { name: /11.*523.*₸/ })).toBeVisible()
+  await expect(page.getByText(/10 жыл · коэффициент 0.7/)).toBeVisible()
 
   await page.getByLabel('Шығарылған жылы').fill('2005')
   await page.getByRole('button', { name: 'Салықты есептеу' }).click()
