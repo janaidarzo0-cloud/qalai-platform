@@ -270,6 +270,40 @@ test('EDS alpha route uses only official destinations and remains unverified', a
   )
 })
 
+test('remaining core Scenario routes keep exact reviewed official destinations', async ({
+  page,
+}) => {
+  const expectedRoutes = {
+    '/scenario/ayypuldardy-tekseru-zhane-toleu': [
+      'https://www.gov.kz/services/3867?lang=kk',
+      'https://egov.kz/services/P21.01/',
+    ],
+    '/scenario/zhk-nemese-ozin-ozi-zhumyspen-kamtu': [
+      'https://adilet.zan.kz/kaz/docs/P2500000994',
+      'https://egov.kz/cms/kk/articles/ip-registration',
+    ],
+    '/scenario/zhumyssyz-retinde-tirkelu-zhane-tolem': [
+      'https://egov.kz/cms/kk/services/pass363_mtszn',
+      'https://www.enbek.kz/kk',
+    ],
+  } as const
+
+  for (const [pathname, expectedLinks] of Object.entries(expectedRoutes)) {
+    await page.goto(pathname)
+    const links = page
+      .getByRole('heading', { name: 'Ресми қызметте жалғастыру' })
+      .locator('..')
+      .getByRole('link')
+
+    await expect(links).toHaveCount(expectedLinks.length)
+    for (let index = 0; index < expectedLinks.length; index += 1) {
+      await expect(links.nth(index)).toHaveAttribute('href', expectedLinks[index])
+      await expect(links.nth(index)).toHaveAttribute('target', '_blank')
+      await expect(links.nth(index)).toHaveAttribute('rel', /noreferrer/)
+    }
+  }
+})
+
 test('publisher trust pages explain ownership, editorial rules and privacy', async ({ page }) => {
   await page.goto('/')
   const footer = page.locator('footer')
@@ -368,6 +402,8 @@ test.describe('mobile viewport', () => {
       '/privacy',
       '/scenario/etsq-alu',
       '/scenario/ayypuldardy-tekseru-zhane-toleu',
+      '/scenario/zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+      '/scenario/zhumyssyz-retinde-tirkelu-zhane-tolem',
       '/scenario/zhk-zhabu',
       `/scenario/${scenarioSlug}`,
     ]) {

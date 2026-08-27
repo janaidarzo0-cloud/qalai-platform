@@ -93,6 +93,10 @@ of social-insurance participation and depends on contribution history. The offic
 supports the one-to-six-month range, use of the last 24 months of income, the 45% reference rate and
 the proactive 1414 route. QALAI correctly refuses to promise a personal amount.
 
+The eligibility section now also reflects the official registration exclusions: employed people,
+people under 16, people who reached retirement age, and the student/senior-school group described by
+the service card are not presented as automatically eligible.
+
 Remaining gate: authenticated completion and native Kazakh copy review.
 
 ## Self-employed regime or individual entrepreneur route
@@ -110,6 +114,10 @@ within 300 MCI per calendar month. For 2026, the official guide gives 1,297,500 
 e-Salyq Business and 4% social payments. One material omission was corrected: QALAI now states the
 citizen-or-kandas condition in the answer and eligibility checklist instead of presenting only the
 business and income conditions.
+
+The 2026 payment wording now states that 4% is the general rule and points pensioners and students
+to the individual e-Salyq Business calculation because the current official KGD explanation names
+an exemption for these groups. The app calculation remains authoritative for the user's status.
 
 Remaining gate: tax-terminology review by an independent native Kazakh editor and authenticated
 device testing of the e-Salyq Business/eLicense routes.

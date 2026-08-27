@@ -416,6 +416,17 @@ export const alphaSources: AlphaSource[] = [
     validUntil: END_OF_2026_KZ,
   },
   {
+    key: 'self-employed-exceptions-2026',
+    language: 'kk',
+    publisher: 'Астана қаласы бойынша Мемлекеттік кірістер департаменті',
+    sourceType: 'government',
+    title: 'Өзін-өзі жұмыспен қамту режимі және әлеуметтік төлем ерекшеліктері',
+    trustTier: 'primary-official',
+    url: 'https://www.gov.kz/memleket/entities/kgd-astana/press/news/details/1141778',
+    validFrom: START_OF_2026_KZ,
+    validUntil: END_OF_2026_KZ,
+  },
+  {
     key: 'ip-registration-egov',
     language: 'kk',
     publisher: 'Қазақстан Республикасының электрондық үкіметі',
@@ -1567,12 +1578,23 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       publicationBlockers: [
         'Қазақша мәтінді тәуелсіз редактор тексеруі керек.',
         'Жеке төлем сомасын есептейтін калькулятор rule set және бақылау мысалдары болмайынша қосылмайды.',
-        'eGov/Enbek және 1414 SMS жолы staging-де тексерілуі керек.',
+        'eGov/Enbek авторизациясы және 1414 SMS жолы нақты пайдаланушымен қабылдануы керек.',
       ],
-      nextReviewAt: NEXT_REVIEW_AT,
-      researchCheckedAt: CHECKED_AT,
+      nextReviewAt: '2026-09-27T00:00:00.000Z',
+      researchCheckedAt: '2026-08-27T00:00:00.000Z',
     },
     eligibility: [
+      {
+        condition: '16 жасқа толғансыз және жұмыспен қамтылмағансыз.',
+        explanation:
+          'Жұмыспен қамтылған адам, 16 жасқа толмаған адам және зейнеткерлік жасқа жеткен адам жұмыссыз ретінде тіркелмейді.',
+      },
+      {
+        condition:
+          'Жұмыспен қамтудың белсенді шараларына қатысуға үміткер студент немесе жоғары сынып оқушысы емессіз.',
+        explanation:
+          'Жұмыспен қамтудың белсенді шараларына қатысуға үміткер студенттер мен жоғары сынып оқушылары бұл мәртебеге тіркелмейді.',
+      },
       {
         condition: 'Алдымен жұмыссыз ретінде тіркелуіңіз керек.',
         explanation: 'Төлем құқығы жұмыссыз мәртебесі тіркелген күннен басталады.',
@@ -1593,7 +1615,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
         {
           disposition: 'included',
           evidence:
-            'eGov қызмет карточкасы тіркеудің тегін, 2 жұмыс күні және құжатсыз екенін көрсетеді.',
+            'eGov қызмет карточкасы тіркеудің тегін, 2 жұмыс күні және құжатсыз екенін көрсетеді. Сондай-ақ ол 16 жасқа толмаған, жұмыспен қамтылған, зейнеткерлік жасқа жеткен адамдар мен кейбір оқушылардың тіркелмейтінін атайды.',
           id: 'JOB-01',
           sourceKeys: ['unemployment-registration-service'],
           statement: 'Жұмыссыз ретінде тіркелудің құны, мерзімі және құжаттары.',
@@ -1714,7 +1736,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
     cost: {
       asOf: AS_OF_2026,
       explanation:
-        'ЖК тіркеу тегін. Өзін-өзі жұмыспен қамту режимінде ЖТС 0%, ал нақты табыстан әлеуметтік төлемдер 4%. Басқа режимдегі салық жүктемесі жеке есептеледі.',
+        'ЖК тіркеу тегін. Өзін-өзі жұмыспен қамту режимінде ЖТС 0%, ал жалпы ереже бойынша нақты табыстан әлеуметтік төлемдер 4%. Зейнеткерлер мен студенттер үшін ресми түсіндірмеде бөлек жеңілдік көрсетілген; төлеу алдында қосымшадағы жеке есепті тексеріңіз. Басқа режимдегі салық жүктемесі жеке есептеледі.',
       kind: 'varies',
     },
     documents: [
@@ -1740,11 +1762,11 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       ],
       publicationBlockers: [
         'Қазақша мәтінді салық терминдерін білетін тәуелсіз редактор тексеруі керек.',
-        'e-Salyq Business және ЖК тіркеу жолдары staging/құрылғыда тексерілуі керек.',
+        'e-Salyq Business және ЖК тіркеу жолдары нақты пайдаланушы аккаунтымен қабылдануы керек.',
         'Қызмет түрлері өзгермегенін жариялау алдында № 994 қаулыдан қайта тексеру керек.',
       ],
-      nextReviewAt: NEXT_REVIEW_AT,
-      researchCheckedAt: CHECKED_AT,
+      nextReviewAt: '2026-09-27T00:00:00.000Z',
+      researchCheckedAt: '2026-08-27T00:00:00.000Z',
     },
     eligibility: [
       {
@@ -1788,9 +1810,9 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
         {
           disposition: 'included',
           evidence:
-            '2026 жылғы АЕК — 4 325 теңге; 300 АЕК = 1 297 500 теңге. КГД әлеуметтік төлемді нақты табыстың 4%-ы деп көрсетеді.',
+            '2026 жылғы АЕК — 4 325 теңге; 300 АЕК = 1 297 500 теңге. КГД жалпы ереже бойынша әлеуметтік төлемді нақты табыстың 4%-ы деп көрсетеді; зейнеткерлер мен студенттерге бөлек ерекшелік аталған.',
           id: 'BIZ-03',
-          sourceKeys: ['budget-2026', 'self-employed-kgd-2026'],
+          sourceKeys: ['budget-2026', 'self-employed-kgd-2026', 'self-employed-exceptions-2026'],
           statement: '2026 жылғы айлық табыс шегі және әлеуметтік төлем мөлшерлемесі.',
         },
         {
@@ -1816,6 +1838,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
         'self-employed-activities',
         'budget-2026',
         'self-employed-kgd-2026',
+        'self-employed-exceptions-2026',
       ],
     },
     faq: [
@@ -1832,6 +1855,11 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       {
         answer: '2026 жылы айына 300 АЕК, яғни 1 297 500 теңге. Шек АЕК өзгерсе қайта есептеледі.',
         question: 'Табыс шегі қанша?',
+      },
+      {
+        answer:
+          'КГД-ның 2026 жылғы ресми түсіндірмесі зейнеткерлер мен студенттерден әлеуметтік төлем алынбайтынын айтады. Мәртебеңіз жүйеде дұрыс анықталғанын және e-Salyq Business нақты соманы қалай есептегенін төлеу алдында тексеріңіз.',
+        question: 'Зейнеткер немесе студент болсам, 4% төлеймін бе?',
       },
     ],
     officialLinks: [

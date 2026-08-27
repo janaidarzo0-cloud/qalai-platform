@@ -9,11 +9,11 @@ scores come from the August 2026 Kazakhstan demand baseline.
 
 | Tier       | Score | Public task                            | Current gate                             |
 | ---------- | ----: | -------------------------------------- | ---------------------------------------- |
-| Core       |    95 | Obtain EDS                             | Factual and native-Kazakh review         |
+| Core       |    95 | Obtain EDS                             | Independent native-Kazakh review         |
 | Core       |    94 | Salary calculator                      | Formula audit passed; global launch lock |
-| Core       |    90 | IP/self-employed 2026 tax-regime route | Tax and native-Kazakh review             |
-| Core       |    87 | Check and pay fines                    | Factual and native-Kazakh review         |
-| Core       |    86 | Unemployment registration and payment  | Legal/factual and native-Kazakh review   |
+| Core       |    90 | IP/self-employed 2026 tax-regime route | Independent tax/Kazakh and account QA    |
+| Core       |    87 | Check and pay fines                    | Independent Kazakh and authenticated QA  |
+| Core       |    86 | Unemployment registration and payment  | Independent legal/Kazakh and account QA  |
 | Supporting |    63 | Auto-loan calculator                   | Available; final public copy review      |
 
 Vehicle tax is the first fast-follow calculator. Maternity, childcare, kindergarten, residence and

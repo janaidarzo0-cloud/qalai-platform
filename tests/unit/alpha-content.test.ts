@@ -126,6 +126,7 @@ describe('closed-alpha Scenario source pack', () => {
       'child-allowances-egov',
       'unemployment-payment-2026',
       'self-employed-kgd-2026',
+      'self-employed-exceptions-2026',
     ]) {
       const source = alphaSources.find((item) => item.key === sourceKey)
       expect(source?.validFrom).toBeDefined()
@@ -173,7 +174,7 @@ describe('closed-alpha Scenario source pack', () => {
         steps: scenario.steps,
         verification: {
           nextReviewAt: '2027-02-01T00:00:00.000Z',
-          reviewedAt: '2026-08-26T01:00:00.000Z',
+          reviewedAt: '2026-08-27T01:00:00.000Z',
           reviewedBy: 'annual-boundary-reviewer',
           status: 'verified',
         },
@@ -211,6 +212,44 @@ describe('closed-alpha Scenario source pack', () => {
       'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
     ])
     expect(scenario?.editorial.publicationBlockers.join(' ')).not.toMatch(/staging/)
+  })
+
+  it('locks every remaining core launch Scenario to reviewed official destinations', () => {
+    const expectedLinks = {
+      'ayypuldardy-tekseru-zhane-toleu': [
+        'https://www.gov.kz/services/3867?lang=kk',
+        'https://egov.kz/services/P21.01/',
+      ],
+      'zhk-nemese-ozin-ozi-zhumyspen-kamtu': [
+        'https://adilet.zan.kz/kaz/docs/P2500000994',
+        'https://egov.kz/cms/kk/articles/ip-registration',
+      ],
+      'zhumyssyz-retinde-tirkelu-zhane-tolem': [
+        'https://egov.kz/cms/kk/services/pass363_mtszn',
+        'https://www.enbek.kz/kk',
+      ],
+    } as const
+
+    for (const [slug, urls] of Object.entries(expectedLinks)) {
+      const scenario = alphaScenarioDrafts.find((candidate) => candidate.slug === slug)
+      expect(scenario?.officialLinks.map(({ url }) => url)).toEqual(urls)
+      expect(scenario?.editorial.publicationBlockers.join(' ')).not.toMatch(/staging/)
+    }
+  })
+
+  it('documents self-employed payment exceptions and unemployment registration exclusions', () => {
+    const selfEmployed = alphaScenarioDrafts.find(
+      ({ slug }) => slug === 'zhk-nemese-ozin-ozi-zhumyspen-kamtu',
+    )
+    const unemployment = alphaScenarioDrafts.find(
+      ({ slug }) => slug === 'zhumyssyz-retinde-tirkelu-zhane-tolem',
+    )
+
+    expect(JSON.stringify(selfEmployed)).toContain('зейнеткерлер мен студенттер')
+    expect(selfEmployed?.evidence.primarySourceKeys).toContain('self-employed-exceptions-2026')
+    expect(JSON.stringify(unemployment)).toContain('16 жасқа толмаған')
+    expect(JSON.stringify(unemployment)).toContain('зейнеткерлік жасқа жеткен')
+    expect(JSON.stringify(unemployment)).toContain('студент')
   })
 
   it('maps every evidence claim and conflict to a registered official source', () => {

@@ -128,9 +128,12 @@ export const demandExpansionDrafts: AlphaScenarioDraft[] = [
     ],
     editorial: {
       conflicts: [],
-      publicationBlockers: commonBlockers,
-      nextReviewAt: NEXT_REVIEW_AT,
-      researchCheckedAt: CHECKED_AT,
+      publicationBlockers: [
+        'Қазақша мәтінді тәуелсіз редактор тексеруі керек.',
+        'Айыппұлды авторизациямен іздеу және төлеу жолы нақты пайдаланушы ісімен қабылдануы керек.',
+      ],
+      nextReviewAt: '2026-09-27T00:00:00.000Z',
+      researchCheckedAt: '2026-08-27T00:00:00.000Z',
     },
     eligibility: [
       {

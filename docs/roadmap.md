@@ -21,16 +21,16 @@ verified source
 
 ## Status overview
 
-| Area               | Status           | Current position                                                                              |
-| ------------------ | ---------------- | --------------------------------------------------------------------------------------------- |
-| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place                    |
-| Trusted content    | **In progress**  | Ten sourced drafts exist; hosted mobile QA passed; native Kazakh and reviewer approval remain |
-| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass                 |
-| Calculators        | **On track**     | Auto-loan and salary are available; vehicle tax works in noindex alpha                        |
-| Measurement        | **Done locally** | Consent-aware funnel, search-result clicks and atomic session-task deduplication pass CI      |
-| Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA    |
-| Public launch      | **Preparing**    | Cohort and launch guard are fixed; domain, contact mailbox and independent review remain      |
-| First revenue      | **Not started**  | AdSense follows useful original content and public traffic; no paid acquisition               |
+| Area               | Status           | Current position                                                                                 |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------ |
+| Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place                       |
+| Trusted content    | **In progress**  | Eleven sourced drafts exist; hosted mobile QA passed; native Kazakh and reviewer approval remain |
+| CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass                    |
+| Calculators        | **On track**     | Auto-loan and salary are available; vehicle tax works in noindex alpha                           |
+| Measurement        | **Done locally** | Consent-aware funnel, search-result clicks and atomic session-task deduplication pass CI         |
+| Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA       |
+| Public launch      | **Preparing**    | Cohort and launch guard are fixed; domain, contact mailbox and independent review remain         |
+| First revenue      | **Preparing**    | Direct partner model selected; AdSense is blocked by Google's current Kazakh-language policy     |
 
 ## Now: closed alpha
 
@@ -45,7 +45,7 @@ Target: 2026-09-07. Scope confidence is high for autonomous repository work and 
 | Resolved Tasks measurement       | P0       | One session-task pair is counted at most once; successful calculation, official transition and helpful feedback are distinguished | Stefania | One analytics provider for staging                                 |
 | Closed noindex staging           | P0       | Supabase-backed CMS mode is deployed with secrets, readiness checks and no public indexing                                        | Stefania | Supabase, storage and hosting access                               |
 | Alpha research run               | P1       | 10–15 target users complete at least 30 task attempts with structured issue capture                                               | Stefania | Staging accepted                                                   |
-| Revenue-ready launch foundation  | P1       | Trust/contact pages and launch guard are done; domain, mailbox, Search Console and ad rules remain                                | Stefania | Five independently verified demand-led pages                       |
+| Revenue-ready launch foundation  | P1       | Trust/contact pages and launch guard are done; partner rules fixed; domain, mailbox and Search Console remain                     | Stefania | Five independently verified demand-led pages                       |
 
 ### Alpha acceptance
 
@@ -136,22 +136,25 @@ Time horizon: the following 1–3 months, conditioned on alpha evidence.
 - Add useful search and related-task discovery.
 - Establish a content freshness queue and reviewer operating cadence.
 - Improve conversion from answer to official action without dark patterns.
-- Submit the original-content site to AdSense and run a restrained placement test only after the
-  public trust and policy gates pass.
+- Pilot one labelled contextual partner offer after a completed business or vehicle task, with no
+  personal-data sharing and task-completion guardrails.
 
 ## Later
 
 - Broader scenario catalogue and regional variations.
 - Reusable short-form content distribution.
 - Personalization that does not require storing sensitive profiles.
+- White-label calculators and structured Scenario licensing for banks, insurers and employers.
+- Revisit AdSense only if Kazakh becomes a supported Google publisher language or a substantial
+  supported-language section is developed for its own user value.
 - Additional languages only after the Kazakh product proves task completion.
 
 ## Explicitly not now
 
-AI chat, user accounts, comments, news, premature ad code, paid Google Ads acquisition, mobile apps,
+AI chat, user accounts, comments, news, programmatic ad code on Kazakh pages, paid Google Ads acquisition, mobile apps,
 Russian public content, marketplace functionality, bulk AI publication and unverified regulated
-calculators remain out of scope. Display monetization itself is a `Next` item after public launch,
-not a discarded direction.
+calculators remain out of scope. Direct, clearly labelled contextual partnerships are the first
+monetization path.
 
 ## External dependencies and default decisions
 

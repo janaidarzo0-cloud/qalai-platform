@@ -14,9 +14,11 @@ measured Kazakhstan search demand
 → carefully separated monetization
 ```
 
-The first revenue target is a validated publisher business, not paid acquisition. Google Ads buys
-traffic; Google AdSense lets a website owner earn from ad inventory. Kazakhstan is currently listed
-as an AdSense-supported market.
+The first revenue target is a trusted Kazakh-language task publisher with direct commercial
+partnerships, not paid acquisition. Kazakhstan is an AdSense-supported market, but Kazakh is not in
+Google's current supported publisher-language list. Google also says ad code is not permitted on
+pages whose content is primarily in an unsupported language. Country availability therefore does
+not make AdSense a valid monetization path for QALAI's Kazakh-first pages.
 
 ## Now: build traffic assets
 
@@ -28,9 +30,9 @@ not implementation.
 2. Use the released salary calculator to capture resolved-task demand; release vehicle tax after its
    control calculation and native Kazakh review.
 3. Deploy the public domain, Search Console and privacy-safe Resolved Tasks measurement.
-4. Add About, editorial policy, privacy and contact pages before an AdSense application.
-5. Apply to AdSense only when the live site has original useful content, clear navigation and no
-   closed-alpha banners on indexable pages.
+4. Add About, editorial policy, privacy and contact pages before any commercial placement.
+5. Build a small direct-partner pipeline around tasks where a commercial next step is genuinely
+   relevant: bookkeeping/business banking after an IP route and insurance after a vehicle task.
 6. Measure the path from a high-intent Scenario to its related calculator using fixed task IDs only;
    never send entered values or calculated amounts.
 7. Use the multi-lock launch guard so public navigation and indexing contain only trusted Scenarios
@@ -42,31 +44,38 @@ Success signals:
 - organic impressions and clicks are visible in Search Console;
 - Resolved Task Rate is at least 60%;
 - zero material factual errors;
-- the first non-zero publisher revenue is recorded without paid traffic.
+- the first non-zero partner or licensing revenue is recorded without paid traffic.
 
 ## Next: monetize without breaking trust
 
-- Start with a restrained AdSense test outside calculator inputs, results and official-action CTAs.
-- Compare revenue per thousand sessions with task completion and return rate; remove placements
-  that materially reduce either.
-- Test clearly labelled contextual partner offers only where they fit the completed task (for
-  example insurance after a vehicle calculation or bookkeeping after an IP-tax route).
+- Start with one clearly labelled contextual partner offer only after the user has received the
+  QALAI answer. Do not place it inside calculator inputs, results or the official-action block.
+- Pilot bookkeeping or business-banking partners after an IP task and insurance after a vehicle
+  task. Each destination must be contractually approved and fixed in configuration before display.
+- Compare partner click-through and revenue per thousand resolved tasks with task completion,
+  helpful rate and return rate; remove placements that materially reduce trust or completion.
 - Never present paid placement as an official recommendation.
+- Never send calculator values, income, IIN, contact details or free-form searches to a partner.
 
 ## Later: higher-margin revenue
 
 - Direct sponsorship of useful topic collections with editorial independence.
 - White-label calculators and structured scenario APIs for banks, insurers and employers.
 - Licensed Kazakh-language task content with source freshness guarantees.
+- Reconsider programmatic display advertising only if Google adds Kazakh to the supported-language
+  list or QALAI develops a substantial, independently useful section in a supported language.
 
 ## Explicit trade-offs
 
 The following move behind organic acquisition and trust review: interface polish, additional loan
 calculators, broad document catalogues, AI chat, user accounts and paid Google Ads campaigns.
+Programmatic ad code on Kazakh pages is explicitly out of scope under the current Google language
+policy. This is a policy constraint, not a temporary implementation delay.
 
 Primary monetization references:
 
 - [Google: AdSense availability](https://support.google.com/adsense/answer/13402307?hl=en);
+- [Google: supported publisher languages](https://support.google.com/adsense/answer/9727?hl=en);
 - [Google: difference between AdSense and Google Ads](https://support.google.com/adsense/answer/76231?hl=en);
 - [Google: pages ready for AdSense](https://support.google.com/adsense/answer/7299563?hl=en-EN);
 - [Google: required privacy content](https://support.google.com/adsense/answer/1348695?hl=en).

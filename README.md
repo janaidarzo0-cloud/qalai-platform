@@ -15,8 +15,8 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - PostgreSQL adapter that accepts a standard Supabase connection string.
 - Structured `Scenario`, `Source`, `Category` and versioned calculator rule-set models.
 - Role-based editorial workflow and fail-closed publish guard: material changes invalidate review; only reviewer/admin roles can publish; dependency state, evidence causality and review expiry are enforced on publication and public reads.
-- Five-calculator registry; auto-loan is available and the source-backed 2026 salary calculator is
-  implemented as a noindex closed alpha. The remaining government-dependent formulas stay locked.
+- Five-calculator registry; auto-loan and the source-backed 2026 salary calculator are available.
+  Vehicle tax, maternity and childcare calculations remain in noindex closed alpha.
 - Mobile-first home, Scenario and Calculator page prototypes in Kazakh.
 - Metadata, canonical URLs, `robots.txt`, sitemap and conditional HowTo JSON-LD.
 - Consent-gated first-party analytics, atomic PostgreSQL Resolved Tasks deduplication and an optional server-side GA4 staging adapter.
@@ -25,9 +25,8 @@ The product is not a replacement for eGov or `gov.kz`. QALAI explains what appli
 - Local PostgreSQL Compose file, CI checks and project documentation.
 
 The repository starts in `demo` content mode. Its fixtures are clearly marked unverified and
-`noindex`; they include a source-backed EDS route for closed-alpha review and a generic UX sample. A
-separate, opt-in source pack contains ten closed-alpha drafts and cannot publish them without the
-normal review gates.
+`noindex`; they include eleven source-backed Scenario drafts and a generic UX sample. The separate,
+opt-in CMS seed cannot publish those records without the normal review gates.
 
 ## Quick start
 
@@ -74,7 +73,7 @@ Create the first Payload user through `/admin`, then switch `QALAI_CONTENT_MODE=
 | `npm run db:migrate`         | Safely apply using `DATABASE_DIRECT_URL` |
 | `npm run db:migrate:direct`  | Alias for the safe migration command     |
 | `npm run db:seed`            | Seed non-production demo records         |
-| `npm run db:seed:alpha`      | Opt-in import of ten alpha drafts only   |
+| `npm run db:seed:alpha`      | Opt-in import of eleven alpha drafts     |
 
 Generated Payload types and import maps must be committed. CI fails when regeneration changes the worktree.
 `npm run build:check` pins a fail-closed demo/indexing/database configuration and injects unreachable
@@ -124,7 +123,11 @@ Details are tracked in [SECURITY.md](SECURITY.md).
 - [Deployment](docs/deployment.md)
 - [Public launch cohort](docs/public-launch.md)
 - [Domain decision](docs/domain-decision-2026-08-26.md)
+- [Revenue strategy](docs/revenue-strategy.md)
+- [First-revenue experiment](docs/first-revenue-experiment.md)
+- [Latest dependency security review](docs/security-review-2026-08-27.md)
 
 ## Explicitly out of scope for this phase
 
-AI chat, mobile apps, Russian content, user accounts, comments/forum, news, advertising integrations, marketplace features and bulk content generation.
+AI chat, mobile apps, Russian content, user accounts, comments/forum, news, programmatic advertising
+on Kazakh pages, marketplace features and bulk content generation.
