@@ -39,9 +39,9 @@ The scaffold implements the standard annuity formula and excludes bank fees, ins
 
 ## Salary module
 
-The salary module is a working closed-alpha estimate with formula version
-`kz-salary-2026-v2`. It is `noindex` and is not added to public task search until an independent
-editorial check is complete.
+The salary module is an available estimate with formula version `kz-salary-2026-v2`. Its official
+formula audit was refreshed on 2026-08-27. Global launch locks still keep it `noindex` until the
+public release is explicitly approved.
 
 The first rule set assumes a Kazakhstan resident employee who is not exempt from employee pension
 or health-insurance contributions receives the same gross salary in each month of 2026. It includes:
@@ -56,8 +56,10 @@ payments: an unused amount is not carried by the tax agent to the next month. Fo
 income above 8,500 MRP, the displayed net amount is explicitly an average month: the annual tax is
 calculated first and divided by twelve because actual payroll withholding can vary by month.
 
-It excludes one-off bonuses, employer-paid contributions and special social deductions. Inputs and
-results are never sent to analytics.
+It excludes one-off bonuses, other employers and income sources, employer-paid contributions and
+special social deductions. Above the progressive threshold it displays a twelve-month average, not
+a promise that each payslip will contain the same withholding. Inputs and results are never sent to
+analytics.
 
 Primary control sources:
 

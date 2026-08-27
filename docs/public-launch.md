@@ -7,14 +7,14 @@ Last updated: 2026-08-26
 The first public release is an explicit allowlist, not every draft that happens to exist. Demand
 scores come from the August 2026 Kazakhstan demand baseline.
 
-| Tier       | Score | Public task                            | Current gate                            |
-| ---------- | ----: | -------------------------------------- | --------------------------------------- |
-| Core       |    95 | Obtain EDS                             | Factual and native-Kazakh review        |
-| Core       |    94 | Salary calculator                      | Independent formula and language review |
-| Core       |    90 | IP/self-employed 2026 tax-regime route | Tax and native-Kazakh review            |
-| Core       |    87 | Check and pay fines                    | Factual and native-Kazakh review        |
-| Core       |    86 | Unemployment registration and payment  | Legal/factual and native-Kazakh review  |
-| Supporting |    63 | Auto-loan calculator                   | Available; final public copy review     |
+| Tier       | Score | Public task                            | Current gate                             |
+| ---------- | ----: | -------------------------------------- | ---------------------------------------- |
+| Core       |    95 | Obtain EDS                             | Factual and native-Kazakh review         |
+| Core       |    94 | Salary calculator                      | Formula audit passed; global launch lock |
+| Core       |    90 | IP/self-employed 2026 tax-regime route | Tax and native-Kazakh review             |
+| Core       |    87 | Check and pay fines                    | Factual and native-Kazakh review         |
+| Core       |    86 | Unemployment registration and payment  | Legal/factual and native-Kazakh review   |
+| Supporting |    63 | Auto-loan calculator                   | Available; final public copy review      |
 
 Vehicle tax is the first fast-follow calculator. Maternity, childcare, kindergarten, residence and
 identity-card tasks remain outside the initial indexable allowlist even if their alpha implementation
@@ -34,7 +34,7 @@ buys a domain or enables indexing.
 
 1. Register and connect the approved custom domain.
 2. Create a project-specific public contact mailbox.
-3. Complete independent factual and native-Kazakh reviews for the cohort.
+3. Complete independent factual and native-Kazakh reviews for the Scenario cohort.
 4. Publish the reviewed CMS records and re-run hosted acceptance.
 5. Configure production analytics, Search Console and sitemap submission.
 6. Set the exact canonical origin, indexable host and both explicit launch flags.

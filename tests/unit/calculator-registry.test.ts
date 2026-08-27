@@ -27,10 +27,10 @@ describe('calculator registry', () => {
     })
   })
 
-  it('exposes the salary module only as a closed-alpha calculation', () => {
+  it('exposes the officially controlled salary module as available', () => {
     expect(calculatorDefinitions.find(({ key }) => key === 'salary')).toMatchObject({
       formulaVersion: 'kz-salary-2026-v2',
-      status: 'alpha',
+      status: 'available',
     })
   })
 

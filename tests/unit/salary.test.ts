@@ -30,6 +30,17 @@ describe('calculateSalary', () => {
     })
   })
 
+  it('keeps a 140,000 tenge standard salary free of individual income tax', () => {
+    expect(calculateSalary({ applyBasicDeduction: true, grossSalary: 140_000 })).toMatchObject({
+      basicDeduction: 123_200,
+      employeeHealthInsurance: 2_800,
+      individualIncomeTax: 0,
+      netSalary: 123_200,
+      pensionContribution: 14_000,
+      taxableIncome: 0,
+    })
+  })
+
   it('respects the 2026 pension and health-insurance income caps', () => {
     expect(calculateSalary({ applyBasicDeduction: true, grossSalary: 5_000_000 })).toMatchObject({
       annualIndividualIncomeTax: 6_102_125,

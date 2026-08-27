@@ -3,6 +3,7 @@ import type { ScenarioViewModel } from '@/lib/cms/types'
 import { alphaScenarioDrafts, alphaSources } from './alpha-scenarios'
 
 export const demandScenarioOrder = [
+  'etsq-alu',
   'zhk-nemese-ozin-ozi-zhumyspen-kamtu',
   'ayypuldardy-tekseru-zhane-toleu',
   'zhumyssyz-retinde-tirkelu-zhane-tolem',

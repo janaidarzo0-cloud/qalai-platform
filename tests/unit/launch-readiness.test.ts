@@ -29,9 +29,7 @@ describe('public launch cohort', () => {
     expect(report.ready).toBe(false)
     expect(report.configurationBlockers).toEqual(['explicit-approval-required'])
     expect(report.candidates.find(({ task }) => task.key === 'auto-loan')?.ready).toBe(true)
-    expect(report.candidates.find(({ task }) => task.key === 'salary')?.blockers).toContain(
-      'calculator-not-available',
-    )
+    expect(report.candidates.find(({ task }) => task.key === 'salary')?.ready).toBe(true)
     expect(report.candidates.find(({ task }) => task.key === 'etsq-alu')?.blockers).toEqual(
       expect.arrayContaining([
         'scenario-not-published',

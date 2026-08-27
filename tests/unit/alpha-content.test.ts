@@ -13,10 +13,11 @@ const allowedOfficialHost = (hostname: string) =>
   )
 
 describe('closed-alpha Scenario source pack', () => {
-  it('contains ten unique demand-led drafts', () => {
-    expect(alphaScenarioDrafts).toHaveLength(10)
-    expect(new Set(alphaScenarioDrafts.map((scenario) => scenario.slug)).size).toBe(10)
+  it('contains EDS plus ten unique demand-led drafts', () => {
+    expect(alphaScenarioDrafts).toHaveLength(11)
+    expect(new Set(alphaScenarioDrafts.map((scenario) => scenario.slug)).size).toBe(11)
     expect(alphaScenarioDrafts.map((scenario) => scenario.slug)).toEqual([
+      'etsq-alu',
       'turgylikty-zherge-tirkelu',
       'zheke-kualik-merzimi-ayaktaldy',
       'zheke-kualik-zhogaldy-nemese-urlandy',

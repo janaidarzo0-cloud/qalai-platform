@@ -1,5 +1,9 @@
 # Closed-alpha editorial review — 2026-08-26
 
+Rechecked: 2026-08-27. EDS is now part of the same structured evidence model as the other ten
+routes. The salary formula audit was refreshed against current 2026 KGD, pension, health-insurance
+and budget sources; the calculator is available while global indexing remains closed.
+
 This is an agent-assisted evidence and hosted-QA record. It is not independent publication
 approval and does not set Payload reviewer fields. Native Kazakh review remains mandatory.
 
@@ -33,6 +37,27 @@ issue was corrected: the one-business-day period applies when failed remote iden
 document to operator moderation; it is not presented as the ordinary end-to-end service time.
 
 Remaining gate: native Kazakh terminology and rendered-copy approval by a separate editor.
+
+## Salary calculator
+
+Official rules rechecked:
+
+- [KGD 2026 income-tax rates and deductions](https://www.gov.kz/memleket/entities/kgd-vko/press/news/details/1238674?lang=ru);
+- [KGD monthly basic-deduction rule](https://www.gov.kz/memleket/entities/kgd-zhambyl/press/news/details/1260225?lang=ru);
+- [employee pension contribution](https://www.gov.kz/situations/332/intro?lang=ru);
+- [2026 employee health-insurance cap](https://www.gov.kz/memleket/entities/almaty-densaulyk/press/news/details/1133766?lang=ru);
+- [Ministry of Finance progressive-rate explanation](https://www.gov.kz/memleket/entities/minfin/documents/details/1030415?lang=ru);
+- [2026 MRP and minimum wage](https://www.gov.kz/article/17157?lang=ru).
+
+Confirmed: 10% employee pension contribution with a 50 MZW base cap; 2% employee health-insurance
+contribution with a 20 MZW base cap; a 30 MRP monthly basic deduction at one tax agent; and the
+10%/15% annual income-tax bands above 8,500 MRP. The 140,000-tenge control case has zero income tax,
+and the 500,000-tenge standard case produces 408,975 tenge net under the stated assumptions.
+
+The interface now says explicitly that the model assumes one employer and the same salary for all
+twelve months. Above the progressive threshold it presents an annual-tax average and tells the user
+to verify the actual monthly withholding on the employer payslip. Other employers, other income,
+bonuses, exemptions and social deductions remain out of scope.
 
 ## Fines route
 
@@ -71,7 +96,7 @@ Remaining gate: authenticated completion and native Kazakh copy review.
 
 Official pages checked:
 
-- [State Revenue Committee 2026 regime explanation](https://www.gov.kz/memleket/entities/kgd/press/news/details/1185260);
+- [State Revenue Committee 2026 regime explanation](https://www.gov.kz/memleket/entities/kgd-abay/press/news/details/1230603);
 - [current government eligibility guide](https://www.gov.kz/situations/810/1707);
 - [permitted activities resolution No. 994](https://adilet.zan.kz/kaz/docs/P2500000994);
 - [eGov individual-entrepreneur registration guide](https://egov.kz/cms/kk/articles/ip-registration).

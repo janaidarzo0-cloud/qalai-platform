@@ -82,7 +82,7 @@ export const SalaryCalculator = () => {
         <h2 id="result-title">{result ? formatKzt(result.netSalary) : 'Есептеуге дайын'}</h2>
         <p>
           {result?.progressiveRateApplied
-            ? `Жылдық салық салынатын табыс ${formatKzt(result.annualTaxThreshold)} шегінен асады. Бұл — тұрақты жалақыға арналған жылдық ЖТС-ты 12 айға бөлген орташа баға; нақты айлық ұсталым өзгеруі мүмкін.`
+            ? `Жылдық салық салынатын табыс ${formatKzt(result.annualTaxThreshold)} шегінен асады. Бұл — бір жұмыс берушіден 12 ай бойы бірдей жалақы алуға арналған жылдық ЖТС-ты 12-ге бөлген орташа баға. Нақты айлық ұсталымды жұмыс берушінің есеп парағынан тексеріңіз.`
             : result
               ? '2026 жылғы ережелер бойынша айлық бағалау'
               : 'Жалақыңызды енгізіп, «Есептеу» түймесін басыңыз.'}
@@ -118,6 +118,12 @@ export const SalaryCalculator = () => {
               <dd>{formatKzt(result.totalWithheld)}</dd>
             </div>
           </dl>
+        ) : null}
+        {result?.progressiveRateApplied ? (
+          <p>
+            Басқа жұмыс берушіден немесе өз бетіңізше салық салынатын табыс алсаңыз, жылдық салық
+            міндеттемесі бұл есептен өзгеше болуы мүмкін.
+          </p>
         ) : null}
       </section>
     </div>

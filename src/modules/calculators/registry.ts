@@ -43,7 +43,7 @@ export const calculatorDefinitions = [
     title: 'Жалақы калькуляторы',
     shortTitle: 'Жалақы',
     summary: '2026 жылғы ұсталымдар мен қолға түсетін айлық соманы есептеңіз.',
-    status: 'alpha',
+    status: 'available',
     formulaVersion: 'kz-salary-2026-v2',
   },
 ] as const satisfies readonly CalculatorDefinition[]

@@ -102,7 +102,9 @@ test('auto-loan calculator completes the primary outcome', async ({ page }) => {
   expect(browserErrors).toEqual([])
 })
 
-test('salary alpha calculates 2026 take-home pay without becoming indexable', async ({ page }) => {
+test('salary calculator estimates 2026 take-home pay without opening global indexing', async ({
+  page,
+}) => {
   const browserErrors: string[] = []
   page.on('console', (message) => {
     if (message.type() === 'error') browserErrors.push(message.text())
@@ -111,7 +113,7 @@ test('salary alpha calculates 2026 take-home pay without becoming indexable', as
 
   await page.goto('/calculator/zhalaqy-kalkulyatory')
   await expect(page.getByRole('heading', { level: 1, name: 'Жалақы калькуляторы' })).toBeVisible()
-  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toBeVisible()
+  await expect(page.getByText(/ЖАБЫҚ АЛЬФА/)).toHaveCount(0)
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
 
   await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
@@ -126,7 +128,7 @@ test('salary alpha calculates 2026 take-home pay without becoming indexable', as
   await page.getByLabel('Есептелген айлық жалақы').fill('5000000')
   await page.getByRole('button', { name: 'Қолға түсетін соманы есептеу' }).click()
   await expect(page.getByText('Орташа қолға түсетін сома')).toBeVisible()
-  await expect(page.getByText(/нақты айлық ұсталым өзгеруі мүмкін/)).toBeVisible()
+  await expect(page.getByText(/Нақты айлық ұсталымды жұмыс берушінің есеп парағынан/)).toBeVisible()
   expect(browserErrors).toEqual([])
 })
 

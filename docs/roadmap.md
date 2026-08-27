@@ -26,7 +26,7 @@ verified source
 | Technical scaffold | **Done**         | Next.js, Payload, PostgreSQL adapter, CI and public prototype are in place                    |
 | Trusted content    | **In progress**  | Ten sourced drafts exist; hosted mobile QA passed; native Kazakh and reviewer approval remain |
 | CMS integration    | **Done**         | Committed migrations, idempotent seeds and PostgreSQL integration checks pass                 |
-| Calculators        | **On track**     | Auto-loan is available; salary and vehicle tax work in noindex alpha                          |
+| Calculators        | **On track**     | Auto-loan and salary are available; vehicle tax works in noindex alpha                        |
 | Measurement        | **Done locally** | Consent-aware funnel, search-result clicks and atomic session-task deduplication pass CI      |
 | Staging            | **Done**         | Vercel, Supabase PostgreSQL/storage, Admin and noindex closed-alpha viewing pass hosted QA    |
 | Public launch      | **Preparing**    | Cohort and launch guard are fixed; domain, contact mailbox and independent review remain      |

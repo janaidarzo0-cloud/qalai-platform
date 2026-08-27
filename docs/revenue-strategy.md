@@ -25,7 +25,8 @@ remain in closed alpha; independent factual and native-Kazakh review is the publ
 not implementation.
 
 1. Finish five independently reviewed, indexable high-demand tasks.
-2. Release salary and vehicle-tax calculators after control calculations and native Kazakh review.
+2. Use the released salary calculator to capture resolved-task demand; release vehicle tax after its
+   control calculation and native Kazakh review.
 3. Deploy the public domain, Search Console and privacy-safe Resolved Tasks measurement.
 4. Add About, editorial policy, privacy and contact pages before an AdSense application.
 5. Apply to AdSense only when the live site has original useful content, clear navigation and no

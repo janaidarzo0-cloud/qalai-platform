@@ -34,6 +34,7 @@ describe('task search', () => {
     expect(index.map(({ href }) => href)).toEqual([
       '/scenario/zhk-ashu',
       '/calculator/avtonesie-kalkulyatory',
+      '/calculator/zhalaqy-kalkulyatory',
     ])
   })
 
