@@ -451,7 +451,6 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       conflicts: [],
       publicationBlockers: [
         'Қазақша мәтінді тәуелсіз редактор тексеруі керек.',
-        'Өтінім және биометрия жолы компьютер мен телефонда staging smoke-test өтуі керек.',
         'NCALayer жүктеу және НУЦ өтінім сілтемелері жариялау күні қайта тексерілуі керек.',
       ],
       nextReviewAt: '2026-09-27T00:00:00.000Z',
@@ -529,7 +528,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       {
         label: 'ЭЦҚ алуға өтінім беру',
         publisher: 'Қазақстан Республикасының Ұлттық куәландырушы орталығы',
-        url: 'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=digital_id_fl_ng&lang=kk',
+        url: 'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
       },
       {
         label: 'NCALayer орнату',
@@ -573,7 +572,7 @@ export const alphaScenarioDrafts: AlphaScenarioDraft[] = [
       {
         actionLabel: 'Ресми өтінімге өту',
         actionUrl:
-          'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=digital_id_fl_ng&lang=kk',
+          'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
         description:
           'ЖСН мен экрандағы кодты енгізіп, дербес деректерді өңдеу шарттарын оқыңыз. Содан кейін SMS және биометриялық сәйкестендіру қадамдарын өзіңіз өтіңіз.',
         title: 'Онлайн өтінім беріңіз',

@@ -37,6 +37,9 @@ issue was corrected: the one-business-day period applies when failed remote iden
 document to operator moderation; it is not presented as the ordinary end-to-end service time.
 
 Remaining gate: native Kazakh terminology and rendered-copy approval by a separate editor.
+The desktop and 390 x 844 mobile smoke checks are complete. The current Kazakh NCA application
+template and official NCALayer destination are locked by unit and browser tests; both links must
+still be rechecked on the publication date because government service URLs can change independently.
 
 ## Salary calculator
 

@@ -254,12 +254,20 @@ test('EDS alpha route uses only official destinations and remains unverified', a
     .locator('..')
     .getByRole('link')
   await expect(officialLinks).toHaveCount(2)
+  await expect(officialLinks.nth(0)).toHaveAttribute(
+    'href',
+    'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
+  )
+  await expect(officialLinks.nth(1)).toHaveAttribute('href', 'https://ncl.pki.gov.kz/')
 
-  for (let index = 0; index < 2; index += 1) {
-    const href = await officialLinks.nth(index).getAttribute('href')
-    expect(href).toBeTruthy()
-    expect(['nca.pki.gov.kz', 'ncl.pki.gov.kz']).toContain(new URL(href!).hostname)
-  }
+  await expect(page.getByRole('link', { name: 'NCALayer ресми бетін ашу' })).toHaveAttribute(
+    'href',
+    'https://ncl.pki.gov.kz/',
+  )
+  await expect(page.getByRole('link', { name: 'Ресми өтінімге өту' })).toHaveAttribute(
+    'href',
+    'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
+  )
 })
 
 test('publisher trust pages explain ownership, editorial rules and privacy', async ({ page }) => {

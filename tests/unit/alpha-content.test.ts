@@ -188,15 +188,29 @@ describe('closed-alpha Scenario source pack', () => {
     }
   })
 
-  it('keeps every draft noindex and explicitly blocked on native-language and staging review', () => {
+  it('keeps every draft noindex and explicitly blocked on native-language review', () => {
     for (const scenario of alphaScenarioDrafts) {
       expect(scenario.seo.noIndex).toBe(true)
       expect(scenario.editorial.publicationBlockers.join(' ')).toMatch(/Қазақша/)
-      expect(scenario.editorial.publicationBlockers.join(' ')).toMatch(/staging/)
       expect(new Date(scenario.editorial.researchCheckedAt).getTime()).toBeLessThan(
         new Date(scenario.editorial.nextReviewAt).getTime(),
       )
     }
+  })
+
+  it('locks the EDS route to the current official Kazakh application and NCALayer pages', () => {
+    const scenario = alphaScenarioDrafts.find(({ slug }) => slug === 'etsq-alu')
+
+    expect(scenario).toBeDefined()
+    expect(scenario?.officialLinks.map(({ url }) => url)).toEqual([
+      'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
+      'https://ncl.pki.gov.kz/',
+    ])
+    expect(scenario?.steps.flatMap(({ actionUrl }) => (actionUrl ? [actionUrl] : []))).toEqual([
+      'https://ncl.pki.gov.kz/',
+      'https://nca.pki.gov.kz/service/pkiorder/precreate.xhtml?certtemplateAlias=id_card_remote',
+    ])
+    expect(scenario?.editorial.publicationBlockers.join(' ')).not.toMatch(/staging/)
   })
 
   it('maps every evidence claim and conflict to a registered official source', () => {
